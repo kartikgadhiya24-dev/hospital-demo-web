@@ -245,3 +245,12 @@ img {
   .hide-mobile { display: none; }
   .hide-desktop { display: block; }
 }
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 70px; /* Space for mobile bottom bar */
+  }
+  .footer {
+    padding-bottom: calc(var(--space-md) + 70px);
+  }
+}
