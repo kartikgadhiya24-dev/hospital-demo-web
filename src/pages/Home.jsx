@@ -87,9 +87,9 @@ const Home = () => {
 
       {/* About Section preview */}
       <section className="section">
-        <div className="container grid lg-grid-cols-2 md-grid-cols-1 gap-lg items-center">
-          <div className="about-image-wrapper">
-            <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?q=80&w=800&auto=format&fit=crop" alt="Doctor consulting patient" className="about-image rounded" />
+        <div className="container grid lg-grid-cols-2 grid-cols-1 mobile-flex-col gap-lg items-center">
+          <div className="about-image-wrapper w-full">
+            <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?q=80&w=800&auto=format&fit=crop" alt="Doctor consulting patient" className="about-image rounded w-full object-cover mobile-about-img" />
           </div>
           <div className="about-content">
             <span className="badge">About {siteConfig.brandName}</span>
