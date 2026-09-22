@@ -1,12 +1,12 @@
 export const siteConfig = {
-  brandName: "Carevia Health",
+  brandName: "YOUR_HOSPITAL",
   tagline: "Better Care. Better Health. Better Life.",
   description: "Modern healthcare delivered with experienced professionals, advanced technology and a patient-first approach.",
   phone: "+91 98765 43210",
   whatsapp: "+91 98765 43210",
-  email: "hello@careviahealth.demo",
+  email: "besuppliersupport@gmail.com",
   address: "123 Health Avenue, Medical District, Cityville, 400001",
-  mapUrl: "https://maps.google.com/?q=Carevia+Health",
+  mapUrl: "https://maps.google.com/?q=YOUR_HOSPITAL",
   openingHours: {
     weekdays: "9:00 AM - 8:00 PM",
     saturday: "9:00 AM - 5:00 PM",
