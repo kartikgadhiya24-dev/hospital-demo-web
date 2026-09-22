@@ -242,10 +242,11 @@ img {
 }
 
 /* Mobile Helpers */
-.hide-desktop { display: none !important; }
+@media (min-width: 769px) {
+  .hide-desktop { display: none !important; }
+}
 @media (max-width: 768px) {
   .hide-mobile { display: none !important; }
-  .hide-desktop { display: block !important; }
   .mobile-flex-col { display: flex !important; flex-direction: column !important; }
 }
 
