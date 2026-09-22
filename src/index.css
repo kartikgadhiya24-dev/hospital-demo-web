@@ -254,3 +254,18 @@ img {
     padding-bottom: calc(var(--space-md) + 70px);
   }
 }
+
+/* PREMIUM MOBILE OVERRIDES */
+@media (max-width: 768px) {
+  .h1 { font-size: 2.25rem; line-height: 1.2; }
+  .h2 { font-size: 1.75rem; line-height: 1.25; }
+  .h3 { font-size: 1.35rem; }
+  .section { padding: 3rem 0; }
+  .btn { width: 100%; justify-content: center; padding: 0.875rem 1.5rem; border-radius: 12px; font-size: 1.05rem; margin-bottom: 0.5rem; }
+  .card { padding: 1.5rem; border-radius: 16px; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+  .container { padding: 0 1.25rem; }
+  .grid { gap: 1.25rem; }
+  .service-icon-wrapper { width: 48px; height: 48px; margin-bottom: 0.75rem; }
+  .service-card { text-align: left; }
+  img { border-radius: 12px; }
+}
