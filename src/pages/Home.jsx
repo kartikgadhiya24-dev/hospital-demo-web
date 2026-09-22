@@ -36,7 +36,7 @@ const Home = () => {
             </div>
           </div>
           
-          <div className="hero-image-wrapper hide-mobile animate-fade-in" style={{animationDelay: '0.2s'}}>
+          <div className="hero-image-wrapper animate-fade-in" style={{animationDelay: '0.2s'}}>
             <img 
               src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=800&auto=format&fit=crop" 
               alt="Medical professionals walking in modern hospital" 
@@ -149,8 +149,8 @@ const Home = () => {
             Every clinic is different. Your website should be built around your doctors, services, patients and brand. This is a complete demo that can be customized for your practice.
           </p>
           <div className="flex justify-center gap-sm flex-wrap">
-            <a href="mailto:developer@example.com" className="btn btn-light">Create My Clinic Website</a>
-            <a href="mailto:developer@example.com" className="btn btn-outline-light">Talk to the Developer</a>
+            <a href={`mailto:${siteConfig.email}`} className="btn btn-light">Create My Clinic Website</a>
+            <a href={`mailto:${siteConfig.email}`} className="btn btn-outline-light">Talk to the Developer</a>
           </div>
         </div>
       </section>
