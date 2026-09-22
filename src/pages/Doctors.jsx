@@ -14,7 +14,7 @@ const Doctors = () => {
           </p>
         </div>
 
-        <div className="grid lg-grid-cols-3 md-grid-cols-2 grid-cols-1 gap-lg">
+        <div className="grid lg-grid-cols-3 md-grid-cols-2 grid-cols-1 mobile-grid-cols-2 gap-lg">
           {doctors.map(doctor => (
             <div key={doctor.id} className="card p-0" style={{ overflow: 'hidden' }}>
               <img 
