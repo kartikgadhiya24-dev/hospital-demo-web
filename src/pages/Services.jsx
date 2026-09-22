@@ -15,7 +15,7 @@ const Services = () => {
           </p>
         </div>
 
-        <div className="grid lg-grid-cols-3 md-grid-cols-2 grid-cols-1 gap-md">
+        <div className="grid lg-grid-cols-3 md-grid-cols-2 grid-cols-1 mobile-grid-cols-2 gap-md">
           {services.map(service => {
             const Icon = service.icon;
             return (
