@@ -231,3 +231,16 @@
     text-align: center;
   }
 }
+
+@media (max-width: 768px) {
+  .hero-section { padding-top: 100px; padding-bottom: 2rem; min-height: auto; text-align: left; }
+  .hero-container { grid-template-columns: 1fr; gap: 2rem; }
+  .hero-content { text-align: left; max-width: 100%; }
+  .hero-actions { flex-direction: column; width: 100%; margin-top: 2rem; }
+  .hero-actions .btn { width: 100%; }
+  .trust-indicators { flex-direction: column; align-items: flex-start; gap: 1rem; border-top: none; padding-top: 0; }
+  .hero-image-wrapper.hide-mobile { display: block; margin-top: 1rem; }
+  .hero-image { height: 300px; border-radius: 16px; margin-bottom: -40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+  .floating-card { display: none; }
+  .demo-sales-section .btn { width: 100%; }
+}
