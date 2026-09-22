@@ -68,14 +68,7 @@ const Header = () => {
           </div>
           
           {/* Mobile Top Actions (Only visible if menu isn't full screen bottom bar) */}
-          <div className="mobile-top-actions hide-desktop">
-            <a href={`tel:${siteConfig.phone.replace(/[^0-9+]/g, '')}`} className="btn-icon-primary">
-              <Phone size={20} />
-            </a>
-            <button className="mobile-menu-toggle" onClick={toggleMenu} aria-label="Toggle Menu">
-              {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-            </button>
-          </div>
+          {/* Removed as per user request to simplify top header on mobile */}
         </div>
 
         {/* Mobile Full Screen Menu Overlay */}
