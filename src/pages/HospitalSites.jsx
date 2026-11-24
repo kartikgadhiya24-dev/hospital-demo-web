@@ -42,10 +42,9 @@ const links = [
 
 
 const surgeryStages = [
-  { title: 'Understanding the injury', kicker: '01 / ASSESSMENT', body: 'A specialist reviews the injury, imaging and the person’s overall health before discussing suitable options.' },
-  { title: 'Planning the reconstruction', kicker: '02 / PLANNING', body: 'The care team studies bone position and plans an individual approach. The illustration moves from the initial bone view to a planning view.' },
-  { title: 'External support concept', kicker: '03 / SUPPORT FRAME', body: 'A circular external fixation frame is shown as an educational concept around the bone. Real devices and treatment plans vary by patient.' },
-  { title: 'Follow-up & healing', kicker: '04 / FOLLOW-UP', body: 'Progress is monitored over time by the treating team. Follow-up, adjustments and rehabilitation are individualised.' }
+  { title: 'ASSESSMENT', kicker: '01 / UNDERSTAND THE INJURY' },
+  { title: 'RECONSTRUCTION', kicker: '02 / PLAN WITH PRECISION' },
+  { title: 'RECOVERY', kicker: '03 / MONITOR THE HEALING' }
 ];
 
 function BoneSurgeryIntro() {
@@ -211,19 +210,12 @@ function BoneSurgeryVisual() {
       <canvas ref={canvasRef} className="soni-surgery-frames-canvas" aria-label="Scroll-controlled full-frame Ilizarov animation" />
       <div className="soni-surgery-bg-shade"/>
       <div className="soni-surgery-inner soni-surgery-layout">
-        <div className="soni-surgery-copy">
-          <div className="soni-label">IMMERSIVE SURGICAL JOURNEY</div>
-          <div className="soni-surgery-heading"><span>SONI ORTHOCARE · JUNAGADH</span><b>Every step,<br/>with precision.</b></div>
-          <div className="soni-surgery-steps" aria-live="polite">
-            {surgeryStages.map((item, index) => stage === index && <article key={item.kicker} className="is-active">
-              <span className="soni-surgery-step-no">0{index + 1}</span>
-              <div><small>{item.kicker}</small><h3>{item.title}</h3><p>{item.body}</p></div>
-            </article>)}
-          </div>
+        <div className="soni-surgery-caption" aria-live="polite">
+          {surgeryStages.map((item, index) => stage === index && <div key={item.kicker} className="soni-surgery-caption-active">
+            <span>{item.kicker}</span>
+            <b>{item.title}</b>
+          </div>)}
           <div className="soni-surgery-progress"><span style={{ width: ((stage + 1) / surgeryStages.length * 100) + '%' }}/></div>
-          <small className="soni-surgery-hint">SCROLL TO EXPLORE <ChevronDown size={14}/></small>
-          <div className="soni-surgery-disclaimer">Illustrative medical concept only · Not an actual operation or patient-specific plan</div>
-          <div className="soni-surgery-loading" aria-live="polite">{loaded < 360 ? 'Preparing visual ' + loaded + '/360' : 'Animation ready'}</div>
         </div>
       </div>
     </div>
