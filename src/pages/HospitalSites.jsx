@@ -93,8 +93,8 @@ function BoneSurgeryVisual() {
     let progress = 0;
     let targetIndex = 0;
     let lastStage = -1;
-    const firstFrame = 105;
-    const frameCount = 255;
+    const firstFrame = 1;
+    const frameCount = 360;
     const images = new Array(frameCount);
     const ready = new Array(frameCount).fill(false);
     let completed = 0;
