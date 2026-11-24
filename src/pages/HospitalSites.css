@@ -233,15 +233,11 @@ html{scroll-behavior:smooth}
 .soni-surgery-halo{position:absolute;width:75%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#6eb5a52b,transparent 68%);filter:blur(8px)}
 .soni-surgery-svg{position:relative;z-index:1;width:min(100%,590px);height:100%;overflow:visible;filter:drop-shadow(0 20px 28px #061b1b80);transform:perspective(900px) rotateX(2deg) rotateY(calc((var(--surgery-progress) - .5)*-8deg));transition:transform .2s linear}
 .surgery-bone{transform-origin:320px 270px;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
-.surgery-frame{opacity:0;transform-origin:320px 265px;transform:scale(.76) rotateX(-22deg);transition:opacity .9s ease,transform 1.1s cubic-bezier(.2,.7,.2,1)}
-.surgery-planning{opacity:0;transition:opacity .6s}
-.surgery-fracture-glow{opacity:.2;transition:opacity .6s}
+.surgery-frame{opacity:clamp(0,calc((var(--surgery-progress) - .42)*8),1);transform-origin:320px 265px;transform:scale(calc(.76 + clamp(0,calc((var(--surgery-progress) - .42)*8),1)*.24)) rotateX(calc((1 - clamp(0,calc((var(--surgery-progress) - .42)*8),1))*-22deg));transition:opacity .12s linear}
+.surgery-planning{opacity:clamp(0,calc(var(--surgery-progress)*2.4),.85);transition:opacity .12s linear}
+.surgery-fracture-glow{opacity:clamp(.2,calc(var(--surgery-progress)*1.2),.9);transition:opacity .12s linear}
 .surgery-wire{stroke-dasharray:7 10;animation:soni-wire-flow 5s linear infinite}
-.soni-surgery-story[style*="--surgery-progress: 0"] .surgery-frame{opacity:0}
-.soni-surgery-story[style*="--surgery-progress: 0."] .surgery-planning{opacity:calc(var(--surgery-progress)*1.5)}
-.soni-surgery-story[style*="--surgery-progress: 0."] .surgery-fracture-glow{opacity:.9}
-.soni-surgery-story[style*="--surgery-progress: 0.5"] .surgery-frame,.soni-surgery-story[style*="--surgery-progress: 0.6"] .surgery-frame,.soni-surgery-story[style*="--surgery-progress: 0.7"] .surgery-frame,.soni-surgery-story[style*="--surgery-progress: 0.8"] .surgery-frame,.soni-surgery-story[style*="--surgery-progress: 0.9"] .surgery-frame,.soni-surgery-story[style*="--surgery-progress: 1"] .surgery-frame{opacity:1;transform:scale(1) rotateX(0)}
-.soni-surgery-story[style*="--surgery-progress: 0."] .surgery-bone{transform:translateY(calc(var(--surgery-progress)*-14px))}
+.surgery-bone{transform-origin:320px 270px;transform:translateY(calc(var(--surgery-progress)*-14px));transition:transform .12s linear}
 .soni-surgery-callout{position:absolute;z-index:3;padding:8px 10px;border:1px solid #c4e9dc35;background:#092a2bdc;border-radius:7px;color:#d7eee5;font-size:8px;letter-spacing:.08em;font-weight:800;backdrop-filter:blur(8px);opacity:calc(.45 + var(--surgery-progress)*.55);transition:opacity .4s}
 .soni-surgery-callout i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#e1b47d;margin-right:6px;box-shadow:0 0 10px #e1b47d}
 .callout-top{top:14%;right:5%}.callout-bottom{bottom:13%;left:4%}
