@@ -228,6 +228,29 @@ function BoneSurgeryVisual() {
     </div>
   </section>;
 }
+function OperationTheaterPage() {
+  const phone = '+918200325504';
+  return <div className="soni-site soni-operation-page">
+    <div className="soni-top"><div className="soni-wrap"><span>SONI ORTHOCARE <i>•</i> JUNAGADH, GUJARAT</span><a href={`tel:${phone}`}><Phone size={14}/> +91 82003 25504</a></div></div>
+    <header className="soni-header"><div className="soni-wrap soni-nav">
+      <Link className="soni-brand" to="/soni-orthocare"><span className="soni-logo"><Bone size={25}/></span><span>SONI ORTHOCARE<small>ORTHOPAEDIC & TRAUMA CARE</small></span></Link>
+      <nav className="soni-section-nav"><Link to="/soni-orthocare">Home</Link><Link to="/soni-orthocare#3d-orthopaedic">Surgery</Link><Link to="/soni-orthocare/operation-theater">Operation Theater</Link><Link to="/soni-orthocare#doctor">Doctor</Link><Link to="/soni-orthocare#location">Contact</Link></nav>
+      <a className="soni-nav-cta" href={`tel:${phone}`}><Phone size={16}/> Call clinic</a>
+    </div></header>
+    <main>
+      <section className="soni-operation-photo">
+        <div className="soni-wrap">
+          <div className="soni-label">SONI ORTHOCARE • FACILITY</div>
+          <h1>Operation Theater</h1>
+          <p>Operation theater at Soni Orthocare.</p>
+          <img src="/IMG_41032e5d-c594-441e-b385-1c2ffa00d9c4.webp" alt="Operation theater at Soni Orthocare"/>
+        </div>
+      </section>
+    </main>
+    <footer className="soni-footer"><div className="soni-wrap soni-footer-main"><div><Link className="soni-brand soni-brand-footer" to="/soni-orthocare"><span className="soni-logo"><Bone size={24}/></span><span>SONI ORTHOCARE<small>ORTHOPAEDIC & TRAUMA CARE</small></span></Link><p>Orthopaedic Trauma & Ilizarov surgical practice in Junagadh, Gujarat.</p></div><div><b>CONTACT</b><a href={`tel:${phone}`}>{phone}</a></div><div><b>QUICK LINKS</b><Link to="/soni-orthocare">Home</Link><Link to="/soni-orthocare#doctor">Doctor</Link></div></div><div className="soni-wrap soni-footer-bottom">© {new Date().getFullYear()} Soni Orthocare. All rights reserved.</div></footer>
+  </div>;
+}
+
 function SoniOrthocare() {
   React.useEffect(() => {
     const targets = document.querySelectorAll('.soni-site [data-reveal]');
@@ -278,11 +301,10 @@ function SoniOrthocare() {
     <div className="soni-top"><div className="soni-wrap"><span>SONI ORTHOCARE <i>•</i> JUNAGADH, GUJARAT</span><a href={`tel:${phone}`}><Phone size={14}/> {phone.replace('+91','+91 ')}</a></div></div>
     <header className="soni-header"><div className="soni-wrap soni-nav">
       <a className="soni-brand" href="#home"><span className="soni-logo"><Bone size={25}/></span><span>SONI ORTHOCARE<small>ORTHOPAEDIC & TRAUMA CARE</small></span></a>
-      <nav className="soni-section-nav"><a href="#home">Home</a><a href="#3d-orthopaedic">Surgery</a><a href="#doctor">Doctor</a><a href="#location">Contact</a><a href="#appointment">Appointment</a></nav>
+      <nav className="soni-section-nav"><a href="/soni-orthocare">Home</a><a href="#3d-orthopaedic">Surgery</a><Link to="/soni-orthocare/operation-theater">Operation Theater</Link><a href="#doctor">Doctor</a><a href="#location">Contact</a><a href="#appointment">Appointment</a></nav>
       <a className="soni-nav-cta" href={`tel:${phone}`}><Phone size={16}/> Call clinic</a>
     </div></header>
     <main id="home">
-      <BoneSurgeryVisual/>
       <section className="soni-hero"><div className="soni-ambient soni-ambient-one"/><div className="soni-ambient soni-ambient-two"/><div className="soni-wrap soni-hero-grid">
         <div className="soni-hero-copy"><div className="soni-eyebrow"><span/> ORTHOPAEDIC TRAUMA & ILIZAROV SURGERY</div>
           <h1>Expertise for the <em>road back to movement.</em></h1>
@@ -292,6 +314,7 @@ function SoniOrthocare() {
         </div>
         <div className="soni-hero-photo"><img src="/images_4e65ad29-702e-4c.jpg" alt="Orthopaedic medical consultation"/><div className="soni-photo-caption"><span><Bone size={21}/></span><div><b>Dr. Armish Soni</b><small>Orthopedic Trauma & Ilizarov Surgeon</small></div></div><div className="soni-photo-mark">ORTHOPAEDIC<br/>CARE</div><div className="soni-image-orbit"><span/><span/><span/></div></div>
       </div></section>
+      <BoneSurgeryVisual/>
       <section className="soni-info-bar" data-reveal><div className="soni-wrap soni-info-grid"><div><span><MapPin size={20}/></span><div><b>Convenient clinic location</b><small>Chandan Infinity, Ratnadeep Hospital</small></div></div><div><span><Stethoscope size={20}/></span><div><b>Focused specialisation</b><small>Orthopaedic trauma & Ilizarov surgery</small></div></div><div><span><Phone size={20}/></span><div><b>Speak to the clinic</b><small>Call +91 82003 25504</small></div></div></div></section>
       <section className="soni-section" id="about" data-reveal><div className="soni-wrap soni-about"><div><div className="soni-label">WELCOME TO SONI ORTHOCARE</div><h2>Specialist orthopaedic care, with a focus on complex problems.</h2></div><div className="soni-about-copy"><p>Soni Orthocare is located on the 3rd floor of Chandan Infinity, within Ratnadeep Hospital, near Vadla Fatak on Vanthali Road in Junagadh.</p><p>The public business listing identifies Dr. Armish Soni as an Orthopedic Trauma & Ilizarov Surgeon. Patients seeking care for an injury or a complex orthopaedic concern can call the clinic to confirm consultation availability and the next steps.</p><div className="soni-note"><ShieldCheck size={19}/><span>Website information is based on publicly available business details. Please call the clinic to confirm services, consultation hours and appointment availability.</span></div></div></div></section>
       <section className="soni-expertise" id="expertise" data-reveal><div className="soni-wrap"><div className="soni-section-heading"><div><div className="soni-label">AREAS OF SPECIALISATION</div><h2>Orthopaedic expertise</h2></div><p>These topics reflect the listed surgical specialisation. The right treatment depends on an individual clinical assessment.</p></div><div className="soni-expertise-grid">{expertise.map(([title,desc],i)=><article key={title}><span>0{i+1}</span><h3>{title}</h3><p>{desc}</p></article>)}</div></div></section>
@@ -307,6 +330,7 @@ function SoniOrthocare() {
 export default function HospitalSites() {
   const { pathname } = useLocation();
   const slug = pathname.split('/')[1];
+  if (slug === 'soni-orthocare' && pathname.replace(/\\/$/, '').endsWith('/operation-theater')) return <OperationTheaterPage/>;
   if (slug === 'soni-orthocare') return <SoniOrthocare/>;
   const hospital = hospitals[slug] || hospitals['gokul-hospital'];
   const Icon = hospital.icon;
