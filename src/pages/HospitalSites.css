@@ -152,3 +152,49 @@ html{scroll-behavior:smooth}
 @keyframes soni-wa-wiggle{0%,92%,100%{transform:rotate(0)}94%{transform:rotate(-12deg)}96%{transform:rotate(12deg)}98%{transform:rotate(-6deg)}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.soni-site *,.soni-site *:before,.soni-site *:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 @media(max-width:650px){.soni-image-orbit{width:54px;height:54px;right:-8px;bottom:35px}.soni-image-orbit span:nth-child(3){top:24px;left:22px}}
+
+
+/* Scroll-triggered reveals */
+.soni-site [data-reveal]{opacity:0;transform:translateY(34px);transition:opacity .85s cubic-bezier(.2,.7,.2,1),transform .85s cubic-bezier(.2,.7,.2,1)}
+.soni-site [data-reveal].soni-visible{opacity:1;transform:translateY(0)}
+.soni-site [data-reveal] .soni-expertise-grid article{transition-delay:.08s}
+.soni-site [data-reveal] .soni-expertise-grid article:nth-child(2){transition-delay:.16s}
+.soni-site [data-reveal] .soni-expertise-grid article:nth-child(3){transition-delay:.24s}
+.soni-site [data-reveal] .soni-expertise-grid article:nth-child(4){transition-delay:.32s}
+/* 3D orthopaedic concept section */
+.soni-bone-section{padding:100px 0;background:linear-gradient(145deg,#0c282b 0%,#123c3c 55%,#194b48 100%);color:#fff;position:relative;overflow:hidden}
+.soni-bone-section:before{content:'';position:absolute;inset:0;background-image:linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(90deg,transparent,#000 30%,#000 80%,transparent)}
+.soni-bone-grid{position:relative;display:grid;grid-template-columns:.82fr 1.18fr;gap:52px;align-items:center}
+.soni-bone-copy .soni-label{color:#9bc9bb}
+.soni-bone-copy h2{font:800 clamp(34px,4vw,48px)/1.12 Manrope,sans-serif;letter-spacing:-.055em;margin:18px 0;color:#f5faf7}
+.soni-bone-copy>p{font-size:13px;line-height:1.95;color:#c0d4ce;max-width:460px}
+.soni-bone-points{display:grid;gap:14px;margin:28px 0;color:#d4e7df;font-size:12px;font-weight:650}
+.soni-bone-points span{display:flex;align-items:center;gap:10px}.soni-bone-points svg{color:#8cc9ad}
+.soni-bone-copy .soni-text-link{color:#b2e0cc}
+.soni-bone-visual{position:relative;z-index:1;border:1px solid #d9f3e51c;border-radius:20px;background:linear-gradient(145deg,#ffffff13,#ffffff05);box-shadow:0 25px 80px #061c1b55;backdrop-filter:blur(10px);overflow:hidden}
+.soni-bone-visual-top{padding:19px 23px;border-bottom:1px solid #ffffff17;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.soni-bone-visual-top span{font-size:9px;letter-spacing:.17em;color:#9bc9bb;font-weight:800}
+.soni-bone-visual-top b{font-size:11px;color:#e7f4ef}
+.soni-bone-stage{height:390px;position:relative;display:grid;place-items:center;perspective:1000px;overflow:hidden}
+.soni-stage-glow{position:absolute;width:290px;height:290px;border-radius:50%;background:radial-gradient(circle,#6fb4a43d 0%,#6fb4a414 45%,transparent 72%);animation:soni-stage-breathe 5s ease-in-out infinite}
+.soni-bone-svg{width:min(100%,530px);height:100%;position:relative;z-index:1;overflow:visible;transform-style:preserve-3d;animation:soni-model-hover 7s ease-in-out infinite}
+.soni-bone-model{transform-origin:280px 215px;animation:soni-bone-turn 12s ease-in-out infinite}
+.soni-frame-back{transform-origin:280px 220px;animation:soni-frame-rotate 10s ease-in-out infinite}
+.soni-frame-front{transform-origin:280px 220px;animation:soni-frame-rotate 10s ease-in-out infinite reverse}
+.soni-wire-pulse{stroke-dasharray:9 12;animation:soni-wire-flow 4s linear infinite}
+.soni-3d-tag{position:absolute;z-index:2;padding:8px 11px;border-radius:7px;background:#0a2929d9;border:1px solid #b8e1d32c;color:#d5e9e1;font-size:9px;letter-spacing:.02em;box-shadow:0 8px 24px #071d1c55;backdrop-filter:blur(8px);animation:soni-tag-float 5s ease-in-out infinite}
+.soni-3d-tag span{display:inline-block;width:6px;height:6px;border-radius:50%;background:#d6aa71;margin-right:6px;box-shadow:0 0 9px #d6aa71}
+.soni-tag-one{left:18px;top:20%}.soni-tag-two{right:15px;top:48%;animation-delay:1s}.soni-tag-three{left:20px;bottom:15%;animation-delay:2s}
+.soni-bone-visual-foot{padding:15px 22px;border-top:1px solid #ffffff17;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.soni-bone-visual-foot span{font-size:8px;letter-spacing:.13em;color:#a9d4c3;font-weight:800}
+.soni-bone-visual-foot i{display:inline-block;width:6px;height:6px;background:#83d5a9;border-radius:50%;margin-right:7px;box-shadow:0 0 9px #83d5a9}
+.soni-bone-visual-foot small{font-size:8px;color:#9cbab1}
+@keyframes soni-model-hover{0%,100%{transform:rotateX(3deg) rotateY(-5deg) translateY(0)}50%{transform:rotateX(-2deg) rotateY(5deg) translateY(-8px)}}
+@keyframes soni-frame-rotate{0%,100%{transform:rotateY(-4deg) rotateX(1deg)}50%{transform:rotateY(5deg) rotateX(-2deg)}}
+@keyframes soni-bone-turn{0%,100%{transform:rotateY(-2deg)}50%{transform:rotateY(3deg)}}
+@keyframes soni-wire-flow{to{stroke-dashoffset:-84}}
+@keyframes soni-stage-breathe{0%,100%{transform:scale(.85);opacity:.55}50%{transform:scale(1.15);opacity:1}}
+@keyframes soni-tag-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@media(max-width:900px){.soni-bone-grid{grid-template-columns:1fr;gap:35px}.soni-bone-copy{max-width:680px}.soni-bone-visual{max-width:700px;width:100%;margin:auto}}
+@media(max-width:600px){.soni-bone-section{padding:68px 0}.soni-bone-visual-top{padding:15px}.soni-bone-visual-top span{font-size:7px}.soni-bone-visual-top b{font-size:9px}.soni-bone-stage{height:310px}.soni-3d-tag{font-size:7px;padding:6px 8px}.soni-tag-one{left:7px;top:12%}.soni-tag-two{right:5px;top:51%}.soni-tag-three{left:8px;bottom:10%}.soni-bone-visual-foot{align-items:flex-start;flex-direction:column;gap:6px}.soni-bone-visual-foot small{font-size:7px}}
+@media(prefers-reduced-motion:reduce){.soni-site [data-reveal]{opacity:1;transform:none}.soni-bone-svg,.soni-bone-model,.soni-frame-back,.soni-frame-front,.soni-wire-pulse,.soni-stage-glow,.soni-3d-tag{animation:none!important}}
