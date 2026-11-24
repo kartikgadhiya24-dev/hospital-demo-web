@@ -521,3 +521,49 @@ html{scroll-behavior:smooth}
  .soni-surgery-disclaimer,.soni-surgery-loading{font-size:5px!important;line-height:1.35!important}
 }
 @media(prefers-reduced-motion:reduce){.soni-surgery-frames-canvas{transition:none!important}}
+
+
+/* Mobile cinematic section: reference-inspired typography and no empty letterbox bands.
+   The full 16:9 frame remains visible; softened frame imagery fills the surrounding space. */
+.soni-surgery-layout{justify-content:flex-start!important;width:min(1320px,calc(100% - 64px))!important}
+.soni-surgery-copy{
+  width:min(560px,54vw)!important;max-width:560px!important;margin:0!important;
+  padding:clamp(22px,3.2vw,42px)!important;border:0!important;border-radius:0!important;
+  background:linear-gradient(90deg,rgba(2,17,27,.78),rgba(2,17,27,.38) 78%,transparent)!important;
+  box-shadow:none!important;backdrop-filter:none!important
+}
+.soni-surgery-copy>.soni-label{font-size:10px!important;letter-spacing:.2em!important}
+.soni-surgery-heading{margin:18px 0 22px!important}
+.soni-surgery-heading span{font-size:11px!important;letter-spacing:.18em!important}
+.soni-surgery-heading b{font-size:clamp(42px,5.4vw,72px)!important;line-height:1.04!important;letter-spacing:-.045em!important}
+.soni-surgery-steps article{grid-template-columns:38px 1fr!important;gap:14px!important;padding:12px 0!important}
+.soni-surgery-step-no{font-size:15px!important}
+.soni-surgery-steps small{font-size:10px!important;letter-spacing:.16em!important}
+.soni-surgery-steps h3{font-size:clamp(19px,2vw,25px)!important;line-height:1.18!important;margin:7px 0!important}
+.soni-surgery-steps article p{font-size:clamp(15px,1.5vw,19px)!important;line-height:1.6!important;max-width:510px!important}
+.soni-surgery-progress{margin:20px 0 14px!important}
+.soni-surgery-hint{font-size:9px!important;letter-spacing:.16em!important}
+.soni-surgery-disclaimer,.soni-surgery-loading{font-size:8px!important}
+@media(max-width:650px){
+  .soni-surgery-story{height:420vh!important}
+  .soni-surgery-sticky{align-items:flex-end!important;padding:0 0 7vh!important}
+  .soni-surgery-layout{width:100%!important;justify-content:flex-start!important;align-items:flex-end!important}
+  .soni-surgery-copy{
+    width:100%!important;max-width:none!important;padding:26px 25px 22px!important;
+    background:linear-gradient(90deg,rgba(2,17,27,.88),rgba(2,17,27,.68) 72%,rgba(2,17,27,.22))!important;
+  }
+  .soni-surgery-copy>.soni-label{font-size:9px!important;letter-spacing:.17em!important}
+  .soni-surgery-heading{margin:14px 0 17px!important}
+  .soni-surgery-heading span{font-size:9px!important;letter-spacing:.15em!important}
+  .soni-surgery-heading b{font-size:clamp(38px,8.5vw,56px)!important;line-height:1.02!important}
+  .soni-surgery-steps{min-height:0!important}
+  .soni-surgery-steps article{grid-template-columns:30px 1fr!important;gap:11px!important;padding:10px 0!important}
+  .soni-surgery-step-no{font-size:13px!important}
+  .soni-surgery-steps small{font-size:8px!important}
+  .soni-surgery-steps h3{font-size:18px!important;margin:5px 0!important}
+  .soni-surgery-steps article p{font-size:15px!important;line-height:1.5!important}
+  .soni-surgery-progress{margin:13px 0 9px!important}
+  .soni-surgery-hint{font-size:8px!important}
+  .soni-surgery-disclaimer,.soni-surgery-loading{font-size:7px!important}
+  .soni-surgery-bg-shade{background:linear-gradient(0deg,rgba(2,17,27,.24),transparent 70%)!important}
+}
