@@ -132,18 +132,13 @@ function BoneSurgeryVisual() {
       const scale = Math.min(drawWidth / img.naturalWidth, drawHeight / img.naturalHeight);
       const w = img.naturalWidth * scale;
       const h = img.naturalHeight * scale;
-      // Fill portrait letterbox space with a soft, darkened enlargement while
-      // keeping the complete original 16:9 frame crisp and uncropped above it.
+      // Fill the portrait canvas with the source frame itself: zoom/crop the
+      // sides to 9:16, without adding a blurred or solid background layer.
       const coverScale = Math.max(drawWidth / img.naturalWidth, drawHeight / img.naturalHeight);
       const coverW = img.naturalWidth * coverScale;
       const coverH = img.naturalHeight * coverScale;
-      ctx.fillStyle = '#061c20';
-      ctx.fillRect(0, 0, drawWidth, drawHeight);
-      ctx.save();
-      ctx.filter = 'blur(22px) brightness(.48) saturate(.8)';
+      ctx.clearRect(0, 0, drawWidth, drawHeight);
       ctx.drawImage(img, (drawWidth - coverW) / 2, (drawHeight - coverH) / 2, coverW, coverH);
-      ctx.restore();
-      ctx.drawImage(img, (drawWidth - w) / 2, (drawHeight - h) / 2, w, h);
     };
 
     const updateFromScroll = () => {
