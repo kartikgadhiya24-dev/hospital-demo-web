@@ -89,3 +89,66 @@
 .soni-floating-whatsapp:hover{background:#116e43}
 @media(max-width:900px){.soni-appointment-grid{gap:38px}}
 @media(max-width:650px){.soni-appointment{padding:64px 0}.soni-appointment-grid{grid-template-columns:1fr;gap:28px}.soni-appointment-copy h2{font-size:35px}.soni-appointment-copy>p{font-size:13px}.soni-appointment-form{padding:22px 17px;border-radius:13px}.soni-floating-whatsapp{right:14px;bottom:14px;padding:13px 15px}.soni-floating-whatsapp span{display:inline}}
+
+
+/* Premium motion layer — restrained, smooth and accessible */
+html{scroll-behavior:smooth}
+.soni-site{overflow:clip}
+.soni-hero{position:relative;isolation:isolate}
+.soni-hero-grid{position:relative;z-index:2}
+.soni-ambient{position:absolute;z-index:-1;pointer-events:none;border-radius:50%;filter:blur(2px);opacity:.72}
+.soni-ambient-one{width:300px;height:300px;right:-95px;top:-80px;background:radial-gradient(circle,#cce9df 0%,#e8f5f0 48%,transparent 72%);animation:soni-drift 13s ease-in-out infinite alternate}
+.soni-ambient-two{width:180px;height:180px;left:34%;bottom:-100px;background:radial-gradient(circle,#e0f1eb 0%,transparent 72%);animation:soni-drift 10s ease-in-out infinite alternate-reverse}
+.soni-hero-copy>*{animation:soni-rise .8s cubic-bezier(.2,.7,.2,1) both}
+.soni-hero-copy .soni-eyebrow{animation-delay:.08s}
+.soni-hero-copy h1{animation-delay:.18s}
+.soni-hero-copy>p{animation-delay:.28s}
+.soni-hero-actions{animation:soni-rise .8s .38s cubic-bezier(.2,.7,.2,1) both}
+.soni-proof{animation:soni-rise .8s .48s cubic-bezier(.2,.7,.2,1) both}
+.soni-hero-photo{animation:soni-photo-in 1s .12s cubic-bezier(.2,.7,.2,1) both;transform-origin:60% 50%}
+.soni-hero-photo>img{transition:transform .8s cubic-bezier(.2,.7,.2,1),filter .5s}
+.soni-hero-photo:hover>img{transform:scale(1.025);filter:saturate(1.08)}
+.soni-photo-caption{animation:soni-float 5s ease-in-out infinite}
+.soni-photo-mark{animation:soni-mark-in .8s .8s both}
+.soni-image-orbit{position:absolute;right:-20px;bottom:52px;width:74px;height:74px;border:1px solid #80b6a5;border-radius:50%;animation:soni-spin 15s linear infinite}
+.soni-image-orbit span{position:absolute;width:8px;height:8px;border-radius:50%;background:#176b66;top:8px;left:10px}
+.soni-image-orbit span:nth-child(2){top:auto;left:auto;right:3px;bottom:19px;background:#9ccbb9}
+.soni-image-orbit span:nth-child(3){top:34px;left:31px;width:5px;height:5px;background:#c69d63}
+.soni-info-grid>div{transition:transform .35s ease,background .35s ease;border-radius:12px}
+.soni-info-grid>div:hover{transform:translateY(-4px);background:#f0f7f4}
+.soni-info-grid>div>span{transition:transform .35s ease,background .35s ease}
+.soni-info-grid>div:hover>span{transform:rotate(-7deg) scale(1.08);background:#d9eee6}
+.soni-expertise-grid article{position:relative;overflow:hidden}
+.soni-expertise-grid article:after{content:'';position:absolute;inset:0 auto 0 -120%;width:65%;transform:skewX(-18deg);background:linear-gradient(90deg,transparent,#ffffff90,transparent);transition:left .7s ease}
+.soni-expertise-grid article:hover:after{left:150%}
+.soni-expertise-grid article>span{display:inline-block;transition:transform .35s ease}
+.soni-expertise-grid article:hover>span{transform:translateX(5px)}
+.soni-doctor-art{position:relative;overflow:hidden}
+.soni-doctor-glow{position:absolute;width:240px;height:240px;border-radius:50%;background:#fff9;filter:blur(2px);animation:soni-breathe 5s ease-in-out infinite}
+.soni-doctor-symbol{position:relative;z-index:1;animation:soni-float 6s ease-in-out infinite}
+.soni-map-card{position:relative;overflow:hidden}
+.soni-map-card:before,.soni-map-card:after{content:'';position:absolute;border:1px solid #ffffff19;border-radius:50%;width:280px;height:280px;animation:soni-pulse 5s ease-out infinite}
+.soni-map-card:after{animation-delay:2.5s}
+.soni-map-card>*{position:relative;z-index:1}
+.soni-btn,.soni-outline,.soni-nav-cta,.soni-text-link{transition:transform .25s ease,box-shadow .25s ease,background .25s ease}
+.soni-btn:hover,.soni-nav-cta:hover{transform:translateY(-3px);box-shadow:0 13px 28px #176b6635}
+.soni-outline:hover{transform:translateY(-2px);border-color:var(--s-accent);background:#f5faf7}
+.soni-appointment-form{transition:transform .4s ease,box-shadow .4s ease}
+.soni-appointment-form:hover{transform:translateY(-4px);box-shadow:0 28px 75px #174a3b18}
+.soni-floating-whatsapp{animation:soni-wa-pop .7s 1.2s both,soni-wa-glow 3s 2s ease-in-out infinite}
+.soni-floating-whatsapp svg{animation:soni-wa-wiggle 4s ease-in-out infinite}
+.soni-footer{position:relative;overflow:hidden}
+.soni-footer:before{content:'';position:absolute;width:350px;height:180px;right:-130px;top:-110px;border-radius:50%;background:#1b5144;filter:blur(45px);opacity:.55}
+@keyframes soni-rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes soni-photo-in{from{opacity:0;transform:translateX(28px) scale(.97)}to{opacity:1;transform:translateX(0) scale(1)}}
+@keyframes soni-mark-in{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes soni-drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-25px,24px,0) scale(1.12)}}
+@keyframes soni-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes soni-spin{to{transform:rotate(360deg)}}
+@keyframes soni-breathe{0%,100%{transform:scale(.92);opacity:.55}50%{transform:scale(1.12);opacity:.9}}
+@keyframes soni-pulse{0%{transform:scale(.55);opacity:.55}100%{transform:scale(1.45);opacity:0}}
+@keyframes soni-wa-pop{from{opacity:0;transform:translateY(20px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes soni-wa-glow{0%,100%{box-shadow:0 9px 28px #0d50352e}50%{box-shadow:0 10px 35px #16845170}}
+@keyframes soni-wa-wiggle{0%,92%,100%{transform:rotate(0)}94%{transform:rotate(-12deg)}96%{transform:rotate(12deg)}98%{transform:rotate(-6deg)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.soni-site *,.soni-site *:before,.soni-site *:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+@media(max-width:650px){.soni-image-orbit{width:54px;height:54px;right:-8px;bottom:35px}.soni-image-orbit span:nth-child(3){top:24px;left:22px}}
