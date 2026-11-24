@@ -41,49 +41,98 @@ const links = [
 ];
 
 
-function BoneSurgeryVisual() {
-  return <div className="soni-bone-visual" aria-label="Illustrative 3D concept of an Ilizarov external fixation frame">
-    <div className="soni-bone-visual-top"><span>ORTHOPAEDIC 3D EXPLORER</span><b>Ilizarov frame concept</b></div>
-    <div className="soni-bone-stage">
-      <div className="soni-stage-glow"/>
-      <svg className="soni-bone-svg" viewBox="0 0 560 430" role="img" aria-labelledby="boneTitle boneDesc">
-        <title id="boneTitle">Illustrative long bone and external fixation frame</title>
-        <desc id="boneDesc">A stylized long bone surrounded by two circular external fixation rings connected with support rods.</desc>
-        <defs>
-          <linearGradient id="boneFill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#fff7e6"/><stop offset=".42" stopColor="#d9c7a7"/><stop offset=".72" stopColor="#f4e6ca"/><stop offset="1" stopColor="#a78e6d"/></linearGradient>
-          <linearGradient id="metalFill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#f3fbff"/><stop offset=".45" stopColor="#92aeb6"/><stop offset="1" stopColor="#405d68"/></linearGradient>
-          <filter id="boneShadow"><feGaussianBlur stdDeviation="8"/></filter>
-        </defs>
-        <ellipse cx="280" cy="378" rx="145" ry="18" fill="#5b8f83" opacity=".15" filter="url(#boneShadow)"/>
-        <g className="soni-bone-model">
-          <path d="M264 67 C237 43 207 59 214 91 C220 116 242 121 248 143 L251 280 C243 307 218 319 224 347 C230 377 265 378 282 354 C299 377 333 367 336 340 C339 315 313 302 308 280 L311 143 C319 119 340 111 340 86 C340 56 307 47 287 70 C280 77 272 77 264 67Z" fill="url(#boneFill)" stroke="#9d896c" strokeWidth="3"/>
-          <path d="M263 88 C257 135 266 190 264 239 C262 287 251 320 258 344" fill="none" stroke="#fff9e9" strokeWidth="8" strokeLinecap="round" opacity=".65"/>
-          <path d="M282 79 C294 130 283 195 291 250 C294 289 305 321 295 348" fill="none" stroke="#9c8565" strokeWidth="3" opacity=".45"/>
-          <path d="M250 212 L310 212" stroke="#b77d52" strokeWidth="3" strokeDasharray="5 5" opacity=".85"/>
-        </g>
-        <g className="soni-frame-back">
-          <ellipse cx="280" cy="145" rx="136" ry="34" fill="none" stroke="#668b94" strokeWidth="10" opacity=".4"/>
-          <ellipse cx="280" cy="145" rx="136" ry="34" fill="none" stroke="url(#metalFill)" strokeWidth="7"/>
-          <ellipse cx="280" cy="299" rx="136" ry="34" fill="none" stroke="#668b94" strokeWidth="10" opacity=".4"/>
-          <ellipse cx="280" cy="299" rx="136" ry="34" fill="none" stroke="url(#metalFill)" strokeWidth="7"/>
-          <path d="M144 145 L144 299 M416 145 L416 299 M180 155 L180 289 M380 155 L380 289" stroke="url(#metalFill)" strokeWidth="8" strokeLinecap="round"/>
-        </g>
-        <g className="soni-frame-front">
-          <path d="M160 130 L160 286 M400 130 L400 286" stroke="#6e929b" strokeWidth="5" strokeLinecap="round"/>
-          <path d="M160 130 L400 130 M160 286 L400 286" stroke="#b8d0d1" strokeWidth="3" opacity=".8"/>
-          <path d="M165 212 L395 212" stroke="#91b1b2" strokeWidth="3" strokeDasharray="4 7"/>
-          <g fill="#eaf3ef" stroke="#50727a" strokeWidth="3"><circle cx="160" cy="130" r="9"/><circle cx="400" cy="130" r="9"/><circle cx="160" cy="286" r="9"/><circle cx="400" cy="286" r="9"/><circle cx="280" cy="145" r="6"/><circle cx="280" cy="299" r="6"/></g>
-          <g className="soni-wire-pulse" stroke="#c68d57" strokeWidth="3" strokeLinecap="round"><path d="M185 189 L375 189"/><path d="M185 228 L375 228"/></g>
-        </g>
-      </svg>
-      <div className="soni-3d-tag soni-tag-one"><span/> External fixation rings</div>
-      <div className="soni-3d-tag soni-tag-two"><span/> Support rods & connectors</div>
-      <div className="soni-3d-tag soni-tag-three"><span/> Bone alignment concept</div>
-    </div>
-    <div className="soni-bone-visual-foot"><span><i/> 3D CONCEPT VISUAL</span><small>Educational illustration — not a patient scan or surgical footage</small></div>
-  </div>;
-}
+const surgeryStages = [
+  { title: 'Understanding the injury', kicker: '01 / ASSESSMENT', body: 'A specialist reviews the injury, imaging and the person’s overall health before discussing suitable options.' },
+  { title: 'Planning the reconstruction', kicker: '02 / PLANNING', body: 'The care team studies bone position and plans an individual approach. The illustration moves from the initial bone view to a planning view.' },
+  { title: 'External support concept', kicker: '03 / SUPPORT FRAME', body: 'A circular external fixation frame is shown as an educational concept around the bone. Real devices and treatment plans vary by patient.' },
+  { title: 'Follow-up & healing', kicker: '04 / FOLLOW-UP', body: 'Progress is monitored over time by the treating team. Follow-up, adjustments and rehabilitation are individualised.' }
+];
 
+function BoneSurgeryVisual() {
+  const sectionRef = React.useRef(null);
+  const [stage, setStage] = React.useState(0);
+  React.useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    let frame = 0;
+    const update = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const rect = section.getBoundingClientRect();
+        const travel = Math.max(1, section.offsetHeight - window.innerHeight);
+        const progress = Math.min(1, Math.max(0, -rect.top / travel));
+        section.style.setProperty('--surgery-progress', String(progress));
+        setStage(Math.min(surgeryStages.length - 1, Math.floor(progress * surgeryStages.length)));
+      });
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
+  }, []);
+  return <section className="soni-surgery-story" id="3d-orthopaedic" ref={sectionRef} aria-label="Scroll-driven educational orthopaedic animation">
+    <div className="soni-surgery-sticky">
+      <div className="soni-surgery-inner">
+        <div className="soni-surgery-copy">
+          <div className="soni-label">SCROLL-DRIVEN 3D EXPLORER</div>
+          <div className="soni-surgery-heading"><span>ORTHOPAEDIC JOURNEY</span><b>From assessment<br/>to recovery.</b></div>
+          <div className="soni-surgery-steps" aria-live="polite">
+            {surgeryStages.map((item, index) => <article key={item.kicker} className={stage === index ? 'is-active' : stage > index ? 'is-done' : ''}>
+              <span className="soni-surgery-step-no">0{index + 1}</span>
+              <div><small>{item.kicker}</small><h3>{item.title}</h3><p>{item.body}</p></div>
+            </article>)}
+          </div>
+          <div className="soni-surgery-progress"><span style={{ width: ((stage + 1) / surgeryStages.length * 100) + '%' }}/></div>
+          <small className="soni-surgery-hint">KEEP SCROLLING TO ADVANCE THE 3D STORY <ChevronDown size={14}/></small>
+        </div>
+        <div className="soni-surgery-visual">
+          <div className="soni-surgery-visual-top"><span>SONI ORTHOCARE <i> / </i> 3D MEDICAL CONCEPT</span><b>STAGE 0{stage + 1} <em>— 04</em></b></div>
+          <div className="soni-surgery-canvas">
+            <div className="soni-surgery-grid-bg"/>
+            <div className="soni-surgery-halo"/>
+            <svg className="soni-surgery-svg" viewBox="0 0 640 540" role="img" aria-labelledby="surgeryTitle surgeryDesc">
+              <title id="surgeryTitle">Scroll-controlled bone reconstruction and external fixation concept</title>
+              <desc id="surgeryDesc">A non-procedural educational illustration showing a long bone, a fracture gap, and a circular external support frame appearing as the story advances.</desc>
+              <defs>
+                <linearGradient id="sBone" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#fff8e9"/><stop offset=".38" stopColor="#d8c5a5"/><stop offset=".72" stopColor="#f4e6c9"/><stop offset="1" stopColor="#947c5f"/></linearGradient>
+                <linearGradient id="sMetal" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#f3ffff"/><stop offset=".45" stopColor="#9bc4c4"/><stop offset="1" stopColor="#456b70"/></linearGradient>
+                <radialGradient id="sGlow"><stop stopColor="#78c6b0" stopOpacity=".36"/><stop offset="1" stopColor="#78c6b0" stopOpacity="0"/></radialGradient>
+                <filter id="sShadow"><feGaussianBlur stdDeviation="12"/></filter>
+              </defs>
+              <ellipse cx="320" cy="458" rx="170" ry="22" fill="#051e20" opacity=".45" filter="url(#sShadow)"/>
+              <circle cx="320" cy="260" r="210" fill="url(#sGlow)"/>
+              <g className="surgery-bone">
+                <path d="M296 52 C260 29 225 53 235 91 C242 117 270 126 275 151 L277 226 L296 246 L320 220 L344 246 L364 226 L365 151 C371 125 400 116 405 88 C411 51 375 30 341 54 C330 62 307 62 296 52Z" fill="url(#sBone)" stroke="#a58e6d" strokeWidth="3"/>
+                <path d="M277 316 L277 376 C270 402 242 414 240 442 C238 478 276 495 302 469 C311 460 329 460 339 470 C365 495 402 477 400 442 C398 414 370 401 363 376 L363 316 L344 296 L320 321 L296 296Z" fill="url(#sBone)" stroke="#a58e6d" strokeWidth="3"/>
+                <path d="M286 78 C278 140 296 190 290 224 M349 80 C359 142 340 187 350 223 M289 346 C281 393 299 431 287 463 M350 346 C359 392 342 431 354 463" fill="none" stroke="#fff9eb" strokeWidth="8" strokeLinecap="round" opacity=".58"/>
+                <path className="surgery-fracture-glow" d="M278 226 L296 246 L320 220 L344 246 L364 226" fill="none" stroke="#e9a56f" strokeWidth="5" strokeDasharray="5 7"/>
+              </g>
+              <g className="surgery-frame">
+                <ellipse cx="320" cy="145" rx="194" ry="47" fill="none" stroke="#40656a" strokeWidth="14" opacity=".42"/>
+                <ellipse cx="320" cy="145" rx="194" ry="47" fill="none" stroke="url(#sMetal)" strokeWidth="9"/>
+                <ellipse cx="320" cy="382" rx="194" ry="47" fill="none" stroke="#40656a" strokeWidth="14" opacity=".42"/>
+                <ellipse cx="320" cy="382" rx="194" ry="47" fill="none" stroke="url(#sMetal)" strokeWidth="9"/>
+                <path d="M126 145 L126 382 M514 145 L514 382 M172 158 L172 369 M468 158 L468 369" stroke="url(#sMetal)" strokeWidth="11" strokeLinecap="round"/>
+                <path d="M140 145 L500 145 M140 382 L500 382" stroke="#e1f4ef" strokeWidth="3" opacity=".65"/>
+                <path d="M154 265 L486 265 M154 281 L486 281" stroke="#d9a56f" strokeWidth="3" strokeDasharray="6 12" className="surgery-wire"/>
+                <g fill="#effcf8" stroke="#52767a" strokeWidth="4"><circle cx="126" cy="145" r="11"/><circle cx="514" cy="145" r="11"/><circle cx="126" cy="382" r="11"/><circle cx="514" cy="382" r="11"/><circle cx="320" cy="145" r="8"/><circle cx="320" cy="382" r="8"/></g>
+              </g>
+              <g className="surgery-planning"><path d="M320 55 V480" stroke="#a8dfcc" strokeWidth="1.5" strokeDasharray="5 9" opacity=".7"/><circle cx="320" cy="265" r="80" fill="none" stroke="#a8dfcc" strokeWidth="1.5" strokeDasharray="4 9"/></g>
+            </svg>
+            <div className="soni-surgery-callout callout-top"><i/> EXTERNAL SUPPORT</div>
+            <div className="soni-surgery-callout callout-bottom"><i/> BONE ALIGNMENT CONCEPT</div>
+            <div className="soni-surgery-stage-label"><span>0{stage + 1}</span><b>{surgeryStages[stage].title}</b></div>
+          </div>
+          <div className="soni-surgery-visual-foot"><span><i/> SCROLL PROGRESS</span><small>Illustrative concept only · Not an actual operation or patient-specific plan</small></div>
+        </div>
+      </div>
+    </div>
+  </section>;
+}
 function SoniOrthocare() {
   React.useEffect(() => {
     const targets = document.querySelectorAll('.soni-site [data-reveal]');
@@ -150,7 +199,7 @@ function SoniOrthocare() {
       <section className="soni-info-bar" data-reveal><div className="soni-wrap soni-info-grid"><div><span><MapPin size={20}/></span><div><b>Convenient clinic location</b><small>Chandan Infinity, Ratnadeep Hospital</small></div></div><div><span><Stethoscope size={20}/></span><div><b>Focused specialisation</b><small>Orthopaedic trauma & Ilizarov surgery</small></div></div><div><span><Phone size={20}/></span><div><b>Speak to the clinic</b><small>Call +91 82003 25504</small></div></div></div></section>
       <section className="soni-section" id="about" data-reveal><div className="soni-wrap soni-about"><div><div className="soni-label">WELCOME TO SONI ORTHOCARE</div><h2>Specialist orthopaedic care, with a focus on complex problems.</h2></div><div className="soni-about-copy"><p>Soni Orthocare is located on the 3rd floor of Chandan Infinity, within Ratnadeep Hospital, near Vadla Fatak on Vanthali Road in Junagadh.</p><p>The public business listing identifies Dr. Armish Soni as an Orthopedic Trauma & Ilizarov Surgeon. Patients seeking care for an injury or a complex orthopaedic concern can call the clinic to confirm consultation availability and the next steps.</p><div className="soni-note"><ShieldCheck size={19}/><span>Website information is based on publicly available business details. Please call the clinic to confirm services, consultation hours and appointment availability.</span></div></div></div></section>
       <section className="soni-expertise" id="expertise" data-reveal><div className="soni-wrap"><div className="soni-section-heading"><div><div className="soni-label">AREAS OF SPECIALISATION</div><h2>Orthopaedic expertise</h2></div><p>These topics reflect the listed surgical specialisation. The right treatment depends on an individual clinical assessment.</p></div><div className="soni-expertise-grid">{expertise.map(([title,desc],i)=><article key={title}><span>0{i+1}</span><h3>{title}</h3><p>{desc}</p></article>)}</div></div></section>
-      <section className="soni-bone-section" id="3d-orthopaedic" data-reveal><div className="soni-wrap soni-bone-grid"><div className="soni-bone-copy"><div className="soni-label">A CLOSER LOOK AT ORTHOPAEDIC TECHNOLOGY</div><h2>Precision support for complex bone reconstruction.</h2><p>Explore this animated concept of an external fixation frame. Circular rings and connecting rods can be used in selected orthopaedic procedures to support bone alignment and reconstruction.</p><div className="soni-bone-points"><span><CheckCircle2 size={17}/> Ring-based external fixation concept</span><span><CheckCircle2 size={17}/> Adjustable support structure</span><span><CheckCircle2 size={17}/> A visual guide, not treatment advice</span></div><a className="soni-text-link" href="#appointment">Ask the clinic about Ilizarov surgery <ArrowRight size={17}/></a></div><BoneSurgeryVisual/></div></section>
+      <BoneSurgeryVisual/>
       <section className="soni-doctor" id="doctor" data-reveal><div className="soni-wrap soni-doctor-grid"><div className="soni-doctor-art"><div className="soni-doctor-glow"/><div className="soni-doctor-symbol"><Stethoscope size={58}/></div><span>ORTHOPAEDIC SURGERY</span></div><div><div className="soni-label">YOUR DOCTOR</div><h2>Dr. Armish Soni</h2><div className="soni-doctor-role">Orthopedic Trauma & Ilizarov Surgeon</div><p>The public listing associates Dr. Armish Soni with Soni Orthocare in Junagadh. For verified qualifications, registration details, consultation schedule and procedure-specific information, please contact the clinic directly.</p><a className="soni-text-link" href={`tel:${phone}`}>Call the clinic <ArrowRight size={17}/></a></div></div></section>
       <section className="soni-location" id="location" data-reveal><div className="soni-wrap soni-location-grid"><div><div className="soni-label">FIND SONI ORTHOCARE</div><h2>Plan your visit.</h2><p>Clinic location as listed publicly:</p><div className="soni-address"><MapPin size={20}/><span>{address}</span></div><div className="soni-location-actions"><a className="soni-btn" href={map} target="_blank" rel="noreferrer">Open in Google Maps <MoveUpRight size={17}/></a><a className="soni-outline" href={`tel:${phone}`}>Call {phone}</a></div></div><div className="soni-map-card"><div className="soni-map-pin"><MapPin size={30}/></div><b>SONI ORTHOCARE</b><span>3rd Floor, Chandan Infinity<br/>Ratnadeep Hospital, Junagadh</span><a href={map} target="_blank" rel="noreferrer">View map <ArrowRight size={15}/></a></div></div></section>
       <section className="soni-appointment" id="appointment" data-reveal><div className="soni-wrap soni-appointment-grid"><div className="soni-appointment-copy"><div className="soni-label">QUICK & EASY ENQUIRY</div><h2>Let’s help you take the next step.</h2><p>Share a few details and continue directly in WhatsApp. The clinic team can respond about appointment availability and next steps.</p><div className="soni-form-benefits"><span><CheckCircle2 size={17}/> Simple appointment enquiry</span><span><CheckCircle2 size={17}/> Your message opens in WhatsApp</span><span><CheckCircle2 size={17}/> No account or app sign-up on this website</span></div><div className="soni-privacy-note"><ShieldCheck size={18}/><span>Please share only the information needed for an appointment enquiry. Do not send emergency details or sensitive medical records through this form.</span></div></div><form className="soni-appointment-form" onSubmit={handleWhatsAppEnquiry}><div className="soni-form-heading"><span><MessageCircle size={21}/></span><div><b>Appointment enquiry</b><small>We’ll prepare a WhatsApp message for you</small></div></div><label htmlFor="patientName">Patient name <i>*</i></label><input id="patientName" name="patientName" type="text" placeholder="Enter your full name" autoComplete="name" required maxLength="80"/><label htmlFor="patientPhone">Mobile number <i>*</i></label><input id="patientPhone" name="patientPhone" type="tel" placeholder="Your contact number" autoComplete="tel" inputMode="tel" pattern="[0-9+() -]{8,18}" required/><label htmlFor="patientConcern">Reason for visit <i>*</i></label><select id="patientConcern" name="patientConcern" defaultValue="" required><option value="" disabled>Select a concern</option><option>Orthopaedic consultation</option><option>Injury / fracture enquiry</option><option>Follow-up visit</option><option>Ilizarov / limb reconstruction enquiry</option><option>Other</option></select><label htmlFor="visitDate">Preferred visit date <small>(optional)</small></label><input id="visitDate" name="visitDate" type="date" min={new Date().toISOString().split('T')[0]}/><label htmlFor="patientMessage">Additional message <small>(optional)</small></label><textarea id="patientMessage" name="patientMessage" rows="3" maxLength="500" placeholder="Write a short message (optional)"/><button className="soni-whatsapp-submit" type="submit"><MessageCircle size={19}/> Continue to WhatsApp <ArrowRight size={18}/></button><p className="soni-form-disclaimer">By continuing, WhatsApp will open with your details filled in. You can review and send the message yourself. This is not a confirmed appointment.</p></form></div></section>
