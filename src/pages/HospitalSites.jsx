@@ -106,6 +106,7 @@ function BoneSurgeryVisual() {
       if (stickyFrame && window.matchMedia('(max-width: 650px)').matches) {
         const headerHeight = header ? header.getBoundingClientRect().height : 0;
         const availableHeight = Math.max(240, window.innerHeight - headerHeight);
+        stickyFrame.style.setProperty('--soni-sticky-header-height', headerHeight + 'px');
         stickyFrame.style.top = headerHeight + 'px';
         stickyFrame.style.height = availableHeight + 'px';
         stickyFrame.style.width = '100vw';
