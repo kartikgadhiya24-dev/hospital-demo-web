@@ -705,3 +705,38 @@ html{scroll-behavior:smooth}
     aspect-ratio:9/16!important;
   }
 }
+
+
+/* Final mobile alignment fix: no white gutters, no white strip below the film. */
+@media(max-width:650px){
+  .soni-surgery-story{
+    background:#061c20!important;
+    min-height:360vh!important;
+    padding:0!important;
+    margin:0!important;
+  }
+  .soni-surgery-sticky{
+    position:sticky!important;
+    top:var(--soni-sticky-header-height, 0px)!important;
+    width:100vw!important;
+    height:calc(100svh - var(--soni-sticky-header-height, 0px))!important;
+    min-height:0!important;
+    max-height:none!important;
+    aspect-ratio:auto!important;
+    margin:0!important;
+    padding:0!important;
+    background:#061c20!important;
+    overflow:hidden!important;
+  }
+  .soni-surgery-frames-canvas{
+    position:absolute!important;inset:0!important;
+    display:block!important;width:100%!important;height:100%!important;
+    max-height:none!important;aspect-ratio:auto!important;
+    object-fit:cover!important;background:#061c20!important;
+  }
+  .soni-surgery-bg-shade{background:transparent!important}
+  .soni-surgery-inner.soni-surgery-layout{
+    position:absolute!important;inset:0!important;
+    width:100%!important;height:100%!important;aspect-ratio:auto!important;
+  }
+}
