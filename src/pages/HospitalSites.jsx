@@ -106,10 +106,9 @@ function BoneSurgeryVisual() {
       if (stickyFrame && window.matchMedia('(max-width: 650px)').matches) {
         const headerHeight = header ? header.getBoundingClientRect().height : 0;
         const availableHeight = Math.max(240, window.innerHeight - headerHeight);
-        const frameWidth = Math.min(window.innerWidth, availableHeight * 9 / 16);
         stickyFrame.style.top = headerHeight + 'px';
         stickyFrame.style.height = availableHeight + 'px';
-        stickyFrame.style.width = frameWidth + 'px';
+        stickyFrame.style.width = '100vw';
         stickyFrame.style.marginLeft = 'auto';
         stickyFrame.style.marginRight = 'auto';
       }
