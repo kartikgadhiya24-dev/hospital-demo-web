@@ -652,3 +652,34 @@ html{scroll-behavior:smooth}
   .soni-surgery-inner.soni-surgery-layout{width:100%!important;height:100%!important;aspect-ratio:auto!important}
   .soni-surgery-caption{max-width:78%!important;margin:0 0 3% 4%!important}
 }
+
+
+/* Portrait 9:16 cinematic crop: enlarge the original video frames, no added background */
+.soni-surgery-story{
+  height:360vh!important;background:transparent!important;padding:0!important;
+}
+.soni-surgery-sticky{
+  position:sticky!important;top:0!important;width:100%!important;height:auto!important;
+  aspect-ratio:9/16!important;max-height:100svh!important;min-height:0!important;
+  overflow:hidden!important;display:block!important;background:transparent!important;
+}
+.soni-surgery-frames-canvas{
+  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+  aspect-ratio:9/16!important;object-fit:cover!important;background:transparent!important;
+}
+.soni-surgery-bg-shade{position:absolute!important;inset:0!important;background:transparent!important}
+.soni-surgery-inner.soni-surgery-layout{
+  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+  aspect-ratio:9/16!important;margin:0!important;
+}
+.soni-surgery-caption{margin:0 0 7% 6%!important;max-width:82%!important}
+@media(max-width:650px){
+  .soni-surgery-story{height:360vh!important;background:transparent!important}
+  .soni-surgery-sticky{
+    width:100vw!important;height:min(177.7778vw,100svh)!important;
+    aspect-ratio:9/16!important;max-height:100svh!important;min-height:0!important;
+  }
+  .soni-surgery-frames-canvas{width:100%!important;height:100%!important;aspect-ratio:9/16!important;object-fit:cover!important}
+  .soni-surgery-inner.soni-surgery-layout{width:100%!important;height:100%!important;aspect-ratio:9/16!important}
+  .soni-surgery-caption{max-width:85%!important;margin:0 0 9% 6%!important}
+}
