@@ -330,7 +330,7 @@ function SoniOrthocare() {
 export default function HospitalSites() {
   const { pathname } = useLocation();
   const slug = pathname.split('/')[1];
-  if (slug === 'soni-orthocare' && pathname.replace(/\\/$/, '').endsWith('/operation-theater')) return <OperationTheaterPage/>;
+  if (slug === 'soni-orthocare' && pathname.endsWith('/operation-theater')) return <OperationTheaterPage/>;
   if (slug === 'soni-orthocare') return <SoniOrthocare/>;
   const hospital = hospitals[slug] || hospitals['gokul-hospital'];
   const Icon = hospital.icon;
