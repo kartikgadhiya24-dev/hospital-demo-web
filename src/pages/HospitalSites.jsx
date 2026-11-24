@@ -82,6 +82,24 @@ function BoneSurgeryVisual() {
   }, []);
   return <section className="soni-surgery-story" id="3d-orthopaedic" ref={sectionRef} aria-label="Scroll-driven educational orthopaedic animation">
     <div className="soni-surgery-sticky">
+      <video
+        ref={videoRef}
+        className="soni-surgery-video-bg"
+        src="/Tibia_fracture_Ilizarov_fixation%E2%80%A6_123a6056.mp4"
+        muted
+        playsInline
+        preload="auto"
+        onLoadedMetadata={(event) => {
+          const video = event.currentTarget;
+          const section = sectionRef.current;
+          if (section && Number.isFinite(video.duration) && video.duration > 0) {
+            const progress = Number(section.style.getPropertyValue('--surgery-progress')) || 0;
+            video.currentTime = progress * video.duration;
+          }
+        }}
+        aria-label="Educational 3D animation of tibia fracture and Ilizarov external fixation"
+      />
+      <div className="soni-surgery-bg-shade"/>
       <div className="soni-surgery-inner">
         <div className="soni-surgery-copy">
           <div className="soni-label">SCROLL-DRIVEN 3D EXPLORER</div>
@@ -93,35 +111,8 @@ function BoneSurgeryVisual() {
             </article>)}
           </div>
           <div className="soni-surgery-progress"><span style={{ width: ((stage + 1) / surgeryStages.length * 100) + '%' }}/></div>
-          <small className="soni-surgery-hint">KEEP SCROLLING TO ADVANCE THE 3D STORY <ChevronDown size={14}/></small>
-        </div>
-        <div className="soni-surgery-visual">
-          <div className="soni-surgery-visual-top"><span>SONI ORTHOCARE <i> / </i> 3D MEDICAL CONCEPT</span><b>STAGE 0{stage + 1} <em>— 04</em></b></div>
-          <div className="soni-surgery-canvas">
-            <div className="soni-surgery-grid-bg"/>
-            <div className="soni-surgery-halo"/>
-            <video
-              ref={videoRef}
-              className="soni-surgery-video"
-              src="/Tibia_fracture_Ilizarov_fixation%E2%80%A6_123a6056.mp4"
-              muted
-              playsInline
-              preload="auto"
-              onLoadedMetadata={(event) => {
-                const video = event.currentTarget;
-                const section = sectionRef.current;
-                if (section && Number.isFinite(video.duration) && video.duration > 0) {
-                  const progress = Number(section.style.getPropertyValue('--surgery-progress')) || 0;
-                  video.currentTime = progress * video.duration;
-                }
-              }}
-              aria-label="Educational 3D animation of tibia fracture and Ilizarov external fixation"
-            />
-            <div className="soni-surgery-callout callout-top"><i/> EXTERNAL SUPPORT</div>
-            <div className="soni-surgery-callout callout-bottom"><i/> BONE ALIGNMENT CONCEPT</div>
-            <div className="soni-surgery-stage-label"><span>0{stage + 1}</span><b>{surgeryStages[stage].title}</b></div>
-          </div>
-          <div className="soni-surgery-visual-foot"><span><i/> SCROLL PROGRESS</span><small>Illustrative concept only · Not an actual operation or patient-specific plan</small></div>
+          <small className="soni-surgery-hint">SCROLL TO EXPLORE <ChevronDown size={14}/></small>
+          <div className="soni-surgery-disclaimer">Illustrative medical concept only · Not an actual operation or patient-specific plan</div>
         </div>
       </div>
     </div>
