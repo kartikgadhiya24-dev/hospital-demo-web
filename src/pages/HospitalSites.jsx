@@ -83,7 +83,6 @@ function BoneSurgeryVisual() {
   const canvasRef = React.useRef(null);
   const [stage, setStage] = React.useState(0);
   const [loaded, setLoaded] = React.useState(0);
-  const [zoom, setZoom] = React.useState(1);
   React.useEffect(() => {
     const section = sectionRef.current;
     const canvas = canvasRef.current;
@@ -200,15 +199,14 @@ function BoneSurgeryVisual() {
 
   return <section className="soni-surgery-story" id="3d-orthopaedic" ref={sectionRef} aria-label="Scroll-driven educational orthopaedic animation">
     <div className="soni-surgery-sticky">
-      <canvas ref={canvasRef} className="soni-surgery-frames-canvas" style={{ transform: `scale(${zoom})` }} aria-label="Scroll-controlled Ilizarov fracture animation" />
-      <div className="soni-frame-zoom" aria-label="Frame zoom controls"><button type="button" onClick={() => setZoom(value => Math.min(1.8, +(value + 0.1).toFixed(1)))} aria-label="Zoom in">+</button><button type="button" onClick={() => setZoom(1)} aria-label="Fit full frame">FIT</button><button type="button" onClick={() => setZoom(value => Math.max(1, +(value - 0.1).toFixed(1)))} aria-label="Zoom out">−</button></div>
+      <canvas ref={canvasRef} className="soni-surgery-frames-canvas" aria-label="Scroll-controlled full-frame Ilizarov animation" />
       <div className="soni-surgery-bg-shade"/>
       <div className="soni-surgery-inner soni-surgery-layout">
         <div className="soni-surgery-copy">
           <div className="soni-label">IMMERSIVE SURGICAL JOURNEY</div>
           <div className="soni-surgery-heading"><span>SONI ORTHOCARE · JUNAGADH</span><b>Every step,<br/>with precision.</b></div>
           <div className="soni-surgery-steps" aria-live="polite">
-            {surgeryStages.map((item, index) => <article key={item.kicker} className={stage === index ? 'is-active' : stage > index ? 'is-done' : ''}>
+            {surgeryStages.map((item, index) => stage === index && <article key={item.kicker} className="is-active">
               <span className="soni-surgery-step-no">0{index + 1}</span>
               <div><small>{item.kicker}</small><h3>{item.title}</h3><p>{item.body}</p></div>
             </article>)}
