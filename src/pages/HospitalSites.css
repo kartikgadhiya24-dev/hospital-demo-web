@@ -749,3 +749,12 @@ html{scroll-behavior:smooth}
 .soni-doctor-photo-label b{font:800 15px Manrope,sans-serif;color:var(--s-dark)}
 .soni-doctor-photo-label span{font:800 8px 'DM Sans',sans-serif;letter-spacing:.12em;color:var(--s-accent)}
 @media(max-width:650px){.soni-doctor-art{height:390px}.soni-doctor-photo{object-position:center 30%}}
+
+
+/* Surgery photograph placed in the final surgery section */
+.soni-operation-photo{padding:clamp(44px,7vw,88px) 0;background:#071b1b;color:#fff;text-align:center;overflow:hidden}
+.soni-operation-photo-heading{width:min(1100px,90%);margin:0 auto 26px;text-align:left}
+.soni-operation-photo-heading .soni-label{color:#b9ded2}
+.soni-operation-photo-heading h2{margin:10px 0 0;font:800 clamp(25px,4vw,42px)/1.12 Manrope,sans-serif;letter-spacing:-.035em;color:#fff}
+.soni-operation-photo img{display:block;width:min(1100px,90%);height:auto;max-height:680px;object-fit:cover;object-position:center;margin:0 auto;border-radius:16px;box-shadow:0 24px 70px #0006}
+@media(max-width:650px){.soni-operation-photo{padding:42px 0}.soni-operation-photo-heading{margin-bottom:18px}.soni-operation-photo img{width:92%;border-radius:12px}}
