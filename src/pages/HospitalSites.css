@@ -758,3 +758,34 @@ html{scroll-behavior:smooth}
 .soni-operation-photo-heading h2{margin:10px 0 0;font:800 clamp(25px,4vw,42px)/1.12 Manrope,sans-serif;letter-spacing:-.035em;color:#fff}
 .soni-operation-photo img{display:block;width:min(1100px,90%);height:auto;max-height:680px;object-fit:cover;object-position:center;margin:0 auto;border-radius:16px;box-shadow:0 24px 70px #0006}
 @media(max-width:650px){.soni-operation-photo{padding:42px 0}.soni-operation-photo-heading{margin-bottom:18px}.soni-operation-photo img{width:92%;border-radius:12px}}
+
+
+/* Homepage facility and visit sections */
+.soni-operation-home{background:linear-gradient(145deg,#0b2925 0%,#123e36 58%,#0b2925 100%);text-align:left;padding:clamp(58px,7vw,92px) 0}
+.soni-operation-home .soni-operation-photo-heading{width:100%;margin:0 0 28px}
+.soni-operation-photo-heading p{max-width:610px;margin:13px 0 0;color:#c1d8cf;font-size:13px;line-height:1.8}
+.soni-operation-image-frame{position:relative;overflow:hidden;border:1px solid #ffffff24;border-radius:18px;background:#071b1b;box-shadow:0 28px 70px #0005}
+.soni-operation-home .soni-operation-image-frame img{width:100%;max-height:610px;height:min(58vw,610px);object-fit:cover;object-position:center}
+.soni-operation-image-caption{position:absolute;left:22px;bottom:22px;display:flex;flex-direction:column;gap:5px;padding:14px 18px;border-radius:10px;background:#082a25df;backdrop-filter:blur(12px);color:#fff}
+.soni-operation-image-caption span{font:800 8px Manrope;letter-spacing:.18em;color:#a9d3c7}
+.soni-operation-image-caption b{font:700 15px Manrope}
+.soni-location{background:#f3f8f5;color:var(--s-dark);padding:clamp(58px,7vw,88px) 0}
+.soni-location .soni-label{color:var(--s-accent)}
+.soni-location h2{color:var(--s-dark)}
+.soni-location p{color:var(--s-muted)}
+.soni-location .soni-address{color:#435b52}
+.soni-location .soni-address svg{color:var(--s-accent)}
+.soni-location .soni-btn{background:var(--s-accent);color:#fff}
+.soni-location .soni-outline{border-color:#b8cbc2;color:var(--s-dark);background:#fff}
+.soni-map-card{background:linear-gradient(145deg,#fff,#e7f2ed);border:1px solid #d8e7df;box-shadow:0 18px 50px #123b3010;color:var(--s-dark)}
+.soni-map-pin{background:#dceee6;color:var(--s-accent)}
+.soni-map-card>b{color:var(--s-dark)}
+.soni-map-card>span{color:#687e74}
+.soni-map-card>a{color:var(--s-accent)}
+@media(max-width:650px){
+ .soni-operation-home{padding:56px 0}
+ .soni-operation-home .soni-operation-photo-heading{margin-bottom:20px}
+ .soni-operation-home .soni-operation-image-frame img{height:260px;min-height:220px}
+ .soni-operation-image-caption{left:12px;bottom:12px;padding:11px 13px}
+ .soni-operation-image-caption b{font-size:13px}
+}
