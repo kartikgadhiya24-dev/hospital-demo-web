@@ -50,6 +50,7 @@ const surgeryStages = [
 
 function BoneSurgeryVisual() {
   const sectionRef = React.useRef(null);
+  const videoRef = React.useRef(null);
   const [stage, setStage] = React.useState(0);
   React.useEffect(() => {
     const section = sectionRef.current;
@@ -62,6 +63,11 @@ function BoneSurgeryVisual() {
         const travel = Math.max(1, section.offsetHeight - window.innerHeight);
         const progress = Math.min(1, Math.max(0, -rect.top / travel));
         section.style.setProperty('--surgery-progress', String(progress));
+        const video = videoRef.current;
+        if (video && Number.isFinite(video.duration) && video.duration > 0) {
+          const targetTime = progress * video.duration;
+          if (Math.abs(video.currentTime - targetTime) > 0.035) video.currentTime = targetTime;
+        }
         setStage(Math.min(surgeryStages.length - 1, Math.floor(progress * surgeryStages.length)));
       });
     };
@@ -94,35 +100,15 @@ function BoneSurgeryVisual() {
           <div className="soni-surgery-canvas">
             <div className="soni-surgery-grid-bg"/>
             <div className="soni-surgery-halo"/>
-            <svg className="soni-surgery-svg" viewBox="0 0 640 540" role="img" aria-labelledby="surgeryTitle surgeryDesc">
-              <title id="surgeryTitle">Scroll-controlled bone reconstruction and external fixation concept</title>
-              <desc id="surgeryDesc">A non-procedural educational illustration showing a long bone, a fracture gap, and a circular external support frame appearing as the story advances.</desc>
-              <defs>
-                <linearGradient id="sBone" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#fff8e9"/><stop offset=".38" stopColor="#d8c5a5"/><stop offset=".72" stopColor="#f4e6c9"/><stop offset="1" stopColor="#947c5f"/></linearGradient>
-                <linearGradient id="sMetal" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#f3ffff"/><stop offset=".45" stopColor="#9bc4c4"/><stop offset="1" stopColor="#456b70"/></linearGradient>
-                <radialGradient id="sGlow"><stop stopColor="#78c6b0" stopOpacity=".36"/><stop offset="1" stopColor="#78c6b0" stopOpacity="0"/></radialGradient>
-                <filter id="sShadow"><feGaussianBlur stdDeviation="12"/></filter>
-              </defs>
-              <ellipse cx="320" cy="458" rx="170" ry="22" fill="#051e20" opacity=".45" filter="url(#sShadow)"/>
-              <circle cx="320" cy="260" r="210" fill="url(#sGlow)"/>
-              <g className="surgery-bone">
-                <path d="M296 52 C260 29 225 53 235 91 C242 117 270 126 275 151 L277 226 L296 246 L320 220 L344 246 L364 226 L365 151 C371 125 400 116 405 88 C411 51 375 30 341 54 C330 62 307 62 296 52Z" fill="url(#sBone)" stroke="#a58e6d" strokeWidth="3"/>
-                <path d="M277 316 L277 376 C270 402 242 414 240 442 C238 478 276 495 302 469 C311 460 329 460 339 470 C365 495 402 477 400 442 C398 414 370 401 363 376 L363 316 L344 296 L320 321 L296 296Z" fill="url(#sBone)" stroke="#a58e6d" strokeWidth="3"/>
-                <path d="M286 78 C278 140 296 190 290 224 M349 80 C359 142 340 187 350 223 M289 346 C281 393 299 431 287 463 M350 346 C359 392 342 431 354 463" fill="none" stroke="#fff9eb" strokeWidth="8" strokeLinecap="round" opacity=".58"/>
-                <path className="surgery-fracture-glow" d="M278 226 L296 246 L320 220 L344 246 L364 226" fill="none" stroke="#e9a56f" strokeWidth="5" strokeDasharray="5 7"/>
-              </g>
-              <g className="surgery-frame">
-                <ellipse cx="320" cy="145" rx="194" ry="47" fill="none" stroke="#40656a" strokeWidth="14" opacity=".42"/>
-                <ellipse cx="320" cy="145" rx="194" ry="47" fill="none" stroke="url(#sMetal)" strokeWidth="9"/>
-                <ellipse cx="320" cy="382" rx="194" ry="47" fill="none" stroke="#40656a" strokeWidth="14" opacity=".42"/>
-                <ellipse cx="320" cy="382" rx="194" ry="47" fill="none" stroke="url(#sMetal)" strokeWidth="9"/>
-                <path d="M126 145 L126 382 M514 145 L514 382 M172 158 L172 369 M468 158 L468 369" stroke="url(#sMetal)" strokeWidth="11" strokeLinecap="round"/>
-                <path d="M140 145 L500 145 M140 382 L500 382" stroke="#e1f4ef" strokeWidth="3" opacity=".65"/>
-                <path d="M154 265 L486 265 M154 281 L486 281" stroke="#d9a56f" strokeWidth="3" strokeDasharray="6 12" className="surgery-wire"/>
-                <g fill="#effcf8" stroke="#52767a" strokeWidth="4"><circle cx="126" cy="145" r="11"/><circle cx="514" cy="145" r="11"/><circle cx="126" cy="382" r="11"/><circle cx="514" cy="382" r="11"/><circle cx="320" cy="145" r="8"/><circle cx="320" cy="382" r="8"/></g>
-              </g>
-              <g className="surgery-planning"><path d="M320 55 V480" stroke="#a8dfcc" strokeWidth="1.5" strokeDasharray="5 9" opacity=".7"/><circle cx="320" cy="265" r="80" fill="none" stroke="#a8dfcc" strokeWidth="1.5" strokeDasharray="4 9"/></g>
-            </svg>
+            <video
+              ref={videoRef}
+              className="soni-surgery-video"
+              src="/Tibia_fracture_Ilizarov_fixation%E2%80%A6_123a6056.mp4"
+              muted
+              playsInline
+              preload="auto"
+              aria-label="Educational 3D animation of tibia fracture and Ilizarov external fixation"
+            />
             <div className="soni-surgery-callout callout-top"><i/> EXTERNAL SUPPORT</div>
             <div className="soni-surgery-callout callout-bottom"><i/> BONE ALIGNMENT CONCEPT</div>
             <div className="soni-surgery-stage-label"><span>0{stage + 1}</span><b>{surgeryStages[stage].title}</b></div>
