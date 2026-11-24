@@ -1,0 +1,11 @@
+{
+  "source_video": "1000216369.mp4",
+  "duration_seconds": 15.0,
+  "source_fps": 24,
+  "frame_count": 360,
+  "frame_rate": 24,
+  "frame_width": 960,
+  "frame_height": 540,
+  "frame_pattern": "frames/frame_%04d.webp",
+  "scroll_mapping": "progress 0..1 maps to frame index 0..frame_count-1"
+}
