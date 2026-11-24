@@ -50,55 +50,125 @@ const surgeryStages = [
 
 function BoneSurgeryVisual() {
   const sectionRef = React.useRef(null);
-  const videoRef = React.useRef(null);
+  const canvasRef = React.useRef(null);
   const [stage, setStage] = React.useState(0);
+  const [loaded, setLoaded] = React.useState(0);
   React.useEffect(() => {
     const section = sectionRef.current;
-    if (!section) return;
-    let frame = 0;
-    const update = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const rect = section.getBoundingClientRect();
-        const travel = Math.max(1, section.offsetHeight - window.innerHeight);
-        const progress = Math.min(1, Math.max(0, -rect.top / travel));
-        section.style.setProperty('--surgery-progress', String(progress));
-        const video = videoRef.current;
-        if (video && Number.isFinite(video.duration) && video.duration > 0) {
-          const targetTime = progress * video.duration;
-          if (Math.abs(video.currentTime - targetTime) > 0.035) video.currentTime = targetTime;
-        }
-        setStage(Math.min(surgeryStages.length - 1, Math.floor(progress * surgeryStages.length)));
-      });
+    const canvas = canvasRef.current;
+    const ctx = canvas && canvas.getContext('2d', { alpha: false });
+    if (!section || !canvas || !ctx) return;
+    let cancelled = false;
+    let raf = 0;
+    let progress = 0;
+    let targetIndex = 0;
+    let lastStage = -1;
+    const firstFrame = 105;
+    const frameCount = 255;
+    const images = new Array(frameCount);
+    const ready = new Array(frameCount).fill(false);
+    let completed = 0;
+    let drawWidth = 0;
+    let drawHeight = 0;
+
+    const resizeCanvas = () => {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = Math.max(1, Math.round(rect.width * dpr));
+      const h = Math.max(1, Math.round(rect.height * dpr));
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w;
+        canvas.height = h;
+      }
+      drawWidth = w;
+      drawHeight = h;
+      draw();
     };
-    update();
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
+
+    const draw = () => {
+      if (!drawWidth || !drawHeight) return;
+      let index = targetIndex;
+      if (!ready[index]) {
+        let found = -1;
+        for (let distance = 1; distance < frameCount; distance++) {
+          if (index - distance >= 0 && ready[index - distance]) { found = index - distance; break; }
+          if (index + distance < frameCount && ready[index + distance]) { found = index + distance; break; }
+        }
+        if (found < 0) return;
+        index = found;
+      }
+      const img = images[index];
+      if (!img || !img.naturalWidth) return;
+      const scale = Math.max(drawWidth / img.naturalWidth, drawHeight / img.naturalHeight);
+      const w = img.naturalWidth * scale;
+      const h = img.naturalHeight * scale;
+      ctx.fillStyle = '#061c20';
+      ctx.fillRect(0, 0, drawWidth, drawHeight);
+      ctx.drawImage(img, (drawWidth - w) / 2, (drawHeight - h) / 2, w, h);
+    };
+
+    const updateFromScroll = () => {
+      if (cancelled) return;
+      const rect = section.getBoundingClientRect();
+      const travel = Math.max(1, section.offsetHeight - window.innerHeight);
+      progress = Math.min(1, Math.max(0, -rect.top / travel));
+      targetIndex = Math.min(frameCount - 1, Math.max(0, Math.round(progress * (frameCount - 1))));
+      section.style.setProperty('--surgery-progress', String(progress));
+      const nextStage = Math.min(surgeryStages.length - 1, Math.floor(progress * surgeryStages.length));
+      if (nextStage !== lastStage) {
+        lastStage = nextStage;
+        setStage(nextStage);
+      }
+      draw();
+    };
+    const scheduleUpdate = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => { raf = 0; updateFromScroll(); });
+    };
+
+    resizeCanvas();
+    updateFromScroll();
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', resizeCanvas, { passive: true });
+
+    // Load in a small queue to avoid flooding mobile browsers with 255 requests.
+    let nextToLoad = 0;
+    const worker = () => {
+      if (cancelled || nextToLoad >= frameCount) return;
+      const index = nextToLoad++;
+      const img = new Image();
+      images[index] = img;
+      img.decoding = 'async';
+      img.onload = () => {
+        if (cancelled) return;
+        ready[index] = true;
+        completed += 1;
+        setLoaded(completed);
+        draw();
+        worker();
+      };
+      img.onerror = () => {
+        if (cancelled) return;
+        completed += 1;
+        setLoaded(completed);
+        worker();
+      };
+      img.src = '/frames/frame_' + String(firstFrame + index).padStart(4, '0') + '.webp';
+    };
+    for (let i = 0; i < 6; i++) worker();
+
     return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener('scroll', update);
-      window.removeEventListener('resize', update);
+      cancelled = true;
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', scheduleUpdate);
+      window.removeEventListener('resize', resizeCanvas);
+      images.forEach((img) => { if (img) { img.onload = null; img.onerror = null; } });
     };
   }, []);
+
   return <section className="soni-surgery-story" id="3d-orthopaedic" ref={sectionRef} aria-label="Scroll-driven educational orthopaedic animation">
     <div className="soni-surgery-sticky">
-      <video
-        ref={videoRef}
-        className="soni-surgery-video-bg"
-        src="/Tibia_fracture_Ilizarov_fixation%E2%80%A6_123a6056.mp4"
-        muted
-        playsInline
-        preload="auto"
-        onLoadedMetadata={(event) => {
-          const video = event.currentTarget;
-          const section = sectionRef.current;
-          if (section && Number.isFinite(video.duration) && video.duration > 0) {
-            const progress = Number(section.style.getPropertyValue('--surgery-progress')) || 0;
-            video.currentTime = progress * video.duration;
-          }
-        }}
-        aria-label="Educational 3D animation of tibia fracture and Ilizarov external fixation"
-      />
+      <canvas ref={canvasRef} className="soni-surgery-frames-canvas" aria-label="Scroll-controlled Ilizarov fracture animation" />
       <div className="soni-surgery-bg-shade"/>
       <div className="soni-surgery-inner">
         <div className="soni-surgery-copy">
@@ -113,6 +183,7 @@ function BoneSurgeryVisual() {
           <div className="soni-surgery-progress"><span style={{ width: ((stage + 1) / surgeryStages.length * 100) + '%' }}/></div>
           <small className="soni-surgery-hint">SCROLL TO EXPLORE <ChevronDown size={14}/></small>
           <div className="soni-surgery-disclaimer">Illustrative medical concept only · Not an actual operation or patient-specific plan</div>
+          <div className="soni-surgery-loading" aria-live="polite">{loaded < 255 ? 'Loading animation frames ' + loaded + '/255' : 'Animation ready'}</div>
         </div>
       </div>
     </div>
