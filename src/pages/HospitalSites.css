@@ -740,3 +740,12 @@ html{scroll-behavior:smooth}
     width:100%!important;height:100%!important;aspect-ratio:auto!important;
   }
 }
+
+
+/* Verified doctor portrait treatment */
+.soni-doctor-art{height:430px;min-height:0;padding:0;background:#e8f1ed;display:block;border-radius:18px;box-shadow:0 24px 55px #123b3018}
+.soni-doctor-photo{display:block;width:100%;height:100%;object-fit:cover;object-position:center 34%;border-radius:18px}
+.soni-doctor-photo-label{position:absolute;left:18px;right:18px;bottom:18px;display:flex;flex-direction:column;gap:5px;padding:15px 17px;border-radius:11px;background:#ffffffed;backdrop-filter:blur(12px);box-shadow:0 10px 30px #123b3020}
+.soni-doctor-photo-label b{font:800 15px Manrope,sans-serif;color:var(--s-dark)}
+.soni-doctor-photo-label span{font:800 8px 'DM Sans',sans-serif;letter-spacing:.12em;color:var(--s-accent)}
+@media(max-width:650px){.soni-doctor-art{height:390px}.soni-doctor-photo{object-position:center 30%}}
