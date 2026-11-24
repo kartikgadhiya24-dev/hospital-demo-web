@@ -101,6 +101,18 @@ function BoneSurgeryVisual() {
     let drawHeight = 0;
 
     const resizeCanvas = () => {
+      const stickyFrame = canvas.parentElement;
+      const header = document.querySelector('.soni-header');
+      if (stickyFrame && window.matchMedia('(max-width: 650px)').matches) {
+        const headerHeight = header ? header.getBoundingClientRect().height : 0;
+        const availableHeight = Math.max(240, window.innerHeight - headerHeight);
+        const frameWidth = Math.min(window.innerWidth, availableHeight * 9 / 16);
+        stickyFrame.style.top = headerHeight + 'px';
+        stickyFrame.style.height = availableHeight + 'px';
+        stickyFrame.style.width = frameWidth + 'px';
+        stickyFrame.style.marginLeft = 'auto';
+        stickyFrame.style.marginRight = 'auto';
+      }
       const rect = canvas.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const w = Math.max(1, Math.round(rect.width * dpr));
