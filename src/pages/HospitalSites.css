@@ -608,3 +608,47 @@ html{scroll-behavior:smooth}
   .soni-surgery-caption-active b{font-size:clamp(20px,6vw,29px)!important}
   .soni-surgery-caption .soni-surgery-progress{width:110px!important;margin-top:8px!important}
 }
+
+
+/* Remove the empty black viewport around the 16:9 animation.
+   Keep the sticky animation itself exactly the video frame's height. */
+.soni-surgery-story{
+  background:transparent!important;
+  height:360vh!important;
+  padding:0!important;
+}
+.soni-surgery-sticky{
+  position:sticky!important;top:0!important;
+  width:100%!important;height:auto!important;min-height:0!important;
+  aspect-ratio:16/9!important;max-height:none!important;
+  display:block!important;overflow:hidden!important;
+  padding:0!important;margin:0!important;
+  background:transparent!important;
+}
+.soni-surgery-frames-canvas{
+  position:absolute!important;inset:0!important;
+  display:block!important;width:100%!important;height:100%!important;
+  max-height:none!important;aspect-ratio:16/9!important;
+  object-fit:contain!important;background:transparent!important;
+}
+.soni-surgery-bg-shade{position:absolute!important;inset:0!important}
+.soni-surgery-inner.soni-surgery-layout{
+  position:absolute!important;inset:0!important;
+  width:100%!important;height:100%!important;aspect-ratio:auto!important;
+  max-width:none!important;margin:0!important;
+}
+.soni-surgery-caption{margin:0 0 3.5% 4%!important}
+@media(max-width:650px){
+  .soni-surgery-story{height:360vh!important;background:transparent!important}
+  .soni-surgery-sticky{
+    top:0!important;width:100vw!important;height:auto!important;
+    min-height:0!important;aspect-ratio:16/9!important;
+    align-items:stretch!important;padding:0!important;
+  }
+  .soni-surgery-frames-canvas{
+    width:100%!important;height:100%!important;max-height:none!important;
+    aspect-ratio:16/9!important;object-fit:contain!important;
+  }
+  .soni-surgery-inner.soni-surgery-layout{width:100%!important;height:100%!important;aspect-ratio:auto!important}
+  .soni-surgery-caption{max-width:78%!important;margin:0 0 3% 4%!important}
+}
