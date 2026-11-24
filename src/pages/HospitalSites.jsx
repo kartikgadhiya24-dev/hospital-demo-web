@@ -213,7 +213,7 @@ function BoneSurgeryVisual() {
           <div className="soni-surgery-progress"><span style={{ width: ((stage + 1) / surgeryStages.length * 100) + '%' }}/></div>
           <small className="soni-surgery-hint">SCROLL TO EXPLORE <ChevronDown size={14}/></small>
           <div className="soni-surgery-disclaimer">Illustrative medical concept only · Not an actual operation or patient-specific plan</div>
-          <div className="soni-surgery-loading" aria-live="polite">{loaded < 255 ? 'Preparing visual ' + loaded + '/255' : 'Animation ready'}</div>
+          <div className="soni-surgery-loading" aria-live="polite">{loaded < 360 ? 'Preparing visual ' + loaded + '/360' : 'Animation ready'}</div>
         </div>
       </div>
     </div>
