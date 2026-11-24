@@ -306,3 +306,16 @@ html{scroll-behavior:smooth}
  .soni-surgery-disclaimer{font-size:8px;line-height:1.5;margin-top:12px}
 }
 @media(prefers-reduced-motion:reduce){.soni-surgery-story{height:auto!important}.soni-surgery-sticky{position:relative;height:auto;min-height:80svh}.soni-surgery-video-bg{display:none}.soni-surgery-bg-shade{background:#082629}}
+
+
+
+/* Canvas frame sequence: uses the 255 frames currently present in public/frames */
+.soni-surgery-story{height:190vh!important;isolation:isolate;background:#061c20!important}
+.soni-surgery-sticky{position:sticky;top:0;height:100svh;min-height:0!important;display:flex;align-items:center;overflow:hidden}
+.soni-surgery-frames-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0;background:#061c20}
+.soni-surgery-bg-shade{z-index:1}
+.soni-surgery-inner{position:relative;z-index:2;width:min(1180px,calc(100% - 64px));display:block;margin:auto}
+.soni-surgery-copy{max-width:660px}
+.soni-surgery-loading{margin-top:8px;color:#a9d4c3;font-size:9px;letter-spacing:.04em}
+@media(max-width:650px){.soni-surgery-story{height:180vh!important}.soni-surgery-inner{width:calc(100% - 34px)!important}.soni-surgery-frames-canvas{object-fit:cover}}
+@media(prefers-reduced-motion:reduce){.soni-surgery-story{height:190vh!important}.soni-surgery-frames-canvas{filter:none}}
