@@ -10,14 +10,11 @@ import Doctors from './pages/Doctors';
 import Contact from './pages/Contact';
 import Appointment from './pages/Appointment';
 import NotFound from './pages/NotFound';
+import HospitalSites from './pages/HospitalSites';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
   return null;
 };
 
@@ -25,24 +22,31 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="app-layout">
-        <Header />
-        <main className="main-content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/services/:id" element={<ServiceDetail />} />
-            <Route path="/doctors" element={<Doctors />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/appointment" element={<Appointment />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <Routes>
+        <Route path="/soni-orthocare/*" element={<HospitalSites />} />
+        <Route path="/gokul-hospital/*" element={<HospitalSites />} />
+        <Route path="/janani-hospital/*" element={<HospitalSites />} />
+        <Route path="/shreeji-baby-care/*" element={<HospitalSites />} />
+        <Route path="/*" element={
+          <div className="app-layout">
+            <Header />
+            <main className="main-content">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/services/:id" element={<ServiceDetail />} />
+                <Route path="/doctors" element={<Doctors />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/appointment" element={<Appointment />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        } />
+      </Routes>
     </Router>
   );
 }
-
 export default App;
