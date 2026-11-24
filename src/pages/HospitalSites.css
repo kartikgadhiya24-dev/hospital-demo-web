@@ -683,3 +683,25 @@ html{scroll-behavior:smooth}
   .soni-surgery-inner.soni-surgery-layout{width:100%!important;height:100%!important;aspect-ratio:9/16!important}
   .soni-surgery-caption{max-width:85%!important;margin:0 0 9% 6%!important}
 }
+
+
+/* Keep the portrait film pinned directly beneath the sticky site header on phones. */
+@media(max-width:650px){
+  .soni-surgery-sticky{
+    position:sticky!important;top:0;
+    height:calc(100svh - 180px)!important;
+    width:min(100vw,calc((100svh - 180px)*9/16))!important;
+    aspect-ratio:9/16!important;max-height:none!important;
+    margin-left:auto!important;margin-right:auto!important;
+    overflow:hidden!important;
+  }
+  .soni-surgery-frames-canvas{
+    position:absolute!important;inset:0!important;
+    width:100%!important;height:100%!important;
+    aspect-ratio:9/16!important;object-fit:cover!important;
+  }
+  .soni-surgery-inner.soni-surgery-layout{
+    width:100%!important;height:100%!important;
+    aspect-ratio:9/16!important;
+  }
+}
