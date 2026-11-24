@@ -129,7 +129,9 @@ function BoneSurgeryVisual() {
       }
       const img = images[index];
       if (!img || !img.naturalWidth) return;
-      const scale = Math.max(drawWidth / img.naturalWidth, drawHeight / img.naturalHeight);
+      const scale = window.matchMedia('(max-width: 650px)').matches
+        ? Math.min(drawWidth / img.naturalWidth, drawHeight / img.naturalHeight)
+        : Math.max(drawWidth / img.naturalWidth, drawHeight / img.naturalHeight);
       const w = img.naturalWidth * scale;
       const h = img.naturalHeight * scale;
       ctx.fillStyle = '#061c20';
