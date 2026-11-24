@@ -48,6 +48,36 @@ const surgeryStages = [
   { title: 'Follow-up & healing', kicker: '04 / FOLLOW-UP', body: 'Progress is monitored over time by the treating team. Follow-up, adjustments and rehabilitation are individualised.' }
 ];
 
+function BoneSurgeryIntro() {
+  return <section className="soni-bone-section soni-bone-intro" aria-label="3D orthopaedic concept">
+    <div className="soni-wrap soni-bone-intro-grid">
+      <div className="soni-bone-intro-copy">
+        <div className="soni-label">ADVANCED ORTHOPAEDIC CONCEPT</div>
+        <h2>Precision in every step of the journey.</h2>
+        <p>An immersive 3D-inspired introduction to orthopaedic reconstruction and Ilizarov external fixation.</p>
+        <span className="soni-bone-intro-tag"><i/> 3D VISUAL EXPERIENCE</span>
+      </div>
+      <div className="soni-bone-intro-object" aria-hidden="true">
+        <div className="soni-bone-orbit orbit-a"/><div className="soni-bone-orbit orbit-b"/>
+        <div className="soni-bone-model-card">
+          <div className="soni-bone-model-top"><span>ORTHOPAEDIC / 3D STUDY</span><b>01—04</b></div>
+          <div className="soni-bone-model-art">
+            <div className="soni-bone-ring ring-one"/><div className="soni-bone-ring ring-two"/>
+            <div className="soni-bone-rod rod-one"/><div className="soni-bone-rod rod-two"/>
+            <div className="soni-bone-shaft"><i/><i/></div>
+            <span className="soni-bone-pin pin-one"/><span className="soni-bone-pin pin-two"/>
+            <span className="soni-bone-pin pin-three"/><span className="soni-bone-pin pin-four"/>
+            <span className="soni-bone-node node-one"/><span className="soni-bone-node node-two"/>
+            <span className="soni-bone-callout callout-a">EXTERNAL FRAME</span>
+            <span className="soni-bone-callout callout-b">BONE ALIGNMENT</span>
+          </div>
+          <div className="soni-bone-model-bottom"><span><i/> CONCEPT VISUAL</span><small>3D depth study</small></div>
+        </div>
+      </div>
+    </div>
+  </section>;
+}
+
 function BoneSurgeryVisual() {
   const sectionRef = React.useRef(null);
   const canvasRef = React.useRef(null);
@@ -170,10 +200,10 @@ function BoneSurgeryVisual() {
     <div className="soni-surgery-sticky">
       <canvas ref={canvasRef} className="soni-surgery-frames-canvas" aria-label="Scroll-controlled Ilizarov fracture animation" />
       <div className="soni-surgery-bg-shade"/>
-      <div className="soni-surgery-inner">
+      <div className="soni-surgery-inner soni-surgery-layout">
         <div className="soni-surgery-copy">
-          <div className="soni-label">SCROLL-DRIVEN 3D EXPLORER</div>
-          <div className="soni-surgery-heading"><span>ORTHOPAEDIC JOURNEY</span><b>From assessment<br/>to recovery.</b></div>
+          <div className="soni-label">IMMERSIVE SURGICAL JOURNEY</div>
+          <div className="soni-surgery-heading"><span>SONI ORTHOCARE · JUNAGADH</span><b>Every step,<br/>with precision.</b></div>
           <div className="soni-surgery-steps" aria-live="polite">
             {surgeryStages.map((item, index) => <article key={item.kicker} className={stage === index ? 'is-active' : stage > index ? 'is-done' : ''}>
               <span className="soni-surgery-step-no">0{index + 1}</span>
@@ -183,7 +213,7 @@ function BoneSurgeryVisual() {
           <div className="soni-surgery-progress"><span style={{ width: ((stage + 1) / surgeryStages.length * 100) + '%' }}/></div>
           <small className="soni-surgery-hint">SCROLL TO EXPLORE <ChevronDown size={14}/></small>
           <div className="soni-surgery-disclaimer">Illustrative medical concept only · Not an actual operation or patient-specific plan</div>
-          <div className="soni-surgery-loading" aria-live="polite">{loaded < 255 ? 'Loading animation frames ' + loaded + '/255' : 'Animation ready'}</div>
+          <div className="soni-surgery-loading" aria-live="polite">{loaded < 255 ? 'Preparing visual ' + loaded + '/255' : 'Animation ready'}</div>
         </div>
       </div>
     </div>
@@ -255,7 +285,7 @@ function SoniOrthocare() {
       <section className="soni-info-bar" data-reveal><div className="soni-wrap soni-info-grid"><div><span><MapPin size={20}/></span><div><b>Convenient clinic location</b><small>Chandan Infinity, Ratnadeep Hospital</small></div></div><div><span><Stethoscope size={20}/></span><div><b>Focused specialisation</b><small>Orthopaedic trauma & Ilizarov surgery</small></div></div><div><span><Phone size={20}/></span><div><b>Speak to the clinic</b><small>Call +91 82003 25504</small></div></div></div></section>
       <section className="soni-section" id="about" data-reveal><div className="soni-wrap soni-about"><div><div className="soni-label">WELCOME TO SONI ORTHOCARE</div><h2>Specialist orthopaedic care, with a focus on complex problems.</h2></div><div className="soni-about-copy"><p>Soni Orthocare is located on the 3rd floor of Chandan Infinity, within Ratnadeep Hospital, near Vadla Fatak on Vanthali Road in Junagadh.</p><p>The public business listing identifies Dr. Armish Soni as an Orthopedic Trauma & Ilizarov Surgeon. Patients seeking care for an injury or a complex orthopaedic concern can call the clinic to confirm consultation availability and the next steps.</p><div className="soni-note"><ShieldCheck size={19}/><span>Website information is based on publicly available business details. Please call the clinic to confirm services, consultation hours and appointment availability.</span></div></div></div></section>
       <section className="soni-expertise" id="expertise" data-reveal><div className="soni-wrap"><div className="soni-section-heading"><div><div className="soni-label">AREAS OF SPECIALISATION</div><h2>Orthopaedic expertise</h2></div><p>These topics reflect the listed surgical specialisation. The right treatment depends on an individual clinical assessment.</p></div><div className="soni-expertise-grid">{expertise.map(([title,desc],i)=><article key={title}><span>0{i+1}</span><h3>{title}</h3><p>{desc}</p></article>)}</div></div></section>
-      <BoneSurgeryVisual/>
+      <BoneSurgeryIntro/><BoneSurgeryVisual/>
       <section className="soni-doctor" id="doctor" data-reveal><div className="soni-wrap soni-doctor-grid"><div className="soni-doctor-art"><div className="soni-doctor-glow"/><div className="soni-doctor-symbol"><Stethoscope size={58}/></div><span>ORTHOPAEDIC SURGERY</span></div><div><div className="soni-label">YOUR DOCTOR</div><h2>Dr. Armish Soni</h2><div className="soni-doctor-role">Orthopedic Trauma & Ilizarov Surgeon</div><p>The public listing associates Dr. Armish Soni with Soni Orthocare in Junagadh. For verified qualifications, registration details, consultation schedule and procedure-specific information, please contact the clinic directly.</p><a className="soni-text-link" href={`tel:${phone}`}>Call the clinic <ArrowRight size={17}/></a></div></div></section>
       <section className="soni-location" id="location" data-reveal><div className="soni-wrap soni-location-grid"><div><div className="soni-label">FIND SONI ORTHOCARE</div><h2>Plan your visit.</h2><p>Clinic location as listed publicly:</p><div className="soni-address"><MapPin size={20}/><span>{address}</span></div><div className="soni-location-actions"><a className="soni-btn" href={map} target="_blank" rel="noreferrer">Open in Google Maps <MoveUpRight size={17}/></a><a className="soni-outline" href={`tel:${phone}`}>Call {phone}</a></div></div><div className="soni-map-card"><div className="soni-map-pin"><MapPin size={30}/></div><b>SONI ORTHOCARE</b><span>3rd Floor, Chandan Infinity<br/>Ratnadeep Hospital, Junagadh</span><a href={map} target="_blank" rel="noreferrer">View map <ArrowRight size={15}/></a></div></div></section>
       <section className="soni-appointment" id="appointment" data-reveal><div className="soni-wrap soni-appointment-grid"><div className="soni-appointment-copy"><div className="soni-label">QUICK & EASY ENQUIRY</div><h2>Let’s help you take the next step.</h2><p>Share a few details and continue directly in WhatsApp. The clinic team can respond about appointment availability and next steps.</p><div className="soni-form-benefits"><span><CheckCircle2 size={17}/> Simple appointment enquiry</span><span><CheckCircle2 size={17}/> Your message opens in WhatsApp</span><span><CheckCircle2 size={17}/> No account or app sign-up on this website</span></div><div className="soni-privacy-note"><ShieldCheck size={18}/><span>Please share only the information needed for an appointment enquiry. Do not send emergency details or sensitive medical records through this form.</span></div></div><form className="soni-appointment-form" onSubmit={handleWhatsAppEnquiry}><div className="soni-form-heading"><span><MessageCircle size={21}/></span><div><b>Appointment enquiry</b><small>We’ll prepare a WhatsApp message for you</small></div></div><label htmlFor="patientName">Patient name <i>*</i></label><input id="patientName" name="patientName" type="text" placeholder="Enter your full name" autoComplete="name" required maxLength="80"/><label htmlFor="patientPhone">Mobile number <i>*</i></label><input id="patientPhone" name="patientPhone" type="tel" placeholder="Your contact number" autoComplete="tel" inputMode="tel" pattern="[0-9+() -]{8,18}" required/><label htmlFor="patientConcern">Reason for visit <i>*</i></label><select id="patientConcern" name="patientConcern" defaultValue="" required><option value="" disabled>Select a concern</option><option>Orthopaedic consultation</option><option>Injury / fracture enquiry</option><option>Follow-up visit</option><option>Ilizarov / limb reconstruction enquiry</option><option>Other</option></select><label htmlFor="visitDate">Preferred visit date <small>(optional)</small></label><input id="visitDate" name="visitDate" type="date" min={new Date().toISOString().split('T')[0]}/><label htmlFor="patientMessage">Additional message <small>(optional)</small></label><textarea id="patientMessage" name="patientMessage" rows="3" maxLength="500" placeholder="Write a short message (optional)"/><button className="soni-whatsapp-submit" type="submit"><MessageCircle size={19}/> Continue to WhatsApp <ArrowRight size={18}/></button><p className="soni-form-disclaimer">By continuing, WhatsApp will open with your details filled in. You can review and send the message yourself. This is not a confirmed appointment.</p></form></div></section>
