@@ -83,6 +83,7 @@ function BoneSurgeryVisual() {
   const canvasRef = React.useRef(null);
   const [stage, setStage] = React.useState(0);
   const [loaded, setLoaded] = React.useState(0);
+  const [zoom, setZoom] = React.useState(1);
   React.useEffect(() => {
     const section = sectionRef.current;
     const canvas = canvasRef.current;
@@ -129,9 +130,8 @@ function BoneSurgeryVisual() {
       }
       const img = images[index];
       if (!img || !img.naturalWidth) return;
-      const scale = window.matchMedia('(max-width: 650px)').matches
-        ? Math.min(drawWidth / img.naturalWidth, drawHeight / img.naturalHeight)
-        : Math.max(drawWidth / img.naturalWidth, drawHeight / img.naturalHeight);
+      // Always fit the complete source frame inside the viewport; never crop any edge.
+      const scale = Math.min(drawWidth / img.naturalWidth, drawHeight / img.naturalHeight);
       const w = img.naturalWidth * scale;
       const h = img.naturalHeight * scale;
       ctx.fillStyle = '#061c20';
@@ -163,7 +163,7 @@ function BoneSurgeryVisual() {
     window.addEventListener('scroll', scheduleUpdate, { passive: true });
     window.addEventListener('resize', resizeCanvas, { passive: true });
 
-    // Load in a small queue to avoid flooding mobile browsers with 255 requests.
+    // Load all 360 WebP frames in a small queue for mobile-browser stability.
     let nextToLoad = 0;
     const worker = () => {
       if (cancelled || nextToLoad >= frameCount) return;
@@ -200,7 +200,8 @@ function BoneSurgeryVisual() {
 
   return <section className="soni-surgery-story" id="3d-orthopaedic" ref={sectionRef} aria-label="Scroll-driven educational orthopaedic animation">
     <div className="soni-surgery-sticky">
-      <canvas ref={canvasRef} className="soni-surgery-frames-canvas" aria-label="Scroll-controlled Ilizarov fracture animation" />
+      <canvas ref={canvasRef} className="soni-surgery-frames-canvas" style={{ transform: `scale(${zoom})` }} aria-label="Scroll-controlled Ilizarov fracture animation" />
+      <div className="soni-frame-zoom" aria-label="Frame zoom controls"><button type="button" onClick={() => setZoom(value => Math.min(1.8, +(value + 0.1).toFixed(1)))} aria-label="Zoom in">+</button><button type="button" onClick={() => setZoom(1)} aria-label="Fit full frame">FIT</button><button type="button" onClick={() => setZoom(value => Math.max(1, +(value - 0.1).toFixed(1)))} aria-label="Zoom out">−</button></div>
       <div className="soni-surgery-bg-shade"/>
       <div className="soni-surgery-inner soni-surgery-layout">
         <div className="soni-surgery-copy">
