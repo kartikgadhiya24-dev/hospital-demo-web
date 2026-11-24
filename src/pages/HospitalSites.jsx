@@ -107,6 +107,14 @@ function BoneSurgeryVisual() {
               muted
               playsInline
               preload="auto"
+              onLoadedMetadata={(event) => {
+                const video = event.currentTarget;
+                const section = sectionRef.current;
+                if (section && Number.isFinite(video.duration) && video.duration > 0) {
+                  const progress = Number(section.style.getPropertyValue('--surgery-progress')) || 0;
+                  video.currentTime = progress * video.duration;
+                }
+              }}
               aria-label="Educational 3D animation of tibia fracture and Ilizarov external fixation"
             />
             <div className="soni-surgery-callout callout-top"><i/> EXTERNAL SUPPORT</div>
