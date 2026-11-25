@@ -662,6 +662,25 @@ function JananiWombVisual() {
 
 function JananiHospital() {
   const map = 'https://www.google.com/maps/search/?api=1&query=Janani+Hospital+Junagadh+Gujarat';
+  const whatsapp = 'https://wa.me/919909859046';
+  const handleWhatsAppEnquiry = (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const message = [
+      'Hello Janani Hospital, I would like to make an enquiry.',
+      '',
+      `Name: ${data.get('patientName')}`,
+      `Mobile number: ${data.get('patientPhone')}`,
+      `Enquiry about: ${data.get('enquiryType')}`,
+      `Preferred visit date: ${data.get('visitDate') || 'Not specified'}`,
+      `Message: ${data.get('patientMessage') || 'Not specified'}`,
+      '',
+      'Please contact me with the details. Thank you.'
+    ].join('\\n');
+    window.open(`${whatsapp}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+    form.reset();
+  };
   const careItems = [
     ['Hospital information', 'Contact the hospital for verified details about departments and patient services.', HeartPulse],
     ['Doctor consultations', 'Ask about doctor profiles, consultation timings and appointment availability.', Stethoscope],
@@ -687,7 +706,14 @@ function JananiHospital() {
       <section className="jn-doctors" id="jn-doctors"><div className="jn-shell jn-doctors-inner"><div><span className="jn-kicker">MEDICAL TEAM</span><h2>Meet the doctor.</h2><p>Explore the doctor profile and contact the hospital to confirm current consultation timings and availability.</p></div><article className="jn-doctor-profile"><div className="jn-doctor-photo-wrap"><img src="/dr-vishal-vasani-azad-chowk-junagadh-gynaecologist-and-obstetrician-doctors-whpfmni753.jpg" alt="Dr. Vishal Vasani"/></div><div className="jn-doctor-info"><span className="jn-doctor-label">DOCTOR PROFILE</span><h3>Dr. Vishal Vasani</h3><p>Gynaecologist &amp; Obstetrician</p><small>Please contact the hospital to confirm consultation details and availability.</small></div></article></div></section>
       <section className="jn-section jn-facilities" id="jn-facilities"><div className="jn-shell"><div className="jn-section-head"><div><span className="jn-kicker">HOSPITAL FACILITIES</span><h2>Know before you visit.</h2></div><p>Ask the hospital about facilities and patient support available on the day of your visit.</p></div><div className="jn-facility-row"><div><Activity size={22}/><b>Clinical facilities</b><span>Confirm available departments and equipment.</span></div><div><Accessibility size={22}/><b>Patient access</b><span>Ask about accessibility and attendant support.</span></div><div><Clock3 size={22}/><b>Visiting information</b><span>Confirm current visiting and consultation hours.</span></div></div></div></section>
       <section className="jn-section jn-gallery" id="jn-gallery"><div className="jn-shell"><div className="jn-section-head"><div><span className="jn-kicker">A WELCOMING ENVIRONMENT</span><h2>Designed around people.</h2></div><p>Illustrative healthcare imagery. Actual hospital photographs can replace these images when supplied.</p></div><div className="jn-gallery-grid"><img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1000&q=85" alt="Illustrative modern hospital corridor"/><img src="https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=1000&q=85" alt="Illustrative medical consultation"/><img src="https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=1000&q=85" alt="Illustrative hospital care environment"/></div></div></section>
-      <section className="jn-contact" id="jn-contact"><div className="jn-shell jn-contact-grid"><div><span className="jn-kicker">GET IN TOUCH</span><h2>How can we help you?</h2><p>For appointments, doctor availability, services, admission or directions, please contact Janani Hospital using its verified contact details.</p><div className="jn-contact-pending"><MapPin size={20}/><span><b>Junagadh, Gujarat</b><small>Exact address and contact number to be confirmed.</small></span></div></div><div className="jn-contact-card"><HeartPulse size={30}/><b>Hospital contact details</b><p>Official phone number, WhatsApp and full address will be added after confirmation.</p><a href={map} target="_blank" rel="noreferrer">Find Janani Hospital on Maps <MoveUpRight size={16}/></a></div></div></section>
+      <section className="jn-contact" id="jn-contact"><div className="jn-shell jn-contact-grid"><div><span className="jn-kicker">GET IN TOUCH</span><h2>How can we help you?</h2><p>For appointments, doctor availability, services, admission or directions, please contact Janani Hospital using its verified contact details.</p><div className="jn-contact-pending"><MapPin size={20}/><span><b>Junagadh, Gujarat</b><small>Exact address and contact number to be confirmed.</small></span></div></div><div className="jn-contact-card jn-enquiry-card"><HeartPulse size={30}/><b>Send an enquiry on WhatsApp</b><p>Fill in your details below. WhatsApp will open with your message ready to send.</p><form className="jn-enquiry-form" onSubmit={handleWhatsAppEnquiry}>
+        <label>Your name<input type="text" name="patientName" placeholder="Enter your name" autoComplete="name" required/></label>
+        <label>Mobile number<input type="tel" name="patientPhone" placeholder="Enter your mobile number" autoComplete="tel" inputMode="tel" pattern="[0-9+()\\s-]{7,18}" required/></label>
+        <label>What is your enquiry about?<select name="enquiryType" defaultValue="Appointment enquiry" required><option>Appointment enquiry</option><option>Doctor consultation</option><option>Hospital services</option><option>Admission information</option><option>Other</option></select></label>
+        <label>Preferred visit date <span>(optional)</span><input type="date" name="visitDate"/></label>
+        <label>Message <span>(optional)</span><textarea name="patientMessage" rows="3" placeholder="Write your question here"/></label>
+        <button type="submit"><MessageCircle size={16}/> Send enquiry on WhatsApp <ArrowRight size={16}/></button>
+      </form><a href={map} target="_blank" rel="noreferrer">Find Janani Hospital on Maps <MoveUpRight size={16}/></a><small className="jn-whatsapp-number">WhatsApp: +91 99098 59046</small></div></div></section>
     </main>
     <footer className="jn-footer"><div className="jn-shell"><div><b>JANANI HOSPITAL</b><span>Care • Compassion • Commitment</span></div><div className="jn-footer-links"><a href="#jn-about">About</a><a href="#jn-care">Care information</a><a href="#jn-contact">Contact</a></div></div><p className="jn-shell">© {new Date().getFullYear()} Janani Hospital. Website information preview; hospital details pending verification.</p></footer>
   </div>;
