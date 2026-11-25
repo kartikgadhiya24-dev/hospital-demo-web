@@ -491,6 +491,59 @@ function GokulHospital() {
       <section className="gk-hero"><div className="gk-shell gk-hero-grid"><div className="gk-copy"><span className="gk-eyebrow"><i/> HOSPITAL & INTENSIVE CARE</span><h1>Care and attention, <em>when it matters.</em></h1><p>Gokul Hospital & ICU is located in the Zanzarda area of Junagadh. Find the hospital location and contact information here.</p><div className="gk-actions"><a className="gk-primary" href={whatsapp+'?text='+encodeURIComponent('Hello Gokul Hospital & ICU, I would like to make an enquiry.')} target="_blank" rel="noreferrer"><MessageCircle size={17}/> WhatsApp enquiry</a><a className="gk-secondary" href={`tel:${phone}`}><Phone size={16}/> Call hospital</a></div><div className="gk-rating"><strong>4.8 <span>★★★★★</span></strong><small>Justdial listing · 50 ratings</small></div></div><div className="gk-visual"><img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1500&q=85" alt="Modern hospital interior"/><div className="gk-visual-label"><Activity size={22}/><span><b>Gokul Hospital & ICU</b><small>Zanzarda, Junagadh</small></span></div><div className="gk-visual-index">JUNAGADH <b>•</b> GUJARAT</div></div></div></section>
       <section className="gk-facts"><div className="gk-shell"><div><span><Clock3 size={21}/></span><b>Listed as 24 hours</b><small>Confirm availability by phone</small></div><div><span><HeartPulse size={21}/></span><b>Hospital & ICU</b><small>Facility listing category</small></div><div><span><MapPin size={21}/></span><b>Zanzarda, Junagadh</b><small>Akshar Icoon, 4th Floor</small></div></div></section>
       <GokulVideoVisual/>
+      {page === 'home' && <>
+        <section className="gk-page-content gk-home-section" id="gk-about">
+          <div className="gk-shell gk-inner-page">
+            <span className="gk-kicker">ABOUT GOKUL HOSPITAL</span>
+            <h1>Care and attention, when it matters.</h1>
+            <p>Gokul Hospital & ICU is located at Akshar Icoon, Zanzarda Bypass Road, Junagadh. This website brings together hospital contact details, doctor information and patient enquiry options.</p>
+            <div className="gk-page-highlight"><Activity/><div><b>Gokul Hospital & Intensive Care Unit</b><span>Junagadh, Gujarat</span></div></div>
+          </div>
+        </section>
+        <section className="gk-page-content gk-home-section" id="gk-services">
+          <div className="gk-shell gk-inner-page">
+            <span className="gk-kicker">HOSPITAL SERVICES</span>
+            <h1>Hospital & ICU care information.</h1>
+            <p>For current treatment options, specialist availability, admission requirements and clinical services, please contact the hospital directly.</p>
+            <div className="gk-page-card-grid">
+              <article><Activity/><h3>Hospital & ICU</h3><p>Contact the hospital team for information about available care and admission.</p></article>
+              <article><HeartPulse/><h3>Physician consultation</h3><p>Enquire about physician and cardiology consultation availability.</p></article>
+              <article><ShieldCheck/><h3>Intensive care</h3><p>Call the hospital to confirm current ICU availability and requirements.</p></article>
+            </div>
+          </div>
+        </section>
+        <section className="gk-page-content gk-home-section" id="gk-gallery">
+          <div className="gk-shell gk-inner-page">
+            <span className="gk-kicker">GOKUL HOSPITAL GALLERY</span>
+            <h1>A look inside our story.</h1>
+            <p>Hospital visuals shared for this website.</p>
+            <div className="gk-gallery-grid">
+              <img src="/gokul-frames/frame_0001.webp" alt="Gokul Hospital visual 1"/>
+              <img src="/gokul-frames/frame_0064.webp" alt="Gokul Hospital visual 2"/>
+              <img src="/gokul-frames/frame_0128.webp" alt="Gokul Hospital visual 3"/>
+              <img src="/gokul-frames/frame_0192.webp" alt="Gokul Hospital visual 4"/>
+            </div>
+          </div>
+        </section>
+        <section className="gk-page-content gk-home-section" id="gk-reviews">
+          <div className="gk-shell gk-inner-page gk-reviews-page">
+            <span className="gk-kicker">PATIENT FEEDBACK</span>
+            <h1>Google reviews.</h1>
+            <p>Read feedback shared by people who have visited Gokul Hospital & ICU on Google.</p>
+            <div className="gk-google-rating"><div className="gk-google-g">G</div><div><strong>4.8 <span>★★★★★</span></strong><small>19 Google reviews · rating shown on Google listing</small></div></div>
+            <div className="gk-review-cards">
+              <article><div className="gk-review-stars">★★★★★</div><p>“Hospital have good ambience and excellent doctor's and staff members”</p><small>Google review highlight</small></article>
+              <article><div className="gk-review-stars">★★★★★</div><p>“Excellent service..”</p><small>Google review highlight</small></article>
+              <article><div className="gk-review-stars">★★★★★</div><p>“Very good Hospital and Staff for patients.”</p><small>Google review highlight</small></article>
+            </div>
+            <div className="gk-review-actions">
+              <a className="gk-primary" href="https://search.google.com/local/writereview?placeid=ChIJP00sqY0BWDkRBTILiYpyIwo" target="_blank" rel="noreferrer">Write a Google review <MoveUpRight size={16}/></a>
+              <a className="gk-secondary" href="https://www.google.com/maps/search/?api=1&query=Gokul+Hospital+%26+ICU+Junagadh&query_place_id=ChIJP00sqY0BWDkRBTILiYpyIwo" target="_blank" rel="noreferrer">See all Google reviews <MoveUpRight size={16}/></a>
+            </div>
+            <p className="gk-review-note">Review excerpts are short highlights from the public Google listing. Ratings and reviews may change over time.</p>
+          </div>
+        </section>
+      </>}
       <section className="gk-facilities" id="gk-facilities"><div className="gk-shell"><div className="gk-section-head"><div><span className="gk-kicker">FACILITY INFORMATION</span><h2>What you can find here</h2></div><p>Only publicly listed facility details are shown. Please call to confirm specific requirements before visiting.</p></div><div className="gk-cards"><article><span>01</span><Activity size={25}/><h3>Hospital & ICU</h3><p>The business is listed as Gokul Hospital & ICU. Contact the team for details about available care and admission.</p></article><article><span>02</span><Accessibility size={25}/><h3>Accessibility</h3><p>The listing notes wheelchair-accessible parking and wheelchair-accessible entrance and exit.</p></article><article><span>03</span><Clock3 size={25}/><h3>Hours & enquiries</h3><p>The listing shows 24-hour operation. Call ahead to confirm current availability and visiting arrangements.</p></article></div></div></section>
       <section className="gk-doctors" id="gk-doctors"><div className="gk-shell"><div className="gk-doctors-heading"><span className="gk-kicker">OUR DOCTORS</span><h2>Meet our doctors.</h2><p>Experienced specialists caring for patients at Gokul Hospital & ICU.</p></div><div className="gk-doctor-cards"><article className="gk-doctor-card"><div className="gk-doctor-card-photo gk-doctor-crop-left"><img src="/Screenshot_20261125-124908.jpg" alt="Dr. Gaurang Bagda"/></div><div className="gk-doctor-card-info"><h3>Dr. Gaurang Bagda</h3><p>M.D. (Medicine)</p><span>Consulting Physician and Cardiologist</span></div></article><article className="gk-doctor-card"><div className="gk-doctor-card-photo gk-doctor-crop-right"><img src="/Screenshot_20261125-124908.jpg" alt="Dr. Dharmesh Chauhan"/></div><div className="gk-doctor-card-info"><h3>Dr. Dharmesh Chauhan</h3><p>M.D. (Anesthesia)</p><span>Consulting Intensivist</span></div></article></div></div></section>
       <section className="gk-enquiry" id="gk-enquiry"><div className="gk-shell gk-enquiry-grid"><div><span className="gk-kicker">WHATSAPP ENQUIRY</span><h2>How can we help you?</h2><p>Fill in the details and continue to WhatsApp. Your message will be prepared for you to review and send.</p><div className="gk-enquiry-note"><ShieldCheck size={18}/><span>This form is for general enquiries only. For urgent medical help, contact local emergency services or visit the nearest emergency department.</span></div></div><form className="gk-enquiry-form" onSubmit={handleGokulWhatsApp}><div className="gk-enquiry-form-title"><MessageCircle size={20}/><span><b>Send an enquiry</b><small>Opens WhatsApp with your message</small></span></div><label htmlFor="gokulName">Your name <i>*</i></label><input id="gokulName" name="gokulName" required maxLength="80" placeholder="Enter your name"/><label htmlFor="gokulMobile">Mobile number <i>*</i></label><input id="gokulMobile" name="gokulMobile" type="tel" required pattern="[0-9+() -]{8,18}" placeholder="Your contact number"/><label htmlFor="gokulEnquiry">Enquiry type <i>*</i></label><select id="gokulEnquiry" name="gokulEnquiry" defaultValue="" required><option value="" disabled>Select an enquiry</option><option>Appointment enquiry</option><option>Doctor / consultation information</option><option>Hospital / ICU information</option><option>Admission enquiry</option><option>Other</option></select><label htmlFor="gokulDate">Preferred date <small>(optional)</small></label><input id="gokulDate" name="gokulDate" type="date"/><label htmlFor="gokulMessage">Message <small>(optional)</small></label><textarea id="gokulMessage" name="gokulMessage" rows="3" maxLength="500" placeholder="Write your enquiry here"/><button type="submit" className="gk-enquiry-submit"><MessageCircle size={18}/> Continue to WhatsApp <ArrowRight size={17}/></button><small className="gk-enquiry-disclaimer">Your WhatsApp app will open. Review and send the message yourself. This does not confirm an appointment.</small></form></div></section>
