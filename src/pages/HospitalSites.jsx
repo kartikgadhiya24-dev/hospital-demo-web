@@ -341,6 +341,110 @@ function SoniOrthocare() {
 }
 
 
+const gokulVideoStages = [
+  { title: 'CARE ENVIRONMENT', kicker: '01 / GOKUL HOSPITAL & ICU' },
+  { title: 'PATIENT SUPPORT', kicker: '02 / CARE WITH ATTENTION' },
+  { title: 'HOSPITAL & ICU', kicker: '03 / HERE WHEN IT MATTERS' }
+];
+
+function GokulVideoVisual() {
+  const sectionRef = React.useRef(null);
+  const canvasRef = React.useRef(null);
+  const [stage, setStage] = React.useState(0);
+  const [loaded, setLoaded] = React.useState(0);
+  React.useEffect(() => {
+    const section = sectionRef.current;
+    const canvas = canvasRef.current;
+    const ctx = canvas && canvas.getContext('2d', { alpha: false });
+    if (!section || !canvas || !ctx) return;
+    let cancelled = false, raf = 0, targetIndex = 0, lastStage = -1;
+    const frameCount = 192;
+    const images = new Array(frameCount);
+    const ready = new Array(frameCount).fill(false);
+    let completed = 0, drawWidth = 0, drawHeight = 0;
+    const draw = () => {
+      if (!drawWidth || !drawHeight) return;
+      let index = targetIndex;
+      if (!ready[index]) {
+        let found = -1;
+        for (let distance = 1; distance < frameCount; distance++) {
+          if (index - distance >= 0 && ready[index - distance]) { found = index - distance; break; }
+          if (index + distance < frameCount && ready[index + distance]) { found = index + distance; break; }
+        }
+        if (found < 0) return;
+        index = found;
+      }
+      const img = images[index];
+      if (!img || !img.naturalWidth) return;
+      const scale = Math.max(drawWidth / img.naturalWidth, drawHeight / img.naturalHeight);
+      const w = img.naturalWidth * scale, h = img.naturalHeight * scale;
+      ctx.clearRect(0, 0, drawWidth, drawHeight);
+      ctx.drawImage(img, (drawWidth - w) / 2, (drawHeight - h) / 2, w, h);
+    };
+    const resizeCanvas = () => {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = Math.max(1, Math.round(rect.width * dpr));
+      const h = Math.max(1, Math.round(rect.height * dpr));
+      if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
+      drawWidth = w; drawHeight = h; draw();
+    };
+    const updateFromScroll = () => {
+      if (cancelled) return;
+      const rect = section.getBoundingClientRect();
+      const travel = Math.max(1, section.offsetHeight - window.innerHeight);
+      const progress = Math.min(1, Math.max(0, -rect.top / travel));
+      targetIndex = Math.min(frameCount - 1, Math.max(0, Math.round(progress * (frameCount - 1))));
+      const nextStage = Math.min(gokulVideoStages.length - 1, Math.floor(progress * gokulVideoStages.length));
+      if (nextStage !== lastStage) { lastStage = nextStage; setStage(nextStage); }
+      draw();
+    };
+    const scheduleUpdate = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => { raf = 0; updateFromScroll(); });
+    };
+    resizeCanvas(); updateFromScroll();
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', resizeCanvas, { passive: true });
+    let nextToLoad = 0;
+    const worker = () => {
+      if (cancelled || nextToLoad >= frameCount) return;
+      const index = nextToLoad++;
+      const img = new Image(); images[index] = img; img.decoding = 'async';
+      img.onload = () => {
+        if (cancelled) return;
+        ready[index] = true; completed += 1; setLoaded(completed); draw(); worker();
+      };
+      img.onerror = () => {
+        if (cancelled) return;
+        completed += 1; setLoaded(completed); worker();
+      };
+      img.src = '/gokul-frames/frame_' + String(index + 1).padStart(4, '0') + '.webp';
+    };
+    for (let i = 0; i < 6; i++) worker();
+    return () => {
+      cancelled = true;
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', scheduleUpdate);
+      window.removeEventListener('resize', resizeCanvas);
+      images.forEach((img) => { if (img) { img.onload = null; img.onerror = null; } });
+    };
+  }, []);
+  return <section className="gk-video-story" id="gk-video" ref={sectionRef} aria-label="Scroll-controlled Gokul Hospital video">
+    <div className="gk-video-sticky">
+      <canvas ref={canvasRef} className="gk-video-canvas" aria-label="192-frame Gokul Hospital animation" />
+      <div className="gk-video-shade"/>
+      <div className="gk-video-overlay">
+        <div className="gk-video-caption" aria-live="polite">
+          <span>{gokulVideoStages[stage].kicker}</span><b>{gokulVideoStages[stage].title}</b>
+          <div className="gk-video-progress"><i style={{ width: ((stage + 1) / gokulVideoStages.length * 100) + '%' }}/></div>
+        </div>
+        <small className="gk-video-loading">{loaded === frameCount ? 'VIDEO READY' : 'LOADING VIDEO ' + loaded + ' / ' + frameCount}</small>
+      </div>
+    </div>
+  </section>;
+}
+
 function GokulHospital() {
   const phone = '+918866842200';
   const address = '4th Floor, Akshar Icoon, Ganga Park, Zanzarda Bypass Road, Mangnath Road, Junagadh, Gujarat 362001';
@@ -367,11 +471,11 @@ function GokulHospital() {
   };
   return <div className="gokul-site">
     <div className="gk-top"><div className="gk-shell"><span>GOKUL HOSPITAL & ICU <i>•</i> JUNAGADH</span><a href={`tel:${phone}`}><Phone size={14}/> +91 88668 42200</a></div></div>
-    <header className="gk-header"><div className="gk-shell gk-nav"><a className="gk-brand" href="#gk-home"><span><Activity size={25}/></span><b>GOKUL HOSPITAL<small>AND INTENSIVE CARE UNIT</small></b></a><nav><a href="#gk-about">About</a><a href="#gk-facilities">Facilities</a><a href="#gk-doctors">Our Doctors</a><a href="#gk-location">Location</a></nav><a className="gk-call" href={whatsapp} target="_blank" rel="noreferrer"><MessageCircle size={16}/> WhatsApp enquiry</a></div></header>
+    <header className="gk-header"><div className="gk-shell gk-nav"><a className="gk-brand" href="#gk-home"><span><Activity size={25}/></span><b>GOKUL HOSPITAL<small>AND INTENSIVE CARE UNIT</small></b></a><nav><a href="#gk-video">Hospital video</a><a href="#gk-facilities">Facilities</a><a href="#gk-doctors">Our Doctors</a><a href="#gk-location">Location</a></nav><a className="gk-call" href={whatsapp} target="_blank" rel="noreferrer"><MessageCircle size={16}/> WhatsApp enquiry</a></div></header>
     <main id="gk-home">
       <section className="gk-hero"><div className="gk-shell gk-hero-grid"><div className="gk-copy"><span className="gk-eyebrow"><i/> HOSPITAL & INTENSIVE CARE</span><h1>Care and attention, <em>when it matters.</em></h1><p>Gokul Hospital & ICU is located in the Zanzarda area of Junagadh. Find the hospital location and contact information here.</p><div className="gk-actions"><a className="gk-primary" href={whatsapp+'?text='+encodeURIComponent('Hello Gokul Hospital & ICU, I would like to make an enquiry.')} target="_blank" rel="noreferrer"><MessageCircle size={17}/> WhatsApp enquiry</a><a className="gk-secondary" href={`tel:${phone}`}><Phone size={16}/> Call hospital</a></div><div className="gk-rating"><strong>4.8 <span>★★★★★</span></strong><small>Justdial listing · 50 ratings</small></div></div><div className="gk-visual"><img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1500&q=85" alt="Modern hospital interior"/><div className="gk-visual-label"><Activity size={22}/><span><b>Gokul Hospital & ICU</b><small>Zanzarda, Junagadh</small></span></div><div className="gk-visual-index">JUNAGADH <b>•</b> GUJARAT</div></div></div></section>
       <section className="gk-facts"><div className="gk-shell"><div><span><Clock3 size={21}/></span><b>Listed as 24 hours</b><small>Confirm availability by phone</small></div><div><span><HeartPulse size={21}/></span><b>Hospital & ICU</b><small>Facility listing category</small></div><div><span><MapPin size={21}/></span><b>Zanzarda, Junagadh</b><small>Akshar Icoon, 4th Floor</small></div></div></section>
-      <section className="gk-about" id="gk-about"><div className="gk-shell gk-about-grid"><div><span className="gk-kicker">WELCOME TO GOKUL HOSPITAL</span><h2>Hospital information, clearly presented.</h2></div><div><p>Gokul Hospital & ICU is listed at 4th Floor, Akshar Icoon, Ganga Park, Zanzarda Bypass Road, Mangnath Road, Junagadh, Gujarat 362001.</p><p>The public listing identifies the facility as a private hospital and includes ICU in its name. Please contact the hospital directly for current clinical services, doctor details, admission enquiries and availability.</p></div></div></section>
+      <GokulVideoVisual/>
       <section className="gk-facilities" id="gk-facilities"><div className="gk-shell"><div className="gk-section-head"><div><span className="gk-kicker">FACILITY INFORMATION</span><h2>What you can find here</h2></div><p>Only publicly listed facility details are shown. Please call to confirm specific requirements before visiting.</p></div><div className="gk-cards"><article><span>01</span><Activity size={25}/><h3>Hospital & ICU</h3><p>The business is listed as Gokul Hospital & ICU. Contact the team for details about available care and admission.</p></article><article><span>02</span><Accessibility size={25}/><h3>Accessibility</h3><p>The listing notes wheelchair-accessible parking and wheelchair-accessible entrance and exit.</p></article><article><span>03</span><Clock3 size={25}/><h3>Hours & enquiries</h3><p>The listing shows 24-hour operation. Call ahead to confirm current availability and visiting arrangements.</p></article></div></div></section>
       <section className="gk-doctors" id="gk-doctors"><div className="gk-shell"><div className="gk-doctors-heading"><span className="gk-kicker">OUR DOCTORS</span><h2>Meet our doctors.</h2><p>Experienced specialists caring for patients at Gokul Hospital & ICU.</p></div><div className="gk-doctor-cards"><article className="gk-doctor-card"><div className="gk-doctor-card-photo gk-doctor-crop-left"><img src="/Screenshot_20261125-124908.jpg" alt="Dr. Gaurang Bagda"/></div><div className="gk-doctor-card-info"><h3>Dr. Gaurang Bagda</h3><p>M.D. (Medicine)</p><span>Consulting Physician and Cardiologist</span></div></article><article className="gk-doctor-card"><div className="gk-doctor-card-photo gk-doctor-crop-right"><img src="/Screenshot_20261125-124908.jpg" alt="Dr. Dharmesh Chauhan"/></div><div className="gk-doctor-card-info"><h3>Dr. Dharmesh Chauhan</h3><p>M.D. (Anesthesia)</p><span>Consulting Intensivist</span></div></article></div></div></section>
       <section className="gk-enquiry" id="gk-enquiry"><div className="gk-shell gk-enquiry-grid"><div><span className="gk-kicker">WHATSAPP ENQUIRY</span><h2>How can we help you?</h2><p>Fill in the details and continue to WhatsApp. Your message will be prepared for you to review and send.</p><div className="gk-enquiry-note"><ShieldCheck size={18}/><span>This form is for general enquiries only. For urgent medical help, contact local emergency services or visit the nearest emergency department.</span></div></div><form className="gk-enquiry-form" onSubmit={handleGokulWhatsApp}><div className="gk-enquiry-form-title"><MessageCircle size={20}/><span><b>Send an enquiry</b><small>Opens WhatsApp with your message</small></span></div><label htmlFor="gokulName">Your name <i>*</i></label><input id="gokulName" name="gokulName" required maxLength="80" placeholder="Enter your name"/><label htmlFor="gokulMobile">Mobile number <i>*</i></label><input id="gokulMobile" name="gokulMobile" type="tel" required pattern="[0-9+() -]{8,18}" placeholder="Your contact number"/><label htmlFor="gokulEnquiry">Enquiry type <i>*</i></label><select id="gokulEnquiry" name="gokulEnquiry" defaultValue="" required><option value="" disabled>Select an enquiry</option><option>Appointment enquiry</option><option>Doctor / consultation information</option><option>Hospital / ICU information</option><option>Admission enquiry</option><option>Other</option></select><label htmlFor="gokulDate">Preferred date <small>(optional)</small></label><input id="gokulDate" name="gokulDate" type="date"/><label htmlFor="gokulMessage">Message <small>(optional)</small></label><textarea id="gokulMessage" name="gokulMessage" rows="3" maxLength="500" placeholder="Write your enquiry here"/><button type="submit" className="gk-enquiry-submit"><MessageCircle size={18}/> Continue to WhatsApp <ArrowRight size={17}/></button><small className="gk-enquiry-disclaimer">Your WhatsApp app will open. Review and send the message yourself. This does not confirm an appointment.</small></form></div></section>
