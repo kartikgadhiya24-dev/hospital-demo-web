@@ -555,6 +555,109 @@ function GokulHospital() {
 }
 
 
+function JananiWombVisual() {
+  const canvasRef = React.useRef(null);
+  React.useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas && canvas.getContext('2d', { alpha: false });
+    if (!canvas || !ctx) return;
+    let cancelled = false;
+    let raf = 0;
+    let currentFrame = 0;
+    let lastTick = 0;
+    let drawWidth = 0;
+    let drawHeight = 0;
+    const frameCount = 358;
+    const frameDuration = 1000 / 24;
+    const images = new Array(frameCount);
+    const ready = new Array(frameCount).fill(false);
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const draw = () => {
+      if (!drawWidth || !drawHeight) return;
+      let index = currentFrame;
+      if (!ready[index]) {
+        let found = -1;
+        for (let distance = 1; distance < frameCount; distance++) {
+          const before = (index - distance + frameCount) % frameCount;
+          const after = (index + distance) % frameCount;
+          if (ready[before]) { found = before; break; }
+          if (ready[after]) { found = after; break; }
+        }
+        if (found < 0) return;
+        index = found;
+      }
+      const img = images[index];
+      if (!img || !img.naturalWidth) return;
+      const scale = Math.max(drawWidth / img.naturalWidth, drawHeight / img.naturalHeight);
+      const width = img.naturalWidth * scale;
+      const height = img.naturalHeight * scale;
+      ctx.clearRect(0, 0, drawWidth, drawHeight);
+      ctx.drawImage(img, (drawWidth - width) / 2, (drawHeight - height) / 2, width, height);
+    };
+
+    const resize = () => {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const width = Math.max(1, Math.round(rect.width * dpr));
+      const height = Math.max(1, Math.round(rect.height * dpr));
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+      }
+      drawWidth = width;
+      drawHeight = height;
+      draw();
+    };
+
+    const animate = (timestamp) => {
+      if (cancelled) return;
+      if (!lastTick) lastTick = timestamp;
+      if (timestamp - lastTick >= frameDuration) {
+        const steps = Math.max(1, Math.floor((timestamp - lastTick) / frameDuration));
+        currentFrame = (currentFrame + steps) % frameCount;
+        lastTick = timestamp;
+        draw();
+      }
+      raf = window.requestAnimationFrame(animate);
+    };
+
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+    let nextToLoad = 0;
+    const worker = () => {
+      if (cancelled || nextToLoad >= frameCount) return;
+      const index = nextToLoad++;
+      const img = new Image();
+      images[index] = img;
+      img.decoding = 'async';
+      img.onload = () => {
+        if (cancelled) return;
+        ready[index] = true;
+        if (index === 0 || index === currentFrame) draw();
+        worker();
+      };
+      img.onerror = () => {
+        if (!cancelled) worker();
+      };
+      img.src = '/frames/janani-frames/frame_' + String(index + 1).padStart(4, '0') + '.webp';
+    };
+    for (let i = 0; i < 6; i++) worker();
+
+    if (!reducedMotion) raf = window.requestAnimationFrame(animate);
+    return () => {
+      cancelled = true;
+      if (raf) window.cancelAnimationFrame(raf);
+      window.removeEventListener('resize', resize);
+      images.forEach((img) => {
+        if (img) { img.onload = null; img.onerror = null; }
+      });
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className="jn-womb-canvas" aria-label="3D animation showing a baby girl peacefully inside the mother's womb" />;
+}
+
 function JananiHospital() {
   const map = 'https://www.google.com/maps/search/?api=1&query=Janani+Hospital+Junagadh+Gujarat';
   const careItems = [
@@ -573,7 +676,7 @@ function JananiHospital() {
     <main id="jn-home">
       <section className="jn-hero"><div className="jn-shell jn-hero-grid">
         <div className="jn-copy"><span className="jn-eyebrow"><i/> WELCOME TO JANANI HOSPITAL</span><h1>Care that puts <em>people first.</em></h1><p>A welcoming place to find hospital information, understand available care and connect with the Janani Hospital team.</p><div className="jn-actions"><a className="jn-primary" href="#jn-contact">Contact the hospital <ArrowRight size={17}/></a><a className="jn-secondary" href="#jn-about">Discover Janani <ArrowRight size={16}/></a></div><div className="jn-trust"><span><ShieldCheck size={17}/> Patient-first information</span><span><HeartPulse size={17}/> Compassionate care</span></div></div>
-        <div className="jn-hero-visual"><img src="/dr-vishal-bhai-janani-maternity-home-balotra-junagadh-paediatricians-7ux9fe2s5o-250.jpg" alt="Janani Hospital uploaded photograph"/><div className="jn-photo-card"><span><HeartPulse size={22}/></span><div><b>Here for you and your family</b><small>Thoughtful care at every step</small></div></div><div className="jn-visual-stamp">JANANI <i>✳</i> HOSPITAL</div></div>
+        <div className="jn-hero-visual"><JananiWombVisual/><div className="jn-photo-card"><span><HeartPulse size={22}/></span><div><b>A little life, held with care</b><small>Thoughtful maternity care at every step</small></div></div><div className="jn-visual-stamp">JANANI <i>✳</i> HOSPITAL</div></div>
       </div></section>
       <section className="jn-values"><div className="jn-shell"><div><span><HeartPulse size={21}/></span><b>Compassion</b><small>A welcoming patient experience</small></div><div><span><ShieldCheck size={21}/></span><b>Clarity</b><small>Helpful, understandable information</small></div><div><span><Stethoscope size={21}/></span><b>Connection</b><small>A direct way to contact the team</small></div></div></section>
       <section className="jn-section" id="jn-about"><div className="jn-shell jn-about-grid"><div><span className="jn-kicker">ABOUT JANANI HOSPITAL</span><h2>Care begins with listening.</h2><div className="jn-orbit"><HeartPulse size={54}/><span/><i/></div></div><div><p className="jn-lead">A hospital should feel approachable. This website is designed to help patients and families find essential information and reach the hospital team with confidence.</p><p>Doctor names, specialities, services, facilities, timings and contact information will be published once confirmed by the hospital.</p><div className="jn-note"><CheckCircle2 size={19}/><span>Only hospital-confirmed information should be used for clinical services, doctor credentials and availability.</span></div></div></div></section>
