@@ -554,12 +554,46 @@ function GokulHospital() {
   </div>;
 }
 
+
+function JananiHospital() {
+  const map = 'https://www.google.com/maps/search/?api=1&query=Janani+Hospital+Junagadh+Gujarat';
+  const careItems = [
+    ['Hospital information', 'Contact the hospital for verified details about departments and patient services.', HeartPulse],
+    ['Doctor consultations', 'Ask about doctor profiles, consultation timings and appointment availability.', Stethoscope],
+    ['Patient & family support', 'Find out about visiting guidance, admission procedures and attendant support.', ShieldCheck],
+    ['Facilities', 'Confirm room types, accessibility and diagnostic facilities directly with the hospital.', Activity]
+  ];
+  return <div className="janani-site">
+    <div className="jn-top"><div className="jn-shell"><span>JANANI HOSPITAL <i>•</i> JUNAGADH, GUJARAT</span><span>Care • Compassion • Commitment</span></div></div>
+    <header className="jn-header"><div className="jn-shell jn-nav">
+      <a className="jn-brand" href="#jn-home"><span><HeartPulse size={24}/></span><b>JANANI HOSPITAL<small>CARE WITH COMPASSION</small></b></a>
+      <nav aria-label="Janani Hospital navigation"><a href="#jn-about">About</a><a href="#jn-care">Care</a><a href="#jn-doctors">Doctors</a><a href="#jn-facilities">Facilities</a><a href="#jn-gallery">Gallery</a><a href="#jn-contact">Contact</a></nav>
+      <a className="jn-cta" href="#jn-contact"><MessageCircle size={16}/> Enquire now</a>
+    </div></header>
+    <main id="jn-home">
+      <section className="jn-hero"><div className="jn-shell jn-hero-grid">
+        <div className="jn-copy"><span className="jn-eyebrow"><i/> WELCOME TO JANANI HOSPITAL</span><h1>Care that puts <em>people first.</em></h1><p>A welcoming place to find hospital information, understand available care and connect with the Janani Hospital team.</p><div className="jn-actions"><a className="jn-primary" href="#jn-contact">Contact the hospital <ArrowRight size={17}/></a><a className="jn-secondary" href="#jn-about">Discover Janani <ArrowRight size={16}/></a></div><div className="jn-trust"><span><ShieldCheck size={17}/> Patient-first information</span><span><HeartPulse size={17}/> Compassionate care</span></div></div>
+        <div className="jn-hero-visual"><img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1400&q=85" alt="Healthcare professional speaking with a patient"/><div className="jn-photo-card"><span><HeartPulse size={22}/></span><div><b>Here for you and your family</b><small>Thoughtful care at every step</small></div></div><div className="jn-visual-stamp">JANANI <i>✳</i> HOSPITAL</div></div>
+      </div></section>
+      <section className="jn-values"><div className="jn-shell"><div><span><HeartPulse size={21}/></span><b>Compassion</b><small>A welcoming patient experience</small></div><div><span><ShieldCheck size={21}/></span><b>Clarity</b><small>Helpful, understandable information</small></div><div><span><Stethoscope size={21}/></span><b>Connection</b><small>A direct way to contact the team</small></div></div></section>
+      <section className="jn-section" id="jn-about"><div className="jn-shell jn-about-grid"><div><span className="jn-kicker">ABOUT JANANI HOSPITAL</span><h2>Care begins with listening.</h2><div className="jn-orbit"><HeartPulse size={54}/><span/><i/></div></div><div><p className="jn-lead">A hospital should feel approachable. This website is designed to help patients and families find essential information and reach the hospital team with confidence.</p><p>Doctor names, specialities, services, facilities, timings and contact information will be published once confirmed by the hospital.</p><div className="jn-note"><CheckCircle2 size={19}/><span>Only hospital-confirmed information should be used for clinical services, doctor credentials and availability.</span></div></div></div></section>
+      <section className="jn-section jn-care" id="jn-care"><div className="jn-shell"><div className="jn-section-head"><div><span className="jn-kicker">PATIENT INFORMATION</span><h2>Find the information you need.</h2></div><p>Contact the hospital directly to confirm current services, specialist availability and admission requirements.</p></div><div className="jn-care-grid">{careItems.map(([title,description,Icon],i)=><article key={title}><span className="jn-card-no">0{i+1}</span><div className="jn-card-icon"><Icon size={23}/></div><h3>{title}</h3><p>{description}</p><a href="#jn-contact">Enquire with the team <ArrowRight size={15}/></a></article>)}</div></div></section>
+      <section className="jn-doctors" id="jn-doctors"><div className="jn-shell jn-doctors-inner"><div><span className="jn-kicker">MEDICAL TEAM</span><h2>Meet the care team.</h2><p>Doctor profiles and qualifications will be added after the hospital confirms the correct names, credentials and consultation details.</p></div><div className="jn-doctor-placeholder"><span><UserRound size={34}/></span><b>Doctor profiles coming soon</b><small>We will publish verified profiles only.</small></div></div></section>
+      <section className="jn-section jn-facilities" id="jn-facilities"><div className="jn-shell"><div className="jn-section-head"><div><span className="jn-kicker">HOSPITAL FACILITIES</span><h2>Know before you visit.</h2></div><p>Ask the hospital about facilities and patient support available on the day of your visit.</p></div><div className="jn-facility-row"><div><Activity size={22}/><b>Clinical facilities</b><span>Confirm available departments and equipment.</span></div><div><Accessibility size={22}/><b>Patient access</b><span>Ask about accessibility and attendant support.</span></div><div><Clock3 size={22}/><b>Visiting information</b><span>Confirm current visiting and consultation hours.</span></div></div></div></section>
+      <section className="jn-section jn-gallery" id="jn-gallery"><div className="jn-shell"><div className="jn-section-head"><div><span className="jn-kicker">A WELCOMING ENVIRONMENT</span><h2>Designed around people.</h2></div><p>Illustrative healthcare imagery. Actual hospital photographs can replace these images when supplied.</p></div><div className="jn-gallery-grid"><img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1000&q=85" alt="Illustrative modern hospital corridor"/><img src="https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=1000&q=85" alt="Illustrative medical consultation"/><img src="https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=1000&q=85" alt="Illustrative hospital care environment"/></div></div></section>
+      <section className="jn-contact" id="jn-contact"><div className="jn-shell jn-contact-grid"><div><span className="jn-kicker">GET IN TOUCH</span><h2>How can we help you?</h2><p>For appointments, doctor availability, services, admission or directions, please contact Janani Hospital using its verified contact details.</p><div className="jn-contact-pending"><MapPin size={20}/><span><b>Junagadh, Gujarat</b><small>Exact address and contact number to be confirmed.</small></span></div></div><div className="jn-contact-card"><HeartPulse size={30}/><b>Hospital contact details</b><p>Official phone number, WhatsApp and full address will be added after confirmation.</p><a href={map} target="_blank" rel="noreferrer">Find Janani Hospital on Maps <MoveUpRight size={16}/></a></div></div></section>
+    </main>
+    <footer className="jn-footer"><div className="jn-shell"><div><b>JANANI HOSPITAL</b><span>Care • Compassion • Commitment</span></div><div className="jn-footer-links"><a href="#jn-about">About</a><a href="#jn-care">Care information</a><a href="#jn-contact">Contact</a></div></div><p className="jn-shell">© {new Date().getFullYear()} Janani Hospital. Website information preview; hospital details pending verification.</p></footer>
+  </div>;
+}
+
 export default function HospitalSites() {
   const { pathname } = useLocation();
   const slug = pathname.split('/')[1];
   if (slug === 'soni-orthocare' && pathname.endsWith('/operation-theater')) return <OperationTheaterPage/>;
   if (slug === 'soni-orthocare') return <SoniOrthocare/>;
   if (slug === 'gokul-hospital') return <GokulHospital/>;
+  if (slug === 'janani-hospital') return <JananiHospital/>;
   const hospital = hospitals[slug] || hospitals['gokul-hospital'];
   const Icon = hospital.icon;
   return <div className="hospital-site" style={{'--hs-accent': hospital.accent, '--hs-soft': hospital.soft, '--hs-dark': hospital.dark}}>
