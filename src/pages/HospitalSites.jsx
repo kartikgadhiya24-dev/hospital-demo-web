@@ -844,7 +844,7 @@ function ShreejiScrollStory() {
       <div className="sj-scroll-caption">
         <span>SHREEJI BABY CARE</span>
         <b>Little moments. Big care.</b>
-        <div className="sj-scroll-progress"><span style={{width: (loaded / 358 * 100) + '%'}}/></div>
+        <div className="sj-scroll-progress"><span style={{width: '100%'}}/></div>
         <small>SCROLL TO PLAY · SCROLL UP TO REWIND</small>
       </div>
     </div>
