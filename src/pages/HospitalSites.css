@@ -986,7 +986,7 @@ html{scroll-behavior:smooth}
 
 
 /* Shreeji Baby Care — independent warm, playful identity */
-.shreeji-site{--sj-ink:#253e45;--sj-muted:#71858a;--sj-teal:#4c9b91;--sj-mint:#e8f4ee;--sj-peach:#f9e4d7;--sj-yellow:#f5d98e;--sj-line:#dce9e4;background:#fffefa;color:var(--sj-ink);font-family:'DM Sans',sans-serif;overflow:hidden}
+.shreeji-site{--sj-ink:#253e45;--sj-muted:#71858a;--sj-teal:#4c9b91;--sj-mint:#e8f4ee;--sj-peach:#f9e4d7;--sj-yellow:#f5d98e;--sj-line:#dce9e4;background:#fffefa;color:var(--sj-ink);font-family:'DM Sans',sans-serif;overflow:clip}
 .sj-shell{width:min(1160px,calc(100% - 64px));margin:0 auto}
 .sj-top{background:#24434a;color:#e9f4ef}.sj-top>.sj-shell{height:34px;display:flex;align-items:center;justify-content:space-between;font-size:9px;letter-spacing:.1em}.sj-top i{font-style:normal;color:#f5d98e;padding:0 7px}
 .sj-header{position:sticky;top:0;z-index:30;background:#fffefaee;backdrop-filter:blur(14px);border-bottom:1px solid #e7eee9}.sj-nav{height:82px;display:flex;align-items:center;justify-content:space-between;gap:25px}
@@ -1022,4 +1022,4 @@ html{scroll-behavior:smooth}
 .sj-scroll-progress{width:min(210px,55vw);height:3px;background:#dce9df;border-radius:8px;overflow:hidden}
 .sj-scroll-progress>span{display:block;width:100%;height:100%;background:#4c9b91;transform:scaleX(var(--sj-scroll-progress,0));transform-origin:left center;transition:transform .08s linear}
 @media(max-width:650px){.sj-scroll-story{height:360vh}.sj-scroll-sticky{height:100svh;min-height:0}.sj-scroll-caption{left:14px;bottom:24px;max-width:88vw;padding:13px 15px;gap:6px}.sj-scroll-caption>b{font-size:clamp(21px,6vw,29px)}.sj-scroll-caption>span,.sj-scroll-caption>small{font-size:7px}.sj-scroll-progress{width:130px}}
-@media(prefers-reduced-motion:reduce){.sj-scroll-story{height:100vh}.sj-scroll-sticky{position:relative;height:100vh}}
+/* Keep the scroll-story pinned for its full sequence on every device. */
