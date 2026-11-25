@@ -717,7 +717,6 @@ function JananiHospital() {
 function ShreejiScrollStory() {
   const sectionRef = React.useRef(null);
   const canvasRef = React.useRef(null);
-  const [loaded, setLoaded] = React.useState(0);
 
   React.useEffect(() => {
     const section = sectionRef.current;
@@ -730,32 +729,93 @@ function ShreejiScrollStory() {
     let targetIndex = 0;
     let width = 0;
     let height = 0;
+    let activeWorkers = 0;
     const frameCount = 358;
-    const images = new Array(frameCount);
-    const ready = new Array(frameCount).fill(false);
-    let completed = 0;
+    const maxCachedFrames = 24;
+    const cache = new Map();
+    const loading = new Set();
+    const queue = new Set();
 
-    const draw = () => {
-      if (!width || !height) return;
-      let index = targetIndex;
-      if (!ready[index]) {
-        let nearest = -1;
-        for (let distance = 1; distance < frameCount; distance += 1) {
-          if (index - distance >= 0 && ready[index - distance]) { nearest = index - distance; break; }
-          if (index + distance < frameCount && ready[index + distance]) { nearest = index + distance; break; }
-        }
-        if (nearest < 0) return;
-        index = nearest;
-      }
-      const image = images[index];
-      if (!image || !image.naturalWidth) return;
+    const paint = (image) => {
+      if (!image || !image.naturalWidth || !width || !height) return;
       ctx.fillStyle = '#eaf4ed';
       ctx.fillRect(0, 0, width, height);
-      // Keep the complete original frame visible: no zooming or edge cropping.
+      // Contain the whole source frame; never crop the original animation.
       const scale = Math.min(width / image.naturalWidth, height / image.naturalHeight);
       const drawW = image.naturalWidth * scale;
       const drawH = image.naturalHeight * scale;
       ctx.drawImage(image, (width - drawW) / 2, (height - drawH) / 2, drawW, drawH);
+    };
+
+    const drawNearest = () => {
+      if (!cache.size) return; // Keep the last painted frame instead of clearing to a blank screen.
+      let bestImage = null;
+      let bestDistance = Infinity;
+      cache.forEach((image, index) => {
+        const distance = Math.abs(index - targetIndex);
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          bestImage = image;
+        }
+      });
+      paint(bestImage);
+    };
+
+    const trimCache = () => {
+      if (cache.size <= maxCachedFrames) return;
+      const candidates = Array.from(cache.keys())
+        .filter((index) => Math.abs(index - targetIndex) > 1)
+        .sort((a, b) => Math.abs(b - targetIndex) - Math.abs(a - targetIndex));
+      while (cache.size > maxCachedFrames && candidates.length) {
+        const index = candidates.shift();
+        const image = cache.get(index);
+        cache.delete(index);
+        if (image) image.src = '';
+      }
+    };
+
+    const pumpQueue = () => {
+      while (!cancelled && activeWorkers < 6 && queue.size) {
+        const next = Array.from(queue).sort((a, b) =>
+          Math.abs(a - targetIndex) - Math.abs(b - targetIndex)
+        )[0];
+        queue.delete(next);
+        if (cache.has(next) || loading.has(next)) continue;
+        loading.add(next);
+        activeWorkers += 1;
+        const image = new Image();
+        image.decoding = 'async';
+        image.onload = () => {
+          loading.delete(next);
+          activeWorkers -= 1;
+          if (!cancelled) {
+            cache.set(next, image);
+            trimCache();
+            drawNearest();
+            pumpQueue();
+          } else {
+            image.src = '';
+          }
+        };
+        image.onerror = () => {
+          loading.delete(next);
+          activeWorkers -= 1;
+          if (!cancelled) pumpQueue();
+        };
+        image.src = '/shrijibabycarepublic/frame_' + String(next + 1).padStart(4, '0') + '.webp';
+      }
+    };
+
+    const requestAround = (index) => {
+      // Prioritise the frame currently under the user's scroll position,
+      // then nearby frames in both directions for smooth forward/reverse play.
+      for (let distance = 0; distance <= 8; distance += 1) {
+        const ahead = index + distance;
+        const behind = index - distance;
+        if (ahead >= 0 && ahead < frameCount && !cache.has(ahead) && !loading.has(ahead)) queue.add(ahead);
+        if (behind >= 0 && behind < frameCount && !cache.has(behind) && !loading.has(behind)) queue.add(behind);
+      }
+      pumpQueue();
     };
 
     const resize = () => {
@@ -769,7 +829,7 @@ function ShreejiScrollStory() {
       }
       width = nextW;
       height = nextH;
-      draw();
+      drawNearest();
     };
 
     const updateFromScroll = () => {
@@ -779,7 +839,9 @@ function ShreejiScrollStory() {
       const progress = Math.min(1, Math.max(0, -rect.top / travel));
       targetIndex = Math.min(frameCount - 1, Math.max(0, Math.round(progress * (frameCount - 1))));
       section.style.setProperty('--sj-scroll-progress', String(progress));
-      draw();
+      drawNearest();
+      requestAround(targetIndex);
+      trimCache();
     };
 
     const scheduleUpdate = () => {
@@ -795,40 +857,14 @@ function ShreejiScrollStory() {
     window.addEventListener('scroll', scheduleUpdate, { passive: true });
     window.addEventListener('resize', resize, { passive: true });
 
-    // Load frames progressively with a small concurrent queue for mobile stability.
-    let nextToLoad = 0;
-    const worker = () => {
-      if (cancelled || nextToLoad >= frameCount) return;
-      const index = nextToLoad++;
-      const image = new Image();
-      images[index] = image;
-      image.decoding = 'async';
-      image.onload = () => {
-        if (cancelled) return;
-        ready[index] = true;
-        completed += 1;
-        setLoaded(completed);
-        draw();
-        worker();
-      };
-      image.onerror = () => {
-        if (cancelled) return;
-        completed += 1;
-        setLoaded(completed);
-        worker();
-      };
-      image.src = '/shrijibabycarepublic/frame_' + String(index + 1).padStart(4, '0') + '.webp';
-    };
-    for (let workerIndex = 0; workerIndex < 6; workerIndex += 1) worker();
-
     return () => {
       cancelled = true;
       if (raf) cancelAnimationFrame(raf);
       window.removeEventListener('scroll', scheduleUpdate);
       window.removeEventListener('resize', resize);
-      images.forEach((image) => {
-        if (image) { image.onload = null; image.onerror = null; }
-      });
+      cache.forEach((image) => { image.onload = null; image.onerror = null; image.src = ''; });
+      cache.clear();
+      queue.clear();
     };
   }, []);
 
@@ -838,13 +874,12 @@ function ShreejiScrollStory() {
       <div className="sj-scroll-caption">
         <span>SHREEJI BABY CARE</span>
         <b>Little moments. Big care.</b>
-        <div className="sj-scroll-progress"><span style={{width: '100%'}}/></div>
+        <div className="sj-scroll-progress"><span/></div>
         <small>SCROLL TO PLAY · SCROLL UP TO REWIND</small>
       </div>
     </div>
   </section>;
 }
-
 function ShreejiBabyCare() {
   const map = 'https://www.google.com/maps/search/?api=1&query=Shreeji+Baby+Care+Hospital+Gujarat';
   const topics = [
