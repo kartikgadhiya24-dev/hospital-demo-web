@@ -805,3 +805,35 @@ html{scroll-behavior:smooth}
 .gk-footer{background:#0a202f;color:#fff;padding:30px 0 18px}.gk-footer>.gk-shell:first-child{display:flex;justify-content:space-between;gap:25px}.gk-footer b,.gk-footer span{display:block}.gk-footer b{font:800 12px Manrope;letter-spacing:.06em}.gk-footer span{font-size:10px;color:#9cb1b9;margin-top:7px}.gk-footer .gk-shell>div:last-child{display:flex;gap:20px}.gk-footer a{display:flex;align-items:center;gap:6px;color:#b8d5d4;font-size:10px}.gk-footer p{border-top:1px solid #29414c;margin-top:22px;padding-top:14px;font-size:9px;color:#849da6}
 @media(max-width:850px){.gk-hero-grid{gap:35px}.gk-visual>img{height:360px}.gk-about-grid{gap:45px}.gk-location-grid{gap:35px}}
 @media(max-width:650px){.gk-shell{width:calc(100% - 34px)}.gk-top .gk-shell{height:36px;font-size:8px}.gk-nav{height:70px}.gk-brand b{font-size:12px}.gk-brand small{font-size:7px}.gk-brand>span{width:39px;height:39px}.gk-nav nav{display:none}.gk-call{padding:11px 12px;font-size:10px}.gk-hero{padding:52px 0 58px}.gk-hero-grid{grid-template-columns:1fr;gap:37px}.gk-copy h1{font-size:47px;margin:19px 0}.gk-copy>p{font-size:13px}.gk-actions{display:grid;grid-template-columns:1fr}.gk-rating{margin-top:27px}.gk-visual{padding-left:14px}.gk-visual>img{height:300px}.gk-visual:before{inset:14px 14px 0 0}.gk-facts .gk-shell{grid-template-columns:1fr}.gk-facts .gk-shell>div{border-right:0;border-bottom:1px solid #e1e9e8;padding:12px 0}.gk-facts .gk-shell>div:last-child{border:0}.gk-about,.gk-facilities,.gk-location{padding:60px 0}.gk-about-grid,.gk-location-grid{grid-template-columns:1fr;gap:22px}.gk-about h2,.gk-section-head h2,.gk-location h2{font-size:33px}.gk-section-head{display:block}.gk-section-head>p{margin-top:13px}.gk-cards{grid-template-columns:1fr}.gk-cards article{min-height:0}.gk-contact-inner{display:block}.gk-contact-inner>a{display:inline-flex;margin-top:20px}.gk-footer>.gk-shell:first-child{display:block}.gk-footer .gk-shell>div:last-child{margin-top:18px;flex-wrap:wrap;gap:15px}}
+
+
+/* Gokul doctor profile and WhatsApp enquiry */
+.gokul-site .gk-doctors{padding:86px 0;background:#fff}
+.gokul-site .gk-doctor-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:72px;align-items:center}
+.gokul-site .gk-doctor-photo{height:390px;max-width:430px;width:100%;padding:12px;background:#eaf5f4;border-radius:16px;position:relative}
+.gokul-site .gk-doctor-photo:before{content:'';position:absolute;inset:25px -15px -15px 25px;border:1px solid #b7d8d3;border-radius:15px;z-index:0}
+.gokul-site .gk-doctor-photo img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;object-position:center 25%;border-radius:10px;display:block}
+.gokul-site .gk-doctor-copy h2,.gokul-site .gk-enquiry h2{font:800 clamp(32px,4vw,46px)/1.15 Manrope,sans-serif;letter-spacing:-.05em;color:var(--gk-navy);margin:15px 0}
+.gokul-site .gk-doctor-copy p,.gokul-site .gk-enquiry-grid>div>p{font-size:13px;line-height:1.9;color:#71858a;max-width:520px}
+.gokul-site .gk-doctor-link{display:inline-flex;align-items:center;gap:10px;margin-top:15px;padding:13px 17px;border-radius:7px;background:#eaf5f3;color:var(--gk-blue);font-size:11px;font-weight:800}
+.gokul-site .gk-enquiry{padding:88px 0;background:#f2f8f7}
+.gokul-site .gk-enquiry-grid{display:grid;grid-template-columns:1fr .9fr;gap:65px;align-items:start}
+.gokul-site .gk-enquiry-note{display:flex;gap:11px;max-width:490px;margin-top:28px;padding:15px;border-radius:9px;background:#e5f1ef;color:#627b80;font-size:10px;line-height:1.7}
+.gokul-site .gk-enquiry-note svg{flex-shrink:0;color:var(--gk-blue)}
+.gokul-site .gk-enquiry-form{padding:28px;background:#fff;border:1px solid #e0ebea;border-radius:13px;box-shadow:0 18px 45px #16394e0c}
+.gokul-site .gk-enquiry-form-title{display:flex;align-items:center;gap:12px;margin-bottom:23px;color:var(--gk-blue)}
+.gokul-site .gk-enquiry-form-title>svg{width:42px;height:42px;padding:10px;border-radius:10px;background:#eaf5f3}
+.gokul-site .gk-enquiry-form-title b,.gokul-site .gk-enquiry-form-title small{display:block}
+.gokul-site .gk-enquiry-form-title b{font:700 15px Manrope;color:var(--gk-navy)}
+.gokul-site .gk-enquiry-form-title small{font-size:10px;color:#87999c;margin-top:4px}
+.gokul-site .gk-enquiry-form label{display:block;margin:15px 0 7px;font-size:10px;font-weight:800;color:#435c65}
+.gokul-site .gk-enquiry-form label i{font-style:normal;color:#d05a55}
+.gokul-site .gk-enquiry-form label small{font-weight:500;color:#91a0a3}
+.gokul-site .gk-enquiry-form input,.gokul-site .gk-enquiry-form select,.gokul-site .gk-enquiry-form textarea{width:100%;padding:12px 13px;border:1px solid #dce7e6;border-radius:6px;background:#fbfdfd;color:#203746;font:12px 'DM Sans',sans-serif;outline:none}
+.gokul-site .gk-enquiry-form input:focus,.gokul-site .gk-enquiry-form select:focus,.gokul-site .gk-enquiry-form textarea:focus{border-color:var(--gk-teal);box-shadow:0 0 0 3px #48a99d1c}
+.gokul-site .gk-enquiry-form textarea{resize:vertical}
+.gokul-site .gk-enquiry-submit{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:20px;padding:15px;border:0;border-radius:7px;background:#176b58;color:white;font-size:11px;font-weight:800;cursor:pointer}
+.gokul-site .gk-enquiry-disclaimer{display:block;margin-top:12px;color:#8a999c;font-size:9px;line-height:1.65;text-align:center}
+.gokul-site .gk-floating-whatsapp{position:fixed;right:23px;bottom:22px;z-index:40;display:flex;align-items:center;gap:9px;padding:13px 17px;border-radius:30px;background:#16845b;color:#fff;box-shadow:0 10px 28px #123c2e3d;font-size:11px;font-weight:800}
+.gokul-site .gk-contact-inner>a{background:#16845b}
+@media(max-width:650px){.gokul-site .gk-doctors{padding:60px 0}.gokul-site .gk-doctor-grid,.gokul-site .gk-enquiry-grid{grid-template-columns:1fr;gap:30px}.gokul-site .gk-doctor-photo{height:330px;max-width:none}.gokul-site .gk-enquiry{padding:60px 0}.gokul-site .gk-enquiry-form{padding:20px}.gokul-site .gk-floating-whatsapp{right:13px;bottom:14px;padding:12px 15px}}
