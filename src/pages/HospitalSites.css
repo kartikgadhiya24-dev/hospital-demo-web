@@ -807,15 +807,21 @@ html{scroll-behavior:smooth}
 @media(max-width:650px){.gk-shell{width:calc(100% - 34px)}.gk-top .gk-shell{height:36px;font-size:8px}.gk-nav{height:70px}.gk-brand b{font-size:12px}.gk-brand small{font-size:7px}.gk-brand>span{width:39px;height:39px}.gk-nav nav{display:none}.gk-call{padding:11px 12px;font-size:10px}.gk-hero{padding:52px 0 58px}.gk-hero-grid{grid-template-columns:1fr;gap:37px}.gk-copy h1{font-size:47px;margin:19px 0}.gk-copy>p{font-size:13px}.gk-actions{display:grid;grid-template-columns:1fr}.gk-rating{margin-top:27px}.gk-visual{padding-left:14px}.gk-visual>img{height:300px}.gk-visual:before{inset:14px 14px 0 0}.gk-facts .gk-shell{grid-template-columns:1fr}.gk-facts .gk-shell>div{border-right:0;border-bottom:1px solid #e1e9e8;padding:12px 0}.gk-facts .gk-shell>div:last-child{border:0}.gk-about,.gk-facilities,.gk-location{padding:60px 0}.gk-about-grid,.gk-location-grid{grid-template-columns:1fr;gap:22px}.gk-about h2,.gk-section-head h2,.gk-location h2{font-size:33px}.gk-section-head{display:block}.gk-section-head>p{margin-top:13px}.gk-cards{grid-template-columns:1fr}.gk-cards article{min-height:0}.gk-contact-inner{display:block}.gk-contact-inner>a{display:inline-flex;margin-top:20px}.gk-footer>.gk-shell:first-child{display:block}.gk-footer .gk-shell>div:last-child{margin-top:18px;flex-wrap:wrap;gap:15px}}
 
 
-/* Gokul doctor profile and WhatsApp enquiry */
+/* Gokul doctor profiles */
 .gokul-site .gk-doctors{padding:86px 0;background:#fff}
-.gokul-site .gk-doctor-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:72px;align-items:center}
-.gokul-site .gk-doctor-photo{height:390px;max-width:430px;width:100%;padding:12px;background:#eaf5f4;border-radius:16px;position:relative}
-.gokul-site .gk-doctor-photo:before{content:'';position:absolute;inset:25px -15px -15px 25px;border:1px solid #b7d8d3;border-radius:15px;z-index:0}
-.gokul-site .gk-doctor-photo img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;object-position:center 25%;border-radius:10px;display:block}
-.gokul-site .gk-doctor-copy h2,.gokul-site .gk-enquiry h2{font:800 clamp(32px,4vw,46px)/1.15 Manrope,sans-serif;letter-spacing:-.05em;color:var(--gk-navy);margin:15px 0}
-.gokul-site .gk-doctor-copy p,.gokul-site .gk-enquiry-grid>div>p{font-size:13px;line-height:1.9;color:#71858a;max-width:520px}
-.gokul-site .gk-doctor-link{display:inline-flex;align-items:center;gap:10px;margin-top:15px;padding:13px 17px;border-radius:7px;background:#eaf5f3;color:var(--gk-blue);font-size:11px;font-weight:800}
+.gokul-site .gk-doctors-heading{text-align:center;margin:0 auto 38px;max-width:650px}
+.gokul-site .gk-doctors-heading h2{font:800 clamp(32px,4vw,46px)/1.15 Manrope,sans-serif;letter-spacing:-.05em;color:var(--gk-navy);margin:15px 0}
+.gokul-site .gk-doctors-heading p{font-size:13px;line-height:1.9;color:#71858a}
+.gokul-site .gk-doctor-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;max-width:900px;margin:0 auto}
+.gokul-site .gk-doctor-card{overflow:hidden;border:1px solid #e2eceb;border-radius:16px;background:#fff;box-shadow:0 12px 34px #173b4a0d}
+.gokul-site .gk-doctor-card-photo{height:320px;position:relative;overflow:hidden;background:#eaf5f4}
+.gokul-site .gk-doctor-card-photo img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;transform:scale(1.65);border-radius:0;display:block}
+.gokul-site .gk-doctor-crop-left img{transform-origin:28% center}
+.gokul-site .gk-doctor-crop-right img{transform-origin:76% center}
+.gokul-site .gk-doctor-card-info{padding:23px 24px 26px;text-align:center}
+.gokul-site .gk-doctor-card-info h3{font:800 clamp(19px,2.2vw,23px)/1.25 Manrope,sans-serif;color:var(--gk-navy);margin:0 0 9px}
+.gokul-site .gk-doctor-card-info p{font-size:13px;font-weight:800;color:var(--gk-blue);margin:0 0 6px}
+.gokul-site .gk-doctor-card-info span{font-size:12px;line-height:1.6;color:#71858a}
 .gokul-site .gk-enquiry{padding:88px 0;background:#f2f8f7}
 .gokul-site .gk-enquiry-grid{display:grid;grid-template-columns:1fr .9fr;gap:65px;align-items:start}
 .gokul-site .gk-enquiry-note{display:flex;gap:11px;max-width:490px;margin-top:28px;padding:15px;border-radius:9px;background:#e5f1ef;color:#627b80;font-size:10px;line-height:1.7}
