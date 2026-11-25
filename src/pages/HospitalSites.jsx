@@ -555,34 +555,36 @@ function GokulHospital() {
 }
 
 
+const jananiVideoStages = [
+  { title: 'A LITTLE LIFE, HELD WITH CARE', kicker: '01 / JANANI HOSPITAL' },
+  { title: 'A WORLD OF ITS OWN', kicker: '02 / LIFE INSIDE THE WOMB' },
+  { title: 'EVERY TINY MOVEMENT MATTERS', kicker: '03 / GROWING WITHIN' },
+  { title: 'LOVE BEFORE THE FIRST HELLO', kicker: '04 / CARE THROUGH EVERY STEP' }
+];
+
 function JananiWombVisual() {
+  const sectionRef = React.useRef(null);
   const canvasRef = React.useRef(null);
+  const [stage, setStage] = React.useState(0);
+  const [loaded, setLoaded] = React.useState(0);
   React.useEffect(() => {
+    const section = sectionRef.current;
     const canvas = canvasRef.current;
     const ctx = canvas && canvas.getContext('2d', { alpha: false });
-    if (!canvas || !ctx) return;
-    let cancelled = false;
-    let raf = 0;
-    let currentFrame = 0;
-    let lastTick = 0;
-    let drawWidth = 0;
-    let drawHeight = 0;
+    if (!section || !canvas || !ctx) return;
+    let cancelled = false, raf = 0, targetIndex = 0, lastStage = -1;
     const frameCount = 358;
-    const frameDuration = 1000 / 24;
     const images = new Array(frameCount);
     const ready = new Array(frameCount).fill(false);
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
+    let completed = 0, drawWidth = 0, drawHeight = 0;
     const draw = () => {
       if (!drawWidth || !drawHeight) return;
-      let index = currentFrame;
+      let index = targetIndex;
       if (!ready[index]) {
         let found = -1;
         for (let distance = 1; distance < frameCount; distance++) {
-          const before = (index - distance + frameCount) % frameCount;
-          const after = (index + distance) % frameCount;
-          if (ready[before]) { found = before; break; }
-          if (ready[after]) { found = after; break; }
+          if (index - distance >= 0 && ready[index - distance]) { found = index - distance; break; }
+          if (index + distance < frameCount && ready[index + distance]) { found = index + distance; break; }
         }
         if (found < 0) return;
         index = found;
@@ -590,72 +592,72 @@ function JananiWombVisual() {
       const img = images[index];
       if (!img || !img.naturalWidth) return;
       const scale = Math.max(drawWidth / img.naturalWidth, drawHeight / img.naturalHeight);
-      const width = img.naturalWidth * scale;
-      const height = img.naturalHeight * scale;
+      const w = img.naturalWidth * scale, h = img.naturalHeight * scale;
       ctx.clearRect(0, 0, drawWidth, drawHeight);
-      ctx.drawImage(img, (drawWidth - width) / 2, (drawHeight - height) / 2, width, height);
+      ctx.drawImage(img, (drawWidth - w) / 2, (drawHeight - h) / 2, w, h);
     };
-
-    const resize = () => {
+    const resizeCanvas = () => {
       const rect = canvas.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const width = Math.max(1, Math.round(rect.width * dpr));
-      const height = Math.max(1, Math.round(rect.height * dpr));
-      if (canvas.width !== width || canvas.height !== height) {
-        canvas.width = width;
-        canvas.height = height;
-      }
-      drawWidth = width;
-      drawHeight = height;
+      const w = Math.max(1, Math.round(rect.width * dpr));
+      const h = Math.max(1, Math.round(rect.height * dpr));
+      if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
+      drawWidth = w; drawHeight = h; draw();
+    };
+    const updateFromScroll = () => {
+      if (cancelled) return;
+      const rect = section.getBoundingClientRect();
+      const travel = Math.max(1, section.offsetHeight - window.innerHeight);
+      const progress = Math.min(1, Math.max(0, -rect.top / travel));
+      targetIndex = Math.min(frameCount - 1, Math.max(0, Math.round(progress * (frameCount - 1))));
+      const nextStage = Math.min(jananiVideoStages.length - 1, Math.floor(progress * jananiVideoStages.length));
+      if (nextStage !== lastStage) { lastStage = nextStage; setStage(nextStage); }
       draw();
     };
-
-    const animate = (timestamp) => {
-      if (cancelled) return;
-      if (!lastTick) lastTick = timestamp;
-      if (timestamp - lastTick >= frameDuration) {
-        const steps = Math.max(1, Math.floor((timestamp - lastTick) / frameDuration));
-        currentFrame = (currentFrame + steps) % frameCount;
-        lastTick = timestamp;
-        draw();
-      }
-      raf = window.requestAnimationFrame(animate);
+    const scheduleUpdate = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => { raf = 0; updateFromScroll(); });
     };
-
-    resize();
-    window.addEventListener('resize', resize, { passive: true });
+    resizeCanvas(); updateFromScroll();
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', resizeCanvas, { passive: true });
     let nextToLoad = 0;
     const worker = () => {
       if (cancelled || nextToLoad >= frameCount) return;
       const index = nextToLoad++;
-      const img = new Image();
-      images[index] = img;
-      img.decoding = 'async';
+      const img = new Image(); images[index] = img; img.decoding = 'async';
       img.onload = () => {
         if (cancelled) return;
-        ready[index] = true;
-        if (index === 0 || index === currentFrame) draw();
-        worker();
+        ready[index] = true; completed += 1; setLoaded(completed); draw(); worker();
       };
       img.onerror = () => {
-        if (!cancelled) worker();
+        if (cancelled) return;
+        completed += 1; setLoaded(completed); worker();
       };
       img.src = '/frames/janani-frames/frame_' + String(index + 1).padStart(4, '0') + '.webp';
     };
     for (let i = 0; i < 6; i++) worker();
-
-    if (!reducedMotion) raf = window.requestAnimationFrame(animate);
     return () => {
       cancelled = true;
-      if (raf) window.cancelAnimationFrame(raf);
-      window.removeEventListener('resize', resize);
-      images.forEach((img) => {
-        if (img) { img.onload = null; img.onerror = null; }
-      });
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', scheduleUpdate);
+      window.removeEventListener('resize', resizeCanvas);
+      images.forEach((img) => { if (img) { img.onload = null; img.onerror = null; } });
     };
   }, []);
-
-  return <canvas ref={canvasRef} className="jn-womb-canvas" aria-label="3D animation showing a baby girl peacefully inside the mother's womb" />;
+  return <section className="jn-video-story" id="jn-womb-story" ref={sectionRef} aria-label="Scroll-controlled Janani Hospital maternity animation">
+    <div className="jn-video-sticky">
+      <canvas ref={canvasRef} className="jn-video-canvas" aria-label="358-frame animation showing life inside the mother's womb" />
+      <div className="jn-video-shade"/>
+      <div className="jn-video-overlay">
+        <div className="jn-video-caption" aria-live="polite">
+          <span>{jananiVideoStages[stage].kicker}</span><b>{jananiVideoStages[stage].title}</b>
+          <div className="jn-video-progress"><i style={{ width: ((stage + 1) / jananiVideoStages.length * 100) + '%' }}/></div>
+        </div>
+        <small className="jn-video-loading">{loaded === 358 ? 'ANIMATION READY' : 'LOADING ANIMATION ' + loaded + ' / 358'}</small>
+      </div>
+    </div>
+  </section>;
 }
 
 function JananiHospital() {
@@ -676,9 +678,10 @@ function JananiHospital() {
     <main id="jn-home">
       <section className="jn-hero"><div className="jn-shell jn-hero-grid">
         <div className="jn-copy"><span className="jn-eyebrow"><i/> WELCOME TO JANANI HOSPITAL</span><h1>Care that puts <em>people first.</em></h1><p>A welcoming place to find hospital information, understand available care and connect with the Janani Hospital team.</p><div className="jn-actions"><a className="jn-primary" href="#jn-contact">Contact the hospital <ArrowRight size={17}/></a><a className="jn-secondary" href="#jn-about">Discover Janani <ArrowRight size={16}/></a></div><div className="jn-trust"><span><ShieldCheck size={17}/> Patient-first information</span><span><HeartPulse size={17}/> Compassionate care</span></div></div>
-        <div className="jn-hero-visual"><JananiWombVisual/><div className="jn-photo-card"><span><HeartPulse size={22}/></span><div><b>A little life, held with care</b><small>Thoughtful maternity care at every step</small></div></div><div className="jn-visual-stamp">JANANI <i>✳</i> HOSPITAL</div></div>
+        <div className="jn-hero-visual"><img src="/dr-vishal-bhai-janani-maternity-home-balotra-junagadh-paediatricians-7ux9fe2s5o-250.jpg" alt="Janani Hospital uploaded photograph"/><div className="jn-photo-card"><span><HeartPulse size={22}/></span><div><b>Here for you and your family</b><small>Thoughtful care at every step</small></div></div><div className="jn-visual-stamp">JANANI <i>✳</i> HOSPITAL</div></div>
       </div></section>
       <section className="jn-values"><div className="jn-shell"><div><span><HeartPulse size={21}/></span><b>Compassion</b><small>A welcoming patient experience</small></div><div><span><ShieldCheck size={21}/></span><b>Clarity</b><small>Helpful, understandable information</small></div><div><span><Stethoscope size={21}/></span><b>Connection</b><small>A direct way to contact the team</small></div></div></section>
+      <JananiWombVisual/>
       <section className="jn-section" id="jn-about"><div className="jn-shell jn-about-grid"><div><span className="jn-kicker">ABOUT JANANI HOSPITAL</span><h2>Care begins with listening.</h2><div className="jn-orbit"><HeartPulse size={54}/><span/><i/></div></div><div><p className="jn-lead">A hospital should feel approachable. This website is designed to help patients and families find essential information and reach the hospital team with confidence.</p><p>Doctor names, specialities, services, facilities, timings and contact information will be published once confirmed by the hospital.</p><div className="jn-note"><CheckCircle2 size={19}/><span>Only hospital-confirmed information should be used for clinical services, doctor credentials and availability.</span></div></div></div></section>
       <section className="jn-section jn-care" id="jn-care"><div className="jn-shell"><div className="jn-section-head"><div><span className="jn-kicker">PATIENT INFORMATION</span><h2>Find the information you need.</h2></div><p>Contact the hospital directly to confirm current services, specialist availability and admission requirements.</p></div><div className="jn-care-grid">{careItems.map(([title,description,Icon],i)=><article key={title}><span className="jn-card-no">0{i+1}</span><div className="jn-card-icon"><Icon size={23}/></div><h3>{title}</h3><p>{description}</p><a href="#jn-contact">Enquire with the team <ArrowRight size={15}/></a></article>)}</div></div></section>
       <section className="jn-doctors" id="jn-doctors"><div className="jn-shell jn-doctors-inner"><div><span className="jn-kicker">MEDICAL TEAM</span><h2>Meet the doctor.</h2><p>Explore the doctor profile and contact the hospital to confirm current consultation timings and availability.</p></div><article className="jn-doctor-profile"><div className="jn-doctor-photo-wrap"><img src="/dr-vishal-vasani-azad-chowk-junagadh-gynaecologist-and-obstetrician-doctors-whpfmni753.jpg" alt="Dr. Vishal Vasani"/></div><div className="jn-doctor-info"><span className="jn-doctor-label">DOCTOR PROFILE</span><h3>Dr. Vishal Vasani</h3><p>Gynaecologist &amp; Obstetrician</p><small>Please contact the hospital to confirm consultation details and availability.</small></div></article></div></section>
