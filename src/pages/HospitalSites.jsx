@@ -365,7 +365,8 @@ export default function HospitalSites() {
   const { pathname } = useLocation();
   const slug = pathname.split('/')[1];
   if (slug === 'soni-orthocare' && pathname.endsWith('/operation-theater')) return <OperationTheaterPage/>;
-  if (slug === 'soni-orthocare') return <SoniOrthocare/>;\n  if (slug === 'gokul-hospital') return <GokulHospital/>;
+  if (slug === 'soni-orthocare') return <SoniOrthocare/>;
+  if (slug === 'gokul-hospital') return <GokulHospital/>;
   const hospital = hospitals[slug] || hospitals['gokul-hospital'];
   const Icon = hospital.icon;
   return <div className="hospital-site" style={{'--hs-accent': hospital.accent, '--hs-soft': hospital.soft, '--hs-dark': hospital.dark}}>
