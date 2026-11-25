@@ -720,25 +720,135 @@ function JananiHospital() {
 }
 
 
-function ShreejiFrameAnimation() {
-  const [frame, setFrame] = React.useState(1);
+function ShreejiScrollStory() {
+  const sectionRef = React.useRef(null);
+  const canvasRef = React.useRef(null);
+  const [loaded, setLoaded] = React.useState(0);
+
   React.useEffect(() => {
-    const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return undefined;
-    let current = 1;
-    const preload = (number) => {
-      const image = new Image();
-      image.src = `/shrijibabycarepublic/frame_${String(number).padStart(4, '0')}.webp`;
+    const section = sectionRef.current;
+    const canvas = canvasRef.current;
+    const ctx = canvas && canvas.getContext('2d', { alpha: false });
+    if (!section || !canvas || !ctx) return undefined;
+
+    let cancelled = false;
+    let raf = 0;
+    let targetIndex = 0;
+    let width = 0;
+    let height = 0;
+    const frameCount = 358;
+    const images = new Array(frameCount);
+    const ready = new Array(frameCount).fill(false);
+    let completed = 0;
+
+    const draw = () => {
+      if (!width || !height) return;
+      let index = targetIndex;
+      if (!ready[index]) {
+        let nearest = -1;
+        for (let distance = 1; distance < frameCount; distance += 1) {
+          if (index - distance >= 0 && ready[index - distance]) { nearest = index - distance; break; }
+          if (index + distance < frameCount && ready[index + distance]) { nearest = index + distance; break; }
+        }
+        if (nearest < 0) return;
+        index = nearest;
+      }
+      const image = images[index];
+      if (!image || !image.naturalWidth) return;
+      ctx.fillStyle = '#eaf4ed';
+      ctx.fillRect(0, 0, width, height);
+      // Keep the complete original frame visible: no zooming or edge cropping.
+      const scale = Math.min(width / image.naturalWidth, height / image.naturalHeight);
+      const drawW = image.naturalWidth * scale;
+      const drawH = image.naturalHeight * scale;
+      ctx.drawImage(image, (width - drawW) / 2, (height - drawH) / 2, drawW, drawH);
     };
-    for (let offset = 1; offset <= 8; offset += 1) preload(offset + 1);
-    const timer = window.setInterval(() => {
-      current = current >= 358 ? 1 : current + 1;
-      setFrame(current);
-      preload(((current + 7) % 358) + 1);
-    }, 1000 / 24);
-    return () => window.clearInterval(timer);
+
+    const resize = () => {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const nextW = Math.max(1, Math.round(rect.width * dpr));
+      const nextH = Math.max(1, Math.round(rect.height * dpr));
+      if (canvas.width !== nextW || canvas.height !== nextH) {
+        canvas.width = nextW;
+        canvas.height = nextH;
+      }
+      width = nextW;
+      height = nextH;
+      draw();
+    };
+
+    const updateFromScroll = () => {
+      if (cancelled) return;
+      const rect = section.getBoundingClientRect();
+      const travel = Math.max(1, section.offsetHeight - window.innerHeight);
+      const progress = Math.min(1, Math.max(0, -rect.top / travel));
+      targetIndex = Math.min(frameCount - 1, Math.max(0, Math.round(progress * (frameCount - 1))));
+      section.style.setProperty('--sj-scroll-progress', String(progress));
+      draw();
+    };
+
+    const scheduleUpdate = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        updateFromScroll();
+      });
+    };
+
+    resize();
+    updateFromScroll();
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', resize, { passive: true });
+
+    // Load frames progressively with a small concurrent queue for mobile stability.
+    let nextToLoad = 0;
+    const worker = () => {
+      if (cancelled || nextToLoad >= frameCount) return;
+      const index = nextToLoad++;
+      const image = new Image();
+      images[index] = image;
+      image.decoding = 'async';
+      image.onload = () => {
+        if (cancelled) return;
+        ready[index] = true;
+        completed += 1;
+        setLoaded(completed);
+        draw();
+        worker();
+      };
+      image.onerror = () => {
+        if (cancelled) return;
+        completed += 1;
+        setLoaded(completed);
+        worker();
+      };
+      image.src = '/shrijibabycarepublic/frame_' + String(index + 1).padStart(4, '0') + '.webp';
+    };
+    for (let workerIndex = 0; workerIndex < 6; workerIndex += 1) worker();
+
+    return () => {
+      cancelled = true;
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', scheduleUpdate);
+      window.removeEventListener('resize', resize);
+      images.forEach((image) => {
+        if (image) { image.onload = null; image.onerror = null; }
+      });
+    };
   }, []);
-  return <img src={`/shrijibabycarepublic/frame_${String(frame).padStart(4, '0')}.webp`} alt="Shreeji Baby Care animated baby-care visual" decoding="async" fetchPriority="high"/>;
+
+  return <section className="sj-scroll-story" ref={sectionRef} aria-label="Scroll-controlled Shreeji Baby Care animation">
+    <div className="sj-scroll-sticky">
+      <canvas ref={canvasRef} className="sj-scroll-canvas" aria-label="358-frame baby-care animation controlled by page scrolling"/>
+      <div className="sj-scroll-caption">
+        <span>SHREEJI BABY CARE</span>
+        <b>Little moments. Big care.</b>
+        <div className="sj-scroll-progress"><span style={{width: (loaded / 358 * 100) + '%'}}/></div>
+        <small>SCROLL TO PLAY · SCROLL UP TO REWIND</small>
+      </div>
+    </div>
+  </section>;
 }
 
 function ShreejiBabyCare() {
@@ -762,8 +872,9 @@ function ShreejiBabyCare() {
           <div className="sj-actions"><a className="sj-primary" href="#sj-contact">Contact the hospital <ArrowRight size={17}/></a><a className="sj-secondary" href="#sj-care">Explore care areas <ArrowRight size={16}/></a></div>
           <div className="sj-hero-notes"><span><HeartPulse size={17}/> Family-focused information</span><span><ShieldCheck size={17}/> Clear, caring guidance</span></div>
         </div>
-        <div className="sj-hero-art"><div className="sj-art-orbit orbit-one"/><div className="sj-art-orbit orbit-two"/><div className="sj-art-sun"/><ShreejiFrameAnimation/><div className="sj-floating-note"><span><Baby size={22}/></span><div><b>Every little smile matters</b><small>Care begins with kindness</small></div></div><div className="sj-art-caption">GROW WITH LOVE <i>✳</i></div></div>
+        <div className="sj-hero-art"><div className="sj-art-orbit orbit-one"/><div className="sj-art-orbit orbit-two"/><div className="sj-art-sun"/><img src="https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=1100&q=85" alt="A peaceful baby resting in a soft blanket"/><div className="sj-floating-note"><span><Baby size={22}/></span><div><b>Every little smile matters</b><small>Care begins with kindness</small></div></div><div className="sj-art-caption">GROW WITH LOVE <i>✳</i></div></div>
       </div><div className="sj-hero-bottom"><div className="sj-shell"><span>GENTLE CARE</span><i/><span>SUPPORT FOR PARENTS</span><i/><span>HEALTHIER TOMORROWS</span></div></div></section>
+      <ShreejiScrollStory/>
       <section className="sj-intro" id="sj-about"><div className="sj-shell sj-intro-grid"><div><span className="sj-kicker">WELCOME TO SHREEJI</span><h2>Small beginnings deserve <em>thoughtful care.</em></h2></div><div><p>Choosing care for your baby or child is personal. This website is designed to make it easier for families to learn about the hospital, prepare questions and connect with the Shreeji Baby Care team.</p><div className="sj-intro-sign"><span>♡</span><b>A little more reassurance for every parent.</b></div></div></div></section>
       <section className="sj-care" id="sj-care"><div className="sj-shell"><div className="sj-section-head"><div><span className="sj-kicker">CARE & INFORMATION</span><h2>Here for every little <em>question.</em></h2></div><p>Explore common topics parents may wish to discuss. Please contact the hospital to confirm which services are offered and currently available.</p></div><div className="sj-care-grid">{topics.map((item)=><article key={item.number}><div className="sj-care-top"><span>{item.number}</span><i><item.icon size={24}/></i></div><h3>{item.title}</h3><p>{item.text}</p><a href="#sj-contact">Ask the hospital <ArrowRight size={15}/></a></article>)}</div></div></section>
       <section className="sj-family"><div className="sj-shell sj-family-grid"><div className="sj-family-image"><img src="https://images.unsplash.com/photo-1492725764893-90b379c2b6e7?auto=format&fit=crop&w=1100&q=85" alt="Parent gently holding a newborn baby"/><span>MADE FOR LITTLE MIRACLES</span></div><div className="sj-family-copy"><span className="sj-kicker">A NOTE FOR PARENTS</span><h2>Because your child is your <em>whole world.</em></h2><p>From the first questions to the next visit, having clear information can make the experience feel more comfortable. Reach out to the hospital team for verified details about doctors, consultations, facilities and timings.</p><div className="sj-family-points"><div><span>01</span><b>Ask questions</b><small>Know what to expect before you visit</small></div><div><span>02</span><b>Confirm details</b><small>Check services and timings with the team</small></div><div><span>03</span><b>Plan your visit</b><small>Get the latest directions and contact details</small></div></div></div></div></section>
