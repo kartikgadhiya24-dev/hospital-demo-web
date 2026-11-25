@@ -81,7 +81,6 @@ function BoneSurgeryVisual() {
   const sectionRef = React.useRef(null);
   const canvasRef = React.useRef(null);
   const [stage, setStage] = React.useState(0);
-  const [loaded, setLoaded] = React.useState(0);
   React.useEffect(() => {
     const section = sectionRef.current;
     const canvas = canvasRef.current;
@@ -96,7 +95,6 @@ function BoneSurgeryVisual() {
     const frameCount = 360;
     const images = new Array(frameCount);
     const ready = new Array(frameCount).fill(false);
-    let completed = 0;
     let drawWidth = 0;
     let drawHeight = 0;
 
@@ -188,15 +186,11 @@ function BoneSurgeryVisual() {
       img.onload = () => {
         if (cancelled) return;
         ready[index] = true;
-        completed += 1;
-        setLoaded(completed);
         draw();
         worker();
       };
       img.onerror = () => {
         if (cancelled) return;
-        completed += 1;
-        setLoaded(completed);
         worker();
       };
       img.src = '/frames/frame_' + String(firstFrame + index).padStart(4, '0') + '.webp';
