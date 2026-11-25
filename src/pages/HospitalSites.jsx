@@ -340,11 +340,32 @@ function SoniOrthocare() {
   </div>;
 }
 
+
+function GokulHospital() {
+  const phone = '+918866842200';
+  const address = '4th Floor, Akshar Icoon, Ganga Park, Zanzarda Bypass Road, Mangnath Road, Junagadh, Gujarat 362001';
+  const map = 'https://www.google.com/maps/search/?api=1&query=Gokul+Hospital+%26+ICU+Akshar+Icoon+Zanzarda+Junagadh';
+  const listing = 'https://www.justdial.com/Junagadh/Gokul-Hospital-Icu-Zanzarda-Mangnath-Road/9999PX285-X285-250926172352-F5N7_BZDET';
+  return <div className="gokul-site">
+    <div className="gk-top"><div className="gk-shell"><span>GOKUL HOSPITAL & ICU <i>•</i> JUNAGADH</span><a href={`tel:${phone}`}><Phone size={14}/> +91 88668 42200</a></div></div>
+    <header className="gk-header"><div className="gk-shell gk-nav"><a className="gk-brand" href="#gk-home"><span><Activity size={25}/></span><b>GOKUL HOSPITAL<small>AND INTENSIVE CARE UNIT</small></b></a><nav><a href="#gk-about">About</a><a href="#gk-facilities">Facilities</a><a href="#gk-location">Location</a></nav><a className="gk-call" href={`tel:${phone}`}><Phone size={16}/> Call hospital</a></div></header>
+    <main id="gk-home">
+      <section className="gk-hero"><div className="gk-shell gk-hero-grid"><div className="gk-copy"><span className="gk-eyebrow"><i/> HOSPITAL & INTENSIVE CARE</span><h1>Care and attention, <em>when it matters.</em></h1><p>Gokul Hospital & ICU is located in the Zanzarda area of Junagadh. Find the hospital location and contact information here.</p><div className="gk-actions"><a className="gk-primary" href={`tel:${phone}`}><Phone size={17}/> Call for information</a><a className="gk-secondary" href={map} target="_blank" rel="noreferrer">Get directions <Navigation size={16}/></a></div><div className="gk-rating"><strong>4.8 <span>★★★★★</span></strong><small>Justdial listing · 50 ratings</small></div></div><div className="gk-visual"><img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1500&q=85" alt="Modern hospital interior"/><div className="gk-visual-label"><Activity size={22}/><span><b>Gokul Hospital & ICU</b><small>Zanzarda, Junagadh</small></span></div><div className="gk-visual-index">JUNAGADH <b>•</b> GUJARAT</div></div></div></section>
+      <section className="gk-facts"><div className="gk-shell"><div><span><Clock3 size={21}/></span><b>Listed as 24 hours</b><small>Confirm availability by phone</small></div><div><span><HeartPulse size={21}/></span><b>Hospital & ICU</b><small>Facility listing category</small></div><div><span><MapPin size={21}/></span><b>Zanzarda, Junagadh</b><small>Akshar Icoon, 4th Floor</small></div></div></section>
+      <section className="gk-about" id="gk-about"><div className="gk-shell gk-about-grid"><div><span className="gk-kicker">WELCOME TO GOKUL HOSPITAL</span><h2>Hospital information, clearly presented.</h2></div><div><p>Gokul Hospital & ICU is listed at 4th Floor, Akshar Icoon, Ganga Park, Zanzarda Bypass Road, Mangnath Road, Junagadh, Gujarat 362001.</p><p>The public listing identifies the facility as a private hospital and includes ICU in its name. Please contact the hospital directly for current clinical services, doctor details, admission enquiries and availability.</p></div></div></section>
+      <section className="gk-facilities" id="gk-facilities"><div className="gk-shell"><div className="gk-section-head"><div><span className="gk-kicker">FACILITY INFORMATION</span><h2>What you can find here</h2></div><p>Only publicly listed facility details are shown. Please call to confirm specific requirements before visiting.</p></div><div className="gk-cards"><article><span>01</span><Activity size={25}/><h3>Hospital & ICU</h3><p>The business is listed as Gokul Hospital & ICU. Contact the team for details about available care and admission.</p></article><article><span>02</span><Accessibility size={25}/><h3>Accessibility</h3><p>The listing notes wheelchair-accessible parking and wheelchair-accessible entrance and exit.</p></article><article><span>03</span><Clock3 size={25}/><h3>Hours & enquiries</h3><p>The listing shows 24-hour operation. Call ahead to confirm current availability and visiting arrangements.</p></article></div></div></section>
+      <section className="gk-location" id="gk-location"><div className="gk-shell gk-location-grid"><div><span className="gk-kicker">FIND THE HOSPITAL</span><h2>Plan your visit.</h2><p>Address as shown on the public business listing:</p><div className="gk-address"><MapPin size={21}/><span>{address}</span></div><div className="gk-actions"><a className="gk-primary" href={map} target="_blank" rel="noreferrer">Open Google Maps <Navigation size={16}/></a><a className="gk-secondary" href={`tel:${phone}`}>+91 88668 42200</a></div></div><div className="gk-map-card"><MapPin size={34}/><b>GOKUL HOSPITAL & ICU</b><span>4th Floor, Akshar Icoon<br/>Ganga Park, Zanzarda, Junagadh</span><a href={map} target="_blank" rel="noreferrer">View directions <ArrowRight size={16}/></a></div></div></section>
+      <section className="gk-contact"><div className="gk-shell gk-contact-inner"><div><span className="gk-kicker">CONTACT GOKUL HOSPITAL</span><h2>Need to speak with the hospital?</h2><p>Call the listed contact number for enquiries about appointments, ICU availability and current services.</p></div><a href={`tel:${phone}`}><Phone size={18}/> +91 88668 42200</a></div></section>
+    </main>
+    <footer className="gk-footer"><div className="gk-shell"><div><b>GOKUL HOSPITAL AND ICU</b><span>Junagadh, Gujarat</span></div><div><a href={listing} target="_blank" rel="noreferrer">View public listing <MoveUpRight size={14}/></a><a href={map} target="_blank" rel="noreferrer">Directions <Navigation size={14}/></a></div></div><p className="gk-shell">Website information is based on publicly available listings and should be confirmed with the hospital.</p></footer>
+  </div>;
+}
+
 export default function HospitalSites() {
   const { pathname } = useLocation();
   const slug = pathname.split('/')[1];
   if (slug === 'soni-orthocare' && pathname.endsWith('/operation-theater')) return <OperationTheaterPage/>;
-  if (slug === 'soni-orthocare') return <SoniOrthocare/>;
+  if (slug === 'soni-orthocare') return <SoniOrthocare/>;\n  if (slug === 'gokul-hospital') return <GokulHospital/>;
   const hospital = hospitals[slug] || hospitals['gokul-hospital'];
   const Icon = hospital.icon;
   return <div className="hospital-site" style={{'--hs-accent': hospital.accent, '--hs-soft': hospital.soft, '--hs-dark': hospital.dark}}>
