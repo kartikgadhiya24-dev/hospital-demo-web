@@ -730,92 +730,71 @@ function ShreejiScrollStory() {
     let width = 0;
     let height = 0;
     let activeWorkers = 0;
+    let started = false;
     const frameCount = 358;
-    const maxCachedFrames = 24;
-    const cache = new Map();
-    const loading = new Set();
-    const queue = new Set();
+    const concurrency = 10;
+    const images = new Array(frameCount);
+    const loaded = new Array(frameCount).fill(false);
+    const failed = new Array(frameCount).fill(false);
+    let nextFrame = 0;
 
-    const paint = (image) => {
-      if (!image || !image.naturalWidth || !width || !height) return;
+    const drawFrame = (index) => {
+      const image = images[index];
+      if (!image || !loaded[index] || !width || !height) return false;
       ctx.fillStyle = '#eaf4ed';
       ctx.fillRect(0, 0, width, height);
-      // Contain the whole source frame; never crop the original animation.
+      // Fit the entire portrait frame inside the canvas, without cropping.
       const scale = Math.min(width / image.naturalWidth, height / image.naturalHeight);
       const drawW = image.naturalWidth * scale;
       const drawH = image.naturalHeight * scale;
       ctx.drawImage(image, (width - drawW) / 2, (height - drawH) / 2, drawW, drawH);
+      return true;
     };
 
-    const drawNearest = () => {
-      if (!cache.size) return; // Keep the last painted frame instead of clearing to a blank screen.
-      let bestImage = null;
-      let bestDistance = Infinity;
-      cache.forEach((image, index) => {
-        const distance = Math.abs(index - targetIndex);
-        if (distance < bestDistance) {
-          bestDistance = distance;
-          bestImage = image;
-        }
-      });
-      paint(bestImage);
-    };
-
-    const trimCache = () => {
-      if (cache.size <= maxCachedFrames) return;
-      const candidates = Array.from(cache.keys())
-        .filter((index) => Math.abs(index - targetIndex) > 1)
-        .sort((a, b) => Math.abs(b - targetIndex) - Math.abs(a - targetIndex));
-      while (cache.size > maxCachedFrames && candidates.length) {
-        const index = candidates.shift();
-        const image = cache.get(index);
-        cache.delete(index);
-        if (image) image.src = '';
+    const drawCurrentFrame = () => {
+      if (drawFrame(targetIndex)) return;
+      // If the exact frame is still downloading, hold the closest loaded frame.
+      for (let distance = 1; distance < frameCount; distance += 1) {
+        const before = targetIndex - distance;
+        const after = targetIndex + distance;
+        if (before >= 0 && drawFrame(before)) return;
+        if (after < frameCount && drawFrame(after)) return;
       }
     };
 
-    const pumpQueue = () => {
-      while (!cancelled && activeWorkers < 6 && queue.size) {
-        const next = Array.from(queue).sort((a, b) =>
-          Math.abs(a - targetIndex) - Math.abs(b - targetIndex)
-        )[0];
-        queue.delete(next);
-        if (cache.has(next) || loading.has(next)) continue;
-        loading.add(next);
+    const pumpPreload = () => {
+      while (!cancelled && activeWorkers < concurrency && nextFrame < frameCount) {
+        const index = nextFrame++;
         activeWorkers += 1;
         const image = new Image();
+        images[index] = image;
         image.decoding = 'async';
         image.onload = () => {
-          loading.delete(next);
           activeWorkers -= 1;
-          if (!cancelled) {
-            cache.set(next, image);
-            trimCache();
-            drawNearest();
-            pumpQueue();
-          } else {
-            image.src = '';
-          }
+          if (cancelled) return;
+          loaded[index] = true;
+          // As each frame arrives, immediately display it if it is the
+          // frame requested by the current scroll position.
+          if (index === targetIndex) drawFrame(index);
+          pumpPreload();
         };
         image.onerror = () => {
-          loading.delete(next);
           activeWorkers -= 1;
-          if (!cancelled) pumpQueue();
+          if (!cancelled) {
+            failed[index] = true;
+            pumpPreload();
+          }
         };
-        image.src = '/shrijibabycarepublic/frame_' + String(next + 1).padStart(4, '0') + '.webp';
+        image.src = '/shrijibabycarepublic/frame_' + String(index + 1).padStart(4, '0') + '.webp';
       }
     };
 
-    const requestAround = (index) => {
-      // Prioritise the frame currently under the user's scroll position,
-      // then nearby frames in both directions for smooth forward/reverse play.
-      for (let distance = 0; distance <= 8; distance += 1) {
-        const ahead = index + distance;
-        const behind = index - distance;
-        if (ahead >= 0 && ahead < frameCount && !cache.has(ahead) && !loading.has(ahead)) queue.add(ahead);
-        if (behind >= 0 && behind < frameCount && !cache.has(behind) && !loading.has(behind)) queue.add(behind);
-      }
-      pumpQueue();
+    const startPreload = () => {
+      if (started || cancelled) return;
+      started = true;
+      // Warm the complete frame sequence in the background. This avoids
+      // jumps/stalls when the user scrolls faster than a small frame queue.
+      pumpPreload();
     };
 
     const resize = () => {
@@ -829,7 +808,7 @@ function ShreejiScrollStory() {
       }
       width = nextW;
       height = nextH;
-      drawNearest();
+      drawCurrentFrame();
     };
 
     const updateFromScroll = () => {
@@ -839,9 +818,8 @@ function ShreejiScrollStory() {
       const progress = Math.min(1, Math.max(0, -rect.top / travel));
       targetIndex = Math.min(frameCount - 1, Math.max(0, Math.round(progress * (frameCount - 1))));
       section.style.setProperty('--sj-scroll-progress', String(progress));
-      drawNearest();
-      requestAround(targetIndex);
-      trimCache();
+      drawCurrentFrame();
+      startPreload();
     };
 
     const scheduleUpdate = () => {
@@ -854,17 +832,35 @@ function ShreejiScrollStory() {
 
     resize();
     updateFromScroll();
+    // Start warming frames just before the sticky animation reaches view.
+    let observer;
+    if ('IntersectionObserver' in window) {
+      observer = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          startPreload();
+          if (observer) observer.disconnect();
+        }
+      }, { rootMargin: '120% 0px' });
+      observer.observe(section);
+    } else {
+      startPreload();
+    }
     window.addEventListener('scroll', scheduleUpdate, { passive: true });
     window.addEventListener('resize', resize, { passive: true });
 
     return () => {
       cancelled = true;
       if (raf) cancelAnimationFrame(raf);
+      if (observer) observer.disconnect();
       window.removeEventListener('scroll', scheduleUpdate);
       window.removeEventListener('resize', resize);
-      cache.forEach((image) => { image.onload = null; image.onerror = null; image.src = ''; });
-      cache.clear();
-      queue.clear();
+      images.forEach((image) => {
+        if (image) {
+          image.onload = null;
+          image.onerror = null;
+          image.src = '';
+        }
+      });
     };
   }, []);
 
