@@ -843,3 +843,27 @@ html{scroll-behavior:smooth}
 .gokul-site .gk-floating-whatsapp{position:fixed;right:23px;bottom:22px;z-index:40;display:flex;align-items:center;gap:9px;padding:13px 17px;border-radius:30px;background:#16845b;color:#fff;box-shadow:0 10px 28px #123c2e3d;font-size:11px;font-weight:800}
 .gokul-site .gk-contact-inner>a{background:#16845b}
 @media(max-width:650px){.gokul-site .gk-doctors{padding:60px 0}.gokul-site .gk-doctor-cards,.gokul-site .gk-enquiry-grid{grid-template-columns:1fr;gap:22px}.gokul-site .gk-doctor-card-photo{height:300px}.gokul-site .gk-enquiry{padding:60px 0}.gokul-site .gk-enquiry-form{padding:20px}.gokul-site .gk-floating-whatsapp{right:13px;bottom:14px;padding:12px 15px}}
+
+
+/* Gokul Hospital: dedicated 192-frame scroll-controlled film */
+.gokul-site .gk-video-story{position:relative;height:320vh;background:#071b2a;margin:0;padding:0}
+.gokul-site .gk-video-sticky{position:sticky;top:82px;height:calc(100vh - 82px);min-height:420px;width:100%;overflow:hidden;background:#071b2a}
+.gokul-site .gk-video-canvas{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}
+.gokul-site .gk-video-shade{position:absolute;inset:0;background:linear-gradient(90deg,#061c2bc9 0%,#061c2b40 48%,transparent 78%),linear-gradient(0deg,#061c2b70,transparent 42%)}
+.gokul-site .gk-video-overlay{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:space-between;padding:clamp(24px,5vw,70px);pointer-events:none}
+.gokul-site .gk-video-caption{display:flex;flex-direction:column;gap:11px;max-width:min(560px,80%)}
+.gokul-site .gk-video-caption>span{font:800 10px 'DM Sans',sans-serif;letter-spacing:.2em;color:#9ce0d4}
+.gokul-site .gk-video-caption>b{font:800 clamp(25px,4.5vw,54px)/1.05 Manrope,sans-serif;letter-spacing:-.045em;color:#fff;text-shadow:0 3px 20px #00152270}
+.gokul-site .gk-video-progress{height:3px;width:min(260px,55vw);margin-top:10px;background:#ffffff55;border-radius:4px;overflow:hidden}
+.gokul-site .gk-video-progress i{display:block;height:100%;background:#79d3c4;transition:width .25s ease}
+.gokul-site .gk-video-loading{font:700 9px 'DM Sans',sans-serif;letter-spacing:.13em;color:#e5f5f4;text-shadow:0 2px 12px #001522}
+@media(max-width:650px){
+ .gokul-site .gk-video-story{height:320vh}
+ .gokul-site .gk-video-sticky{top:70px;height:calc(100svh - 70px);min-height:0}
+ .gokul-site .gk-video-shade{background:linear-gradient(0deg,#061c2bd9 0%,#061c2b30 48%,transparent 78%)}
+ .gokul-site .gk-video-overlay{padding:22px 18px 28px;display:block}
+ .gokul-site .gk-video-caption{max-width:92%;gap:9px}
+ .gokul-site .gk-video-caption>span{font-size:8px}
+ .gokul-site .gk-video-caption>b{font-size:clamp(25px,8vw,38px)}
+ .gokul-site .gk-video-loading{position:absolute;right:18px;top:18px;font-size:7px}
+}
