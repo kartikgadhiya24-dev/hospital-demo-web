@@ -719,6 +719,41 @@ function JananiHospital() {
   </div>;
 }
 
+
+function ShreejiBabyCare() {
+  const map = 'https://www.google.com/maps/search/?api=1&query=Shreeji+Baby+Care+Hospital+Gujarat';
+  const topics = [
+    { icon: Baby, number: '01', title: 'Newborn care', text: 'Ask the hospital team about newborn check-ups, feeding guidance and early-care support.' },
+    { icon: HeartPulse, number: '02', title: 'Child health', text: 'Enquire about consultations for your child and the care options currently available.' },
+    { icon: ShieldCheck, number: '03', title: 'Vaccination guidance', text: 'Contact the team to confirm vaccination services, schedules and availability.' },
+    { icon: Stethoscope, number: '04', title: 'Parent guidance', text: 'Get in touch for practical information to help you prepare for a hospital visit.' }
+  ];
+  return <div className="shreeji-site">
+    <div className="sj-top"><div className="sj-shell"><span>SHREEJI BABY CARE HOSPITAL <i>✳</i> BABY & CHILD CARE</span><span>Little moments. Lifelong memories.</span></div></div>
+    <header className="sj-header"><div className="sj-shell sj-nav">
+      <a href="#sj-home" className="sj-brand"><span className="sj-brand-mark"><Baby size={27}/></span><span>SHREEJI <b>BABY CARE</b><small>HOSPITAL</small></span></a>
+      <nav aria-label="Shreeji Baby Care navigation"><a href="#sj-about">About</a><a href="#sj-care">Care areas</a><a href="#sj-visit">Your visit</a><a href="#sj-gallery">Gallery</a><a href="#sj-contact">Contact</a></nav>
+      <a className="sj-nav-cta" href="#sj-contact"><MessageCircle size={16}/> Get in touch</a>
+    </div></header>
+    <main id="sj-home">
+      <section className="sj-hero"><div className="sj-shell sj-hero-grid">
+        <div className="sj-hero-copy"><span className="sj-eyebrow"><i/> A WARM WELCOME FOR EVERY FAMILY</span><h1>For the little <em>ones</em> who mean everything.</h1><p>A friendly place for parents to find information about Shreeji Baby Care Hospital and take the next step in their child's care journey.</p>
+          <div className="sj-actions"><a className="sj-primary" href="#sj-contact">Contact the hospital <ArrowRight size={17}/></a><a className="sj-secondary" href="#sj-care">Explore care areas <ArrowRight size={16}/></a></div>
+          <div className="sj-hero-notes"><span><HeartPulse size={17}/> Family-focused information</span><span><ShieldCheck size={17}/> Clear, caring guidance</span></div>
+        </div>
+        <div className="sj-hero-art"><div className="sj-art-orbit orbit-one"/><div className="sj-art-orbit orbit-two"/><div className="sj-art-sun"/><img src="https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=1100&q=85" alt="A peaceful baby resting in a soft blanket"/><div className="sj-floating-note"><span><Baby size={22}/></span><div><b>Every little smile matters</b><small>Care begins with kindness</small></div></div><div className="sj-art-caption">GROW WITH LOVE <i>✳</i></div></div>
+      </div><div className="sj-hero-bottom"><div className="sj-shell"><span>GENTLE CARE</span><i/><span>SUPPORT FOR PARENTS</span><i/><span>HEALTHIER TOMORROWS</span></div></div></section>
+      <section className="sj-intro" id="sj-about"><div className="sj-shell sj-intro-grid"><div><span className="sj-kicker">WELCOME TO SHREEJI</span><h2>Small beginnings deserve <em>thoughtful care.</em></h2></div><div><p>Choosing care for your baby or child is personal. This website is designed to make it easier for families to learn about the hospital, prepare questions and connect with the Shreeji Baby Care team.</p><div className="sj-intro-sign"><span>♡</span><b>A little more reassurance for every parent.</b></div></div></div></section>
+      <section className="sj-care" id="sj-care"><div className="sj-shell"><div className="sj-section-head"><div><span className="sj-kicker">CARE & INFORMATION</span><h2>Here for every little <em>question.</em></h2></div><p>Explore common topics parents may wish to discuss. Please contact the hospital to confirm which services are offered and currently available.</p></div><div className="sj-care-grid">{topics.map((item)=><article key={item.number}><div className="sj-care-top"><span>{item.number}</span><i><item.icon size={24}/></i></div><h3>{item.title}</h3><p>{item.text}</p><a href="#sj-contact">Ask the hospital <ArrowRight size={15}/></a></article>)}</div></div></section>
+      <section className="sj-family"><div className="sj-shell sj-family-grid"><div className="sj-family-image"><img src="https://images.unsplash.com/photo-1492725764893-90b379c2b6e7?auto=format&fit=crop&w=1100&q=85" alt="Parent gently holding a newborn baby"/><span>MADE FOR LITTLE MIRACLES</span></div><div className="sj-family-copy"><span className="sj-kicker">A NOTE FOR PARENTS</span><h2>Because your child is your <em>whole world.</em></h2><p>From the first questions to the next visit, having clear information can make the experience feel more comfortable. Reach out to the hospital team for verified details about doctors, consultations, facilities and timings.</p><div className="sj-family-points"><div><span>01</span><b>Ask questions</b><small>Know what to expect before you visit</small></div><div><span>02</span><b>Confirm details</b><small>Check services and timings with the team</small></div><div><span>03</span><b>Plan your visit</b><small>Get the latest directions and contact details</small></div></div></div></div></section>
+      <section className="sj-visit" id="sj-visit"><div className="sj-shell"><div className="sj-section-head"><div><span className="sj-kicker">BEFORE YOU VISIT</span><h2>A little preparation goes a <em>long way.</em></h2></div><p>For the most accurate information, please confirm these details directly with the hospital before travelling.</p></div><div className="sj-visit-grid"><article><span>01</span><CalendarDays size={24}/><b>Consultation timings</b><p>Check the latest doctor availability and appointment timings.</p></article><article><span>02</span><ClipboardList size={24}/><b>What to bring</b><p>Ask whether previous reports, records or documents are needed.</p></article><article><span>03</span><MapPin size={24}/><b>Location & access</b><p>Confirm the hospital address and easiest way to reach it.</p></article></div></div></section>
+      <section className="sj-gallery" id="sj-gallery"><div className="sj-shell"><div className="sj-section-head"><div><span className="sj-kicker">LITTLE MOMENTS</span><h2>A world of <em>wonder.</em></h2></div><p>Warm, illustrative family and baby-care imagery. These are not photographs of the hospital premises.</p></div><div className="sj-gallery-grid"><img src="https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=900&q=85" alt="Newborn baby resting peacefully"/><img src="https://images.unsplash.com/photo-1492725764893-90b379c2b6e7?auto=format&fit=crop&w=900&q=85" alt="Parent holding a baby"/><img src="https://images.unsplash.com/photo-1476703993599-0035a21b17a9?auto=format&fit=crop&w=900&q=85" alt="Baby's tiny feet held gently"/></div></div></section>
+      <section className="sj-contact" id="sj-contact"><div className="sj-shell sj-contact-grid"><div><span className="sj-kicker">LET'S CONNECT</span><h2>We're here to help you take the <em>next step.</em></h2><p>For appointments, doctor information, available services or directions, please contact Shreeji Baby Care Hospital directly.</p><div className="sj-contact-place"><MapPin size={20}/><span><b>Shreeji Baby Care Hospital</b><small>Official address and contact details are awaiting confirmation.</small></span></div></div><div className="sj-contact-card"><div className="sj-contact-icon"><MessageCircle size={25}/></div><span className="sj-kicker">HOSPITAL ENQUIRIES</span><h3>How can we help?</h3><p>Contact number, WhatsApp enquiry and confirmed location will be added as soon as the hospital's official details are available.</p><a href={map} target="_blank" rel="noreferrer">Search hospital on Google Maps <MoveUpRight size={16}/></a><small>For urgent medical concerns, contact local emergency services.</small></div></div></section>
+    </main>
+    <footer className="sj-footer"><div className="sj-shell sj-footer-main"><div className="sj-footer-brand"><span><Baby size={24}/></span><b>SHREEJI BABY CARE<small>HOSPITAL</small></b></div><div className="sj-footer-links"><a href="#sj-about">About</a><a href="#sj-care">Care areas</a><a href="#sj-visit">Your visit</a><a href="#sj-contact">Contact</a></div></div><div className="sj-shell sj-footer-bottom"><span>© {new Date().getFullYear()} Shreeji Baby Care Hospital</span><span>Little lives. Big care.</span></div></footer>
+  </div>;
+}
+
 export default function HospitalSites() {
   const { pathname } = useLocation();
   const slug = pathname.split('/')[1];
@@ -726,6 +761,7 @@ export default function HospitalSites() {
   if (slug === 'soni-orthocare') return <SoniOrthocare/>;
   if (slug === 'gokul-hospital') return <GokulHospital/>;
   if (slug === 'janani-hospital') return <JananiHospital/>;
+  if (slug === 'shreeji-baby-care') return <ShreejiBabyCare/>;
   const hospital = hospitals[slug] || hospitals['gokul-hospital'];
   const Icon = hospital.icon;
   return <div className="hospital-site" style={{'--hs-accent': hospital.accent, '--hs-soft': hospital.soft, '--hs-dark': hospital.dark}}>
