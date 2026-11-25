@@ -439,7 +439,7 @@ function GokulVideoVisual() {
           <span>{gokulVideoStages[stage].kicker}</span><b>{gokulVideoStages[stage].title}</b>
           <div className="gk-video-progress"><i style={{ width: ((stage + 1) / gokulVideoStages.length * 100) + '%' }}/></div>
         </div>
-        <small className="gk-video-loading">{loaded === frameCount ? 'VIDEO READY' : 'LOADING VIDEO ' + loaded + ' / ' + frameCount}</small>
+        <small className="gk-video-loading">{loaded === 192 ? 'VIDEO READY' : 'LOADING VIDEO ' + loaded + ' / 192}</small>
       </div>
     </div>
   </section>;
