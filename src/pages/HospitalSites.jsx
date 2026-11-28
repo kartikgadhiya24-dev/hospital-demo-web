@@ -958,7 +958,7 @@ export default function HospitalSites() {
   if (slug === 'shreeji-baby-care') return <ShreejiBabyCare/>;
   const hospital = hospitals[slug] || hospitals['gokul-hospital'];
   const Icon = hospital.icon;
-  return <div className="hospital-site" style={{<BEImageWatermarks/>'--hs-accent': hospital.accent, '--hs-soft': hospital.soft, '--hs-dark': hospital.dark}}>
+  return <div className="hospital-site" style={{'--hs-accent': hospital.accent, '--hs-soft': hospital.soft, '--hs-dark': hospital.dark}}><BEImageWatermarks/>
     <div className="hs-topline"><div className="hs-shell"><span>HEALTHCARE • TRUST • COMPASSION</span><span>Hospital information</span></div></div>
     <header className="hs-header"><div className="hs-shell hs-nav">
       <Link to={`/${slug}`} className="hs-brand"><span className="hs-brand-icon"><Icon size={22}/></span><span>{hospital.short}<small>HOSPITAL WEBSITE</small></span></Link>
