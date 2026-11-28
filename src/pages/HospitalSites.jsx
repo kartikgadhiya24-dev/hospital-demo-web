@@ -3,6 +3,42 @@ import { Link, useLocation } from 'react-router-dom';
 import { ArrowRight, Phone, MapPin, Clock3, HeartPulse, ShieldCheck, Stethoscope, Baby, Bone, Activity, CalendarDays, Navigation, CheckCircle2, MoveUpRight, Award, Accessibility, ChevronDown, MessageCircle, Send, UserRound, ClipboardList } from 'lucide-react';
 import './HospitalSites.css';
 
+
+function BEImageWatermarks() {
+  React.useEffect(() => {
+    const logo = 'https://raw.githubusercontent.com/kartikgadhiya24-dev/be-technology-receipt-manager/main/public/belogo.jpeg';
+    const selector = '.soni-site img, .gokul-site img, .janani-site img, .shreeji-site img, .hospital-site img';
+    const wrap = (img) => {
+      if (!img || img.closest('.be-image-watermark-wrap')) return;
+      const parent = img.parentElement;
+      if (!parent) return;
+      const wrapper = document.createElement('span');
+      wrapper.className = 'be-image-watermark-wrap';
+      img.parentNode.insertBefore(wrapper, img);
+      wrapper.appendChild(img);
+      const mark = document.createElement('img');
+      mark.className = 'be-image-watermark-logo';
+      mark.src = logo;
+      mark.alt = 'BE Technologies';
+      mark.setAttribute('aria-hidden', 'true');
+      mark.loading = 'lazy';
+      wrapper.appendChild(mark);
+    };
+    document.querySelectorAll(selector).forEach(wrap);
+    const observer = new MutationObserver(() => document.querySelectorAll(selector).forEach(wrap));
+    document.querySelectorAll('.soni-site, .gokul-site, .janani-site, .shreeji-site, .hospital-site').forEach(root => observer.observe(root, { childList: true, subtree: true }));
+    return () => {
+      observer.disconnect();
+      document.querySelectorAll('.be-image-watermark-wrap').forEach(wrapper => {
+        const img = wrapper.querySelector(':scope > img:not(.be-image-watermark-logo)');
+        if (img) wrapper.parentNode?.insertBefore(img, wrapper);
+        wrapper.remove();
+      });
+    };
+  }, []);
+  return null;
+}
+
 const hospitals = {
   'soni-orthocare': {
     name: 'SONI ORTHOCARE HOSPITAL', short: 'Soni Orthocare', eyebrow: 'ORTHOPAEDIC TRAUMA & RECONSTRUCTION',
@@ -224,7 +260,7 @@ function BoneSurgeryVisual() {
 }
 function OperationTheaterPage() {
   const phone = '+918200325504';
-  return <div className="soni-site soni-operation-page">
+  return <div className="soni-site soni-operation-page"><BEImageWatermarks/>
     <div className="soni-top"><div className="soni-wrap"><span>SONI ORTHOCARE <i>•</i> JUNAGADH, GUJARAT</span><a href={`tel:${phone}`}><Phone size={14}/> +91 82003 25504</a></div></div>
     <header className="soni-header"><div className="soni-wrap soni-nav">
       <Link className="soni-brand" to="/soni-orthocare"><span className="soni-logo"><Bone size={25}/></span><span>SONI ORTHOCARE<small>ORTHOPAEDIC & TRAUMA CARE</small></span></Link>
@@ -291,7 +327,7 @@ function SoniOrthocare() {
     ['Ilizarov surgery', 'Ilizarov-based external fixation and orthopaedic reconstruction expertise.'],
     ['Limb reconstruction', 'Evaluation of selected bone deformity, non-union and limb-length concerns.']
   ];
-  return <div className="soni-site">
+  return <div className="soni-site"><BEImageWatermarks/>
     <div className="soni-top"><div className="soni-wrap"><span>SONI ORTHOCARE <i>•</i> JUNAGADH, GUJARAT</span><a href={`tel:${phone}`}><Phone size={14}/> {phone.replace('+91','+91 ')}</a></div></div>
     <header className="soni-header"><div className="soni-wrap soni-nav">
       <a className="soni-brand" href="#home"><span className="soni-logo"><Bone size={25}/></span><span>SONI ORTHOCARE<small>ORTHOPAEDIC & TRAUMA CARE</small></span></a>
@@ -466,7 +502,7 @@ function GokulHospital() {
     window.open(`${whatsapp}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
     form.reset();
   };
-  return <div className={"gokul-site gokul-page-" + page}>
+  return <div className={"gokul-site gokul-page-" + page}><BEImageWatermarks/>
     <div className="gk-top"><div className="gk-shell"><span>GOKUL HOSPITAL & ICU <i>•</i> JUNAGADH</span><a href={`tel:${phone}`}><Phone size={14}/> +91 88668 42200</a></div></div>
     <header className="gk-header"><div className="gk-shell gk-nav"><a className="gk-brand" href="#gk-home"><span><Activity size={25}/></span><b>GOKUL HOSPITAL<small>AND INTENSIVE CARE UNIT</small></b></a><nav aria-label="Main navigation">
       <Link to="/gokul-hospital">Home</Link><Link to="/gokul-hospital/about">About</Link><Link to="/gokul-hospital/doctors">Doctors</Link><Link to="/gokul-hospital/services">Services</Link><Link to="/gokul-hospital/facilities">Facilities</Link><Link to="/gokul-hospital/gallery">Gallery</Link><Link to="/gokul-hospital/reviews">Reviews</Link><Link to="/gokul-hospital/contact">Contact</Link>
@@ -681,7 +717,7 @@ function JananiHospital() {
     ['Patient & family support', 'Find out about visiting guidance, admission procedures and attendant support.', ShieldCheck],
     ['Facilities', 'Confirm room types, accessibility and diagnostic facilities directly with the hospital.', Activity]
   ];
-  return <div className="janani-site">
+  return <div className="janani-site"><BEImageWatermarks/>
     <div className="jn-top"><div className="jn-shell"><span>JANANI HOSPITAL <i>•</i> JUNAGADH, GUJARAT</span><span>Care • Compassion • Commitment</span></div></div>
     <header className="jn-header"><div className="jn-shell jn-nav">
       <a className="jn-brand" href="#jn-home"><span><HeartPulse size={24}/></span><b>JANANI HOSPITAL<small>CARE WITH COMPASSION</small></b></a>
@@ -884,7 +920,7 @@ function ShreejiBabyCare() {
     { icon: ShieldCheck, number: '03', title: 'Vaccination guidance', text: 'Contact the team to confirm vaccination services, schedules and availability.' },
     { icon: Stethoscope, number: '04', title: 'Parent guidance', text: 'Get in touch for practical information to help you prepare for a hospital visit.' }
   ];
-  return <div className="shreeji-site">
+  return <div className="shreeji-site"><BEImageWatermarks/>
     <div className="sj-top"><div className="sj-shell"><span>SHREEJI BABY CARE HOSPITAL <i>✳</i> BABY & CHILD CARE</span><span>Little moments. Lifelong memories.</span></div></div>
     <header className="sj-header"><div className="sj-shell sj-nav">
       <a href="#sj-home" className="sj-brand"><span className="sj-brand-mark"><Baby size={27}/></span><span>SHREEJI <b>BABY CARE</b><small>HOSPITAL</small></span></a>
@@ -922,7 +958,7 @@ export default function HospitalSites() {
   if (slug === 'shreeji-baby-care') return <ShreejiBabyCare/>;
   const hospital = hospitals[slug] || hospitals['gokul-hospital'];
   const Icon = hospital.icon;
-  return <div className="hospital-site" style={{'--hs-accent': hospital.accent, '--hs-soft': hospital.soft, '--hs-dark': hospital.dark}}>
+  return <div className="hospital-site" style={{<BEImageWatermarks/>'--hs-accent': hospital.accent, '--hs-soft': hospital.soft, '--hs-dark': hospital.dark}}>
     <div className="hs-topline"><div className="hs-shell"><span>HEALTHCARE • TRUST • COMPASSION</span><span>Hospital information</span></div></div>
     <header className="hs-header"><div className="hs-shell hs-nav">
       <Link to={`/${slug}`} className="hs-brand"><span className="hs-brand-icon"><Icon size={22}/></span><span>{hospital.short}<small>HOSPITAL WEBSITE</small></span></Link>
