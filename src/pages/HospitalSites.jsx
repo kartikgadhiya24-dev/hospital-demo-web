@@ -7,7 +7,7 @@ import './HospitalSites.css';
 function BEImageWatermarks() {
   React.useEffect(() => {
     const logo = 'https://raw.githubusercontent.com/kartikgadhiya24-dev/be-technology-receipt-manager/main/public/belogo.jpeg';
-    const selector = '.soni-site img, .gokul-site img, .janani-site img, .shreeji-site img, .hospital-site img';
+    const selector = '.soni-site img, .gokul-site img, .janani-site img, .shreeji-site img, .hospital-site img, .soni-site canvas, .gokul-site canvas, .janani-site canvas, .shreeji-site canvas, .hospital-site canvas';
     const wrap = (img) => {
       if (!img || img.closest('.be-image-watermark-wrap')) return;
       const parent = img.parentElement;
@@ -30,8 +30,8 @@ function BEImageWatermarks() {
     return () => {
       observer.disconnect();
       document.querySelectorAll('.be-image-watermark-wrap').forEach(wrapper => {
-        const img = wrapper.querySelector(':scope > img:not(.be-image-watermark-logo)');
-        if (img) wrapper.parentNode?.insertBefore(img, wrapper);
+        const media = wrapper.querySelector(':scope > img:not(.be-image-watermark-logo), :scope > canvas');
+        if (media) wrapper.parentNode?.insertBefore(media, wrapper);
         wrapper.remove();
       });
     };
